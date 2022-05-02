@@ -1,7 +1,10 @@
 import 'package:daliy_music/API/API_list.dart';
+import 'package:daliy_music/bloc/weather_bloc.dart';
+import 'package:daliy_music/model/weather/weather.dart';
 import 'package:daliy_music/theme/constants.dart';
 import 'package:flutter/material.dart';
 import 'package:carousel_slider/carousel_slider.dart';
+import 'package:flutter_bloc/flutter_bloc.dart';
 
 class HomeScreen extends StatefulWidget {
   const HomeScreen({Key? key}) : super(key: key);
@@ -14,12 +17,12 @@ class _HomeScreenState extends State<HomeScreen> {
   @override
   void initState() {
     super.initState();
-    asyncMethod();
+    //asyncMethod();
   }
 
-  void asyncMethod() async {
-    var result = await LocationAPI.determinePosition();
-  }
+  // void asyncMethod() async {
+
+  // }
 
   int _current = 0;
   final CarouselController _controller = CarouselController();
@@ -30,86 +33,172 @@ class _HomeScreenState extends State<HomeScreen> {
     'https://images.unsplash.com/photo-1650542914658-948812530fa4?ixlib=rb-1.2.1&ixid=MnwxMjA3fDB8MHxlZGl0b3JpYWwtZmVlZHwzfHx8ZW58MHx8fHw%3D&auto=format&fit=crop&w=800&q=60'
   ];
 
-  final List<Widget> imageSliders = imgList
-      .map((item) => Container(
-            decoration: BoxDecoration(
-                borderRadius: const BorderRadius.all(Radius.circular(15.0)),
-                image: DecorationImage(
-                    image: NetworkImage(item), fit: BoxFit.cover)),
-            margin: const EdgeInsets.all(5.0),
-            child: ClipRRect(
-                child: Stack(
-              children: <Widget>[
-                Container(),
-                // Image.network(
-                //   item,
-                //   fit: BoxFit.cover,
-                //   width: 1000.0,
-                // ),
-              ],
-            )),
-          ))
-      .toList();
+  final List<Widget> imageSliders = [];
 
   @override
   Widget build(BuildContext context) {
-    return Scaffold(
-      backgroundColor: Themes.mainBackgroundColor,
-      appBar: AppBar(
-        backgroundColor: Colors.transparent,
-        elevation: 0,
-        title: Text(
-          "daily Music",
-          style: TextStyle(color: Colors.black),
+    return BlocProvider(
+      create: (context) => WeatherBloc(
+        RepositoryProvider.of<WeatherAPI>(context),
+      )..add(LoadApiEvent()),
+      child: Scaffold(
+        backgroundColor: Themes.mainBackgroundColor,
+        appBar: AppBar(
+          backgroundColor: Colors.transparent,
+          elevation: 0,
+          title: const Text(
+            "daily Music",
+            style: TextStyle(color: Colors.black),
+          ),
+          centerTitle: true,
+          actions: [
+            IconButton(
+                onPressed: () async {},
+                icon: const Icon(
+                  Icons.people,
+                  color: Colors.black,
+                ))
+          ],
         ),
-        centerTitle: true,
-      ),
-      body: Container(
-          height: double.infinity,
-          width: double.infinity,
-          child: Column(
-            children: [
-              Builder(builder: (context) {
-                var size = MediaQuery.of(context).size;
-                return CarouselSlider(
-                  options: CarouselOptions(
-                    height: size.height * 0.8,
-                    enableInfiniteScroll: false,
-                    onPageChanged: ((index, reason) {
-                      setState(() {
-                        _current = index;
-                      });
-                    }),
-                    autoPlay: true,
-                    aspectRatio: 2.0,
-                    enlargeCenterPage: true,
+        body: BlocBuilder<WeatherBloc, WeatherState>(
+          builder: (context, state) {
+            if (state is WeatherLoadingState) {
+              return const Center(child: CircularProgressIndicator());
+            }
+            if (state is WeatherLoadedState) {
+              Map weatherMap = {
+                'temp': state.temperture,
+                'iconUrl':
+                    'http://openweathermap.org/img/wn/${state.weatherIcon}@2x.png',
+                'status': state.weatherDescription
+              };
+              return Column(
+                children: [
+                  Builder(builder: (context) {
+                    var size = MediaQuery.of(context).size;
+                    return CarouselSlider(
+                        options: CarouselOptions(
+                          height: size.height * 0.75,
+                          viewportFraction: 0.83,
+                          enableInfiniteScroll: false,
+                          onPageChanged: ((index, reason) {
+                            setState(() {
+                              _current = index;
+                            });
+                          }),
+                          autoPlay: false,
+                          //aspectRatio: 2.0,
+                          enlargeCenterPage: true,
+                        ),
+                        items: [
+                          MainPostContainer(
+                            index: 0,
+                            weatherMap: weatherMap,
+                            img:
+                                'https://images.unsplash.com/photo-1558486012-817176f84c6d?ixlib=rb-1.2.1&ixid=MnwxMjA3fDB8MHxzZWFyY2h8NXx8d2VhdGhlcnxlbnwwfHwwfHw%3D&auto=format&fit=crop&w=800&q=60',
+                          ),
+                          for (var i = 0; i < imgList.length; i++)
+                            MainPostContainer(
+                              img: imgList[i],
+                              index: i + 1,
+                            ),
+                        ]);
+                  }),
+                  Row(
+                    mainAxisAlignment: MainAxisAlignment.center,
+                    children: imgList.asMap().entries.map((entry) {
+                      return GestureDetector(
+                        onTap: () => _controller.animateToPage(entry.key),
+                        child: Container(
+                          width: 8.0,
+                          height: 8.0,
+                          margin: EdgeInsets.symmetric(
+                              vertical: 8.0, horizontal: 4.0),
+                          decoration: BoxDecoration(
+                              shape: BoxShape.circle,
+                              color: (Theme.of(context).brightness ==
+                                          Brightness.dark
+                                      ? Colors.white
+                                      : Colors.black)
+                                  .withOpacity(
+                                      _current == entry.key ? 0.9 : 0.4)),
+                        ),
+                      );
+                    }).toList(),
                   ),
-                  items: imageSliders,
-                );
-              }),
-              Row(
-                mainAxisAlignment: MainAxisAlignment.center,
-                children: imgList.asMap().entries.map((entry) {
-                  return GestureDetector(
-                    onTap: () => _controller.animateToPage(entry.key),
-                    child: Container(
-                      width: 12.0,
-                      height: 12.0,
-                      margin:
-                          EdgeInsets.symmetric(vertical: 8.0, horizontal: 4.0),
-                      decoration: BoxDecoration(
-                          shape: BoxShape.circle,
-                          color: (Theme.of(context).brightness ==
-                                      Brightness.dark
-                                  ? Colors.white
-                                  : Colors.black)
-                              .withOpacity(_current == entry.key ? 0.9 : 0.4)),
-                    ),
-                  );
-                }).toList(),
-              ),
-            ],
-          )),
+                  IconButton(
+                      onPressed: (() => BlocProvider.of<WeatherBloc>(context)
+                          .add(LoadApiEvent())),
+                      icon: const Icon(
+                        Icons.refresh,
+                        color: Colors.black,
+                      ))
+                ],
+              );
+            }
+            return Container();
+          },
+        ),
+      ),
+    );
+  }
+}
+
+class MainPostContainer extends StatelessWidget {
+  final String img;
+  final int index;
+  final Map? weatherMap;
+  const MainPostContainer(
+      {Key? key, required this.img, required this.index, this.weatherMap})
+      : super(key: key);
+
+  @override
+  Widget build(BuildContext context) {
+    return Container(
+      decoration: BoxDecoration(
+          borderRadius: const BorderRadius.all(Radius.circular(15.0)),
+          image: DecorationImage(image: NetworkImage(img), fit: BoxFit.cover)),
+      margin: const EdgeInsets.all(2.0),
+      child: Stack(
+        children: <Widget>[
+          Container(
+            decoration: BoxDecoration(
+                color: Colors.black.withOpacity(0.5),
+                borderRadius: BorderRadius.circular(15)),
+          ),
+          Align(
+              alignment: index != 0 ? Alignment.bottomLeft : Alignment.center,
+              child: Padding(
+                padding: const EdgeInsets.all(8.0),
+                child: RichText(
+                  textAlign: index != 0 ? TextAlign.start : TextAlign.center,
+                  text: TextSpan(
+                      style: TextStyle(
+                          color: Colors.white,
+                          fontWeight: FontWeight.bold,
+                          fontSize: 40),
+                      children: index != 0
+                          ? [
+                              TextSpan(text: 'Welome\n'),
+                              TextSpan(text: 'To\n'),
+                              TextSpan(text: 'My World')
+                            ]
+                          : [
+                              TextSpan(text: '${weatherMap!['temp']}\'C\n'),
+                              WidgetSpan(
+                                child: Image.network(weatherMap!['iconUrl']),
+                              ),
+                              TextSpan(text: '\n${weatherMap!['status']}')
+                            ]),
+                ),
+              ))
+          // Image.network(
+          //   item,
+          //   fit: BoxFit.cover,
+          //   width: 1000.0,
+          // ),
+        ],
+      ),
     );
   }
 }

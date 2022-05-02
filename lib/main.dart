@@ -1,5 +1,7 @@
 import 'package:daliy_music/home/home_screen.dart';
+import 'package:daliy_music/model/weather/weather.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_bloc/flutter_bloc.dart';
 
 void main() {
   runApp(const MyApp());
@@ -25,7 +27,10 @@ class MyApp extends StatelessWidget {
         // is not restarted.
         primarySwatch: Colors.blue,
       ),
-      home: const HomeScreen(),
+      home: MultiRepositoryProvider(
+        providers: [RepositoryProvider(create: (context) => WeatherAPI())],
+        child: const HomeScreen(),
+      ),
     );
   }
 }
