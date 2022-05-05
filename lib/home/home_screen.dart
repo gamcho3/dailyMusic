@@ -1,10 +1,13 @@
 import 'package:daliy_music/API/API_list.dart';
 import 'package:daliy_music/bloc/weather_bloc.dart';
-import 'package:daliy_music/model/weather/weather.dart';
+import 'package:daliy_music/services/connectivityService.dart';
+
 import 'package:daliy_music/theme/constants.dart';
 import 'package:flutter/material.dart';
 import 'package:carousel_slider/carousel_slider.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
+
+import '../services/weather.dart';
 
 class HomeScreen extends StatefulWidget {
   const HomeScreen({Key? key}) : super(key: key);
@@ -28,6 +31,7 @@ class _HomeScreenState extends State<HomeScreen> {
   final CarouselController _controller = CarouselController();
 
   static List imgList = [
+    'https://images.unsplash.com/photo-1558486012-817176f84c6d?ixlib=rb-1.2.1&ixid=MnwxMjA3fDB8MHxzZWFyY2h8NXx8d2VhdGhlcnxlbnwwfHwwfHw%3D&auto=format&fit=crop&w=800&q=60',
     'https://images.unsplash.com/photo-1561551331-7d7e8fd7ffb1?ixlib=rb-1.2.1&ixid=MnwxMjA3fDB8MHxlZGl0b3JpYWwtZmVlZHw0fHx8ZW58MHx8fHw%3D&auto=format&fit=crop&w=800&q=60',
     'https://images.unsplash.com/photo-1651064199386-787549f0059c?ixlib=rb-1.2.1&ixid=MnwxMjA3fDB8MHxlZGl0b3JpYWwtZmVlZHwyfHx8ZW58MHx8fHw%3D&auto=format&fit=crop&w=800&q=60',
     'https://images.unsplash.com/photo-1650542914658-948812530fa4?ixlib=rb-1.2.1&ixid=MnwxMjA3fDB8MHxlZGl0b3JpYWwtZmVlZHwzfHx8ZW58MHx8fHw%3D&auto=format&fit=crop&w=800&q=60'
@@ -39,8 +43,9 @@ class _HomeScreenState extends State<HomeScreen> {
   Widget build(BuildContext context) {
     return BlocProvider(
       create: (context) => WeatherBloc(
-        RepositoryProvider.of<WeatherAPI>(context),
-      )..add(LoadApiEvent()),
+          RepositoryProvider.of<WeatherAPI>(context),
+          RepositoryProvider.of<ConnectivityService>(context))
+        ..add(LoadApiEvent()),
       child: Scaffold(
         backgroundColor: Themes.mainBackgroundColor,
         appBar: AppBar(
@@ -64,6 +69,9 @@ class _HomeScreenState extends State<HomeScreen> {
           builder: (context, state) {
             if (state is WeatherLoadingState) {
               return const Center(child: CircularProgressIndicator());
+            }
+            if (state is WeatherNetworkErrorState) {
+              return const Text('네트워크 에러');
             }
             if (state is WeatherLoadedState) {
               Map weatherMap = {
@@ -94,13 +102,12 @@ class _HomeScreenState extends State<HomeScreen> {
                           MainPostContainer(
                             index: 0,
                             weatherMap: weatherMap,
-                            img:
-                                'https://images.unsplash.com/photo-1558486012-817176f84c6d?ixlib=rb-1.2.1&ixid=MnwxMjA3fDB8MHxzZWFyY2h8NXx8d2VhdGhlcnxlbnwwfHwwfHw%3D&auto=format&fit=crop&w=800&q=60',
+                            img: imgList[0],
                           ),
-                          for (var i = 0; i < imgList.length; i++)
+                          for (var i = 1; i < imgList.length; i++)
                             MainPostContainer(
                               img: imgList[i],
-                              index: i + 1,
+                              index: i,
                             ),
                         ]);
                   }),

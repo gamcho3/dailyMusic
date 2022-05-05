@@ -20,3 +20,9 @@ class WeatherLoadedState extends WeatherState {
   List<Object?> get props =>
       [temperture, weatherIcon, weatherStatus, weatherDescription];
 }
+
+class WeatherNetworkErrorState extends WeatherState {
+  @override
+  // TODO: implement props
+  List<Object?> get props => [];
+}

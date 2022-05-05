@@ -8,3 +8,9 @@ class LoadApiEvent extends WeatherEvent {
   @override
   List<Object> get props => [];
 }
+
+class NetworkErrorEvent extends WeatherEvent {
+  @override
+  // TODO: implement props
+  List<Object?> get props => [];
+}
