@@ -1,5 +1,6 @@
 import 'package:daliy_music/API/API_list.dart';
 import 'package:daliy_music/bloc/weather_bloc.dart';
+import 'package:daliy_music/detailPage/detailPage.dart';
 import 'package:daliy_music/services/connectivityService.dart';
 
 import 'package:daliy_music/theme/constants.dart';
@@ -58,7 +59,9 @@ class _HomeScreenState extends State<HomeScreen> {
           centerTitle: true,
           actions: [
             IconButton(
-                onPressed: () async {},
+                onPressed: () {
+                  Navigator.pushNamed(context, '/login');
+                },
                 icon: const Icon(
                   Icons.people,
                   color: Colors.black,
@@ -99,10 +102,19 @@ class _HomeScreenState extends State<HomeScreen> {
                           enlargeCenterPage: true,
                         ),
                         items: [
-                          MainPostContainer(
-                            index: 0,
-                            weatherMap: weatherMap,
-                            img: imgList[0],
+                          GestureDetector(
+                            onTap: () {
+                              Navigator.pushNamed(context, '/home/detailPage',
+                                  arguments: imgList[0]);
+                            },
+                            child: Hero(
+                              tag: 'first',
+                              child: MainPostContainer(
+                                index: 0,
+                                weatherMap: weatherMap,
+                                img: imgList[0],
+                              ),
+                            ),
                           ),
                           for (var i = 1; i < imgList.length; i++)
                             MainPostContainer(
