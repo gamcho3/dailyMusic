@@ -2,6 +2,7 @@ import 'package:daliy_music/API/API_list.dart';
 import 'package:daliy_music/bloc/weather_bloc.dart';
 import 'package:daliy_music/detailPage/detailPage.dart';
 import 'package:daliy_music/services/connectivityService.dart';
+import 'package:daliy_music/services/youtubeData.dart';
 
 import 'package:daliy_music/theme/constants.dart';
 import 'package:flutter/material.dart';
@@ -21,6 +22,7 @@ class _HomeScreenState extends State<HomeScreen> {
   @override
   void initState() {
     super.initState();
+    YoutubeServices.getYoutubeData();
     //asyncMethod();
   }
 

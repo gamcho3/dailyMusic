@@ -1,12 +1,14 @@
+import 'package:daliy_music/constants/constants.dart';
 import 'package:daliy_music/home/home_screen.dart';
 import 'package:daliy_music/routes/routes.dart';
 import 'package:daliy_music/services/connectivityService.dart';
 import 'package:daliy_music/services/weather.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
-import 'package:flutter_kakao_login/flutter_kakao_login.dart';
+import 'package:kakao_flutter_sdk/kakao_flutter_sdk.dart';
 
 void main() {
+  KakaoSdk.init(nativeAppKey: Constants.kakaoAppKey);
   runApp(const MyApp());
 }
 

@@ -18,7 +18,6 @@ class WeatherBloc extends Bloc<WeatherEvent, WeatherState> {
   WeatherBloc(this._weatherApi, this._connectivityService)
       : super(WeatherLoadingState()) {
     _connectivityService.connectivityStream.stream.listen((event) {
-      print(event);
       if (event == ConnectivityResult.none) {
         add(NetworkErrorEvent());
       } else {

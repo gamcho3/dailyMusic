@@ -41,8 +41,15 @@ dependencies:
   carousel_slider: ^4.1.1
   http: ^0.13.4
   connectivity_plus: ^2.3.0
-  flutter_kakao_login: ^3.4.0
   kakao_flutter_sdk: ^1.1.0
+  #google_mobile_ads: ^1.2.0
+  flutter_local_notifications: ^9.5.2
+  hive: ^2.1.0
+  flutter_youtube_downloader: ^0.0.5
+  googleapis: ^8.1.0
+  google_sign_in: ^5.3.1
+  extension_google_sign_in_as_googleapis_auth: ^2.0.4
+  #just_audio: ^0.9.21
 dev_dependencies:
   flutter_test:
     sdk: flutter

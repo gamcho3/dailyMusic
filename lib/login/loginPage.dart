@@ -1,7 +1,7 @@
 import 'package:daliy_music/constants/constants.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
-import 'package:flutter_kakao_login/flutter_kakao_login.dart';
+
 import 'package:kakao_flutter_sdk/kakao_flutter_sdk.dart';
 
 class LoginPage extends StatefulWidget {
@@ -12,7 +12,6 @@ class LoginPage extends StatefulWidget {
 }
 
 class _LoginPageState extends State<LoginPage> {
-  static final FlutterKakaoLogin kakaoSignIn = FlutterKakaoLogin();
   @override
   void initState() {
     //load();
