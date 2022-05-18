@@ -51,6 +51,7 @@ dependencies:
   extension_google_sign_in_as_googleapis_auth: ^2.0.4
   firebase_core: ^1.17.0
   #just_audio: ^0.9.21
+  google_fonts: ^2.3.2
 dev_dependencies:
   flutter_test:
     sdk: flutter
