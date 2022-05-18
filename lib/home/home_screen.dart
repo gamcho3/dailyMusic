@@ -23,12 +23,7 @@ class _HomeScreenState extends State<HomeScreen> {
   void initState() {
     super.initState();
     YoutubeServices.getYoutubeData();
-    //asyncMethod();
   }
-
-  // void asyncMethod() async {
-
-  // }
 
   int _current = 0;
   final CarouselController _controller = CarouselController();

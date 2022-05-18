@@ -6,17 +6,16 @@ import 'package:extension_google_sign_in_as_googleapis_auth/extension_google_sig
 class YoutubeServices {
   static Future getYoutubeData() async {
     try {
-      final _googleSignIn = GoogleSignIn(
+      final googleSignIn = GoogleSignIn(
         scopes: <String>[YouTubeApi.youtubeReadonlyScope],
       );
-
-      var httpClient = (await _googleSignIn.authenticatedClient())!;
+      print(googleSignIn.currentUser);
+      var httpClient = (await googleSignIn.authenticatedClient())!;
 
       var youTubeApi = YouTubeApi(httpClient);
-      var favorites = await youTubeApi.playlistItems.list(
-        ['snippet'],
-        playlistId: 'LL', // Liked List
-      );
+      var favorites = await youTubeApi.playlistItems
+          .list(['snippet'], playlistId: 'LL', $fields: "bts" // Liked List
+              );
       //print(favorites);
     } on PlatformException catch (e) {
       print(e);
