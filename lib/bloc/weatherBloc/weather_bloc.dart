@@ -3,10 +3,9 @@ import 'package:connectivity_plus/connectivity_plus.dart';
 import 'package:daliy_music/services/connectivityService.dart';
 
 import 'package:equatable/equatable.dart';
-import 'package:flutter/material.dart';
 
-import '../API/API_list.dart';
-import '../services/weather.dart';
+import '../../API/API_list.dart';
+import '../../services/weather.dart';
 
 part 'weather_event.dart';
 part 'weather_state.dart';
@@ -18,7 +17,6 @@ class WeatherBloc extends Bloc<WeatherEvent, WeatherState> {
   WeatherBloc(this._weatherApi, this._connectivityService)
       : super(WeatherLoadingState()) {
     _connectivityService.connectivityStream.stream.listen((event) {
-      print(event);
       if (event == ConnectivityResult.none) {
         add(NetworkErrorEvent());
       } else {

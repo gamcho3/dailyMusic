@@ -1,5 +1,4 @@
 import 'package:daliy_music/API/API_list.dart';
-import 'package:daliy_music/bloc/weather_bloc.dart';
 
 import 'package:daliy_music/services/connectivityService.dart';
 
@@ -8,6 +7,7 @@ import 'package:flutter/material.dart';
 import 'package:carousel_slider/carousel_slider.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 
+import '../bloc/weatherBloc/weather_bloc.dart';
 import '../services/weather.dart';
 
 class HomeScreen extends StatefulWidget {
@@ -126,7 +126,7 @@ class _HomeScreenState extends State<HomeScreen> {
                         child: Container(
                           width: 8.0,
                           height: 8.0,
-                          margin: EdgeInsets.symmetric(
+                          margin: const EdgeInsets.symmetric(
                               vertical: 8.0, horizontal: 4.0),
                           decoration: BoxDecoration(
                               shape: BoxShape.circle,
