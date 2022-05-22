@@ -45,7 +45,7 @@ class _HomeScreenState extends State<HomeScreen> {
       child: Scaffold(
         backgroundColor: Theme.of(context).colorScheme.background,
         appBar: AppBar(
-          backgroundColor: Colors.transparent,
+          backgroundColor: Theme.of(context).colorScheme.background,
           elevation: 0,
           title: const Text(
             "daily Music",
@@ -84,7 +84,7 @@ class _HomeScreenState extends State<HomeScreen> {
                     var size = MediaQuery.of(context).size;
                     return CarouselSlider(
                         options: CarouselOptions(
-                          height: size.height * 0.75,
+                          height: size.height * 0.4,
                           viewportFraction: 0.83,
                           enableInfiniteScroll: false,
                           onPageChanged: ((index, reason) {

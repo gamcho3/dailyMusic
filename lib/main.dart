@@ -1,3 +1,4 @@
+import 'package:daliy_music/bottom_navigation.dart';
 import 'package:daliy_music/home/home_screen.dart';
 import 'package:daliy_music/routes/routes.dart';
 
@@ -57,7 +58,7 @@ class HomeProvider extends StatelessWidget {
           create: ((context) => ConnectivityService()),
         )
       ],
-      child: const HomeScreen(),
+      child: const BottomNavigationPage(),
     );
   }
 }

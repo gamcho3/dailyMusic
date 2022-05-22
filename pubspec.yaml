@@ -46,12 +46,11 @@ dependencies:
   flutter_local_notifications: ^9.5.2
   hive: ^2.1.0
   flutter_youtube_downloader: ^0.0.5
-  googleapis: ^8.1.0
   google_sign_in: ^5.3.1
-  extension_google_sign_in_as_googleapis_auth: ^2.0.4
   firebase_core: ^1.17.0
   just_audio: ^0.9.21
   google_fonts: ^2.3.2
+  line_awesome_flutter: ^2.0.0
 dev_dependencies:
   flutter_test:
     sdk: flutter

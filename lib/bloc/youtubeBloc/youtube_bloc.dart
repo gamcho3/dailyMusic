@@ -8,18 +8,17 @@ part 'youtube_event.dart';
 part 'youtube_state.dart';
 
 class YoutubeBloc extends Bloc<YoutubeEvent, YoutubeState> {
-  final YoutubeList _youtubeList;
-  final ConnectivityService _connectivityService;
-  YoutubeBloc(this._youtubeList, this._connectivityService)
-      : super(YoutubeLoadingState()) {
-    on<YoutubeEvent>((event, emit) {
-      _connectivityService.connectivityStream.stream.listen((event) {
-        if (event == ConnectivityResult.none) {
-          add(NetworkErrorEvent());
-        } else {
-          add(LoadApiEvent());
-        }
-      });
+  final YoutubeServices _youtubeList;
+  //final ConnectivityService _connectivityService;
+  YoutubeBloc(
+    this._youtubeList,
+  ) : super(YoutubeLoadingState()) {
+    on<LoadApiEvent>((event, emit) async {
+      print(event.props[0]);
+      emit(YoutubeLoadingState());
+      YoutubeListModel youtubeListModel =
+          await _youtubeList.getYoutubeData(keyword: 'bts');
+      emit(YoutubeLoadedState(youtubeListModel.items));
     });
   }
 }

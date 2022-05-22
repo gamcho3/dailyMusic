@@ -231,7 +231,6 @@ class WeatherAPI {
             'https://api.openweathermap.org/data/2.5/weather?lat=$lat&lon=$lon&appid=$appId&units=metric&lang=kr'))
         .timeout(const Duration(seconds: 3));
     if (response.statusCode == 200) {
-      print(response.body);
       var responseBody = utf8.decode(response.bodyBytes);
 
       final weatherData = weatherModelFromJson(responseBody);

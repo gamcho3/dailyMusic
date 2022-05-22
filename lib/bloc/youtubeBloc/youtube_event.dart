@@ -6,7 +6,7 @@ abstract class YoutubeEvent extends Equatable {
 
 class LoadApiEvent extends YoutubeEvent {
   @override
-  List<Object> get props => [];
+  List<Object> get props => ['keyword'];
 }
 
 class NetworkErrorEvent extends YoutubeEvent {

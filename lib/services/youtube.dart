@@ -1,16 +1,17 @@
 // To parse this JSON data, do
 //
-//     final YoutubeList = YoutubeListFromJson(jsonString);
+//     final YoutubeListModel = YoutubeListModelFromJson(jsonString);
 import 'package:http/http.dart' as http;
 import 'dart:convert';
 
-YoutubeList youtubeListFromJson(String str) =>
-    YoutubeList.fromJson(json.decode(str));
+YoutubeListModel youtubeListModelFromJson(String str) =>
+    YoutubeListModel.fromJson(json.decode(str));
 
-String youtubeListToJson(YoutubeList data) => json.encode(data.toJson());
+String youtubeListModelToJson(YoutubeListModel data) =>
+    json.encode(data.toJson());
 
-class YoutubeList {
-  YoutubeList({
+class YoutubeListModel {
+  YoutubeListModel({
     required this.kind,
     required this.etag,
     required this.nextPageToken,
@@ -26,7 +27,8 @@ class YoutubeList {
   PageInfo pageInfo;
   List<Item> items;
 
-  factory YoutubeList.fromJson(Map<String, dynamic> json) => YoutubeList(
+  factory YoutubeListModel.fromJson(Map<String, dynamic> json) =>
+      YoutubeListModel(
         kind: json["kind"],
         etag: json["etag"],
         nextPageToken: json["nextPageToken"],
@@ -206,7 +208,7 @@ class PageInfo {
 }
 
 class YoutubeServices {
-  Future getYoutubeData<YoutubeList>({required String keyword}) async {
+  Future getYoutubeData<YoutubeListModel>({required String keyword}) async {
     var response = await http
         .get(
           Uri.parse(
@@ -215,7 +217,7 @@ class YoutubeServices {
         .timeout(const Duration(seconds: 3));
     if (response.statusCode == 200) {
       var responseBody = utf8.decode(response.bodyBytes);
-      final youtubeList = youtubeListFromJson(responseBody);
+      final youtubeList = youtubeListModelFromJson(responseBody);
       return youtubeList;
     }
   }
