@@ -52,14 +52,17 @@ class _HomeScreenState extends State<HomeScreen> {
             style: TextStyle(color: Colors.black),
           ),
           centerTitle: true,
+          leading: CircleAvatar(
+            backgroundColor: Theme.of(context).colorScheme.primary,
+          ),
           actions: [
             IconButton(
                 onPressed: () {
-                  Navigator.pushNamed(context, '/login');
+                  Navigator.pushNamed(context, '/search');
                 },
-                icon: const Icon(
-                  Icons.people,
-                  color: Colors.black,
+                icon: Icon(
+                  Icons.search,
+                  color: Theme.of(context).colorScheme.primary,
                 ))
           ],
         ),

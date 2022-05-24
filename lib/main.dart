@@ -4,6 +4,7 @@ import 'package:daliy_music/routes/routes.dart';
 
 import 'package:daliy_music/services/connectivityService.dart';
 import 'package:daliy_music/services/weather.dart';
+import 'package:daliy_music/services/youtube.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:kakao_flutter_sdk/kakao_flutter_sdk.dart';
@@ -35,9 +36,10 @@ class _MyAppState extends State<MyApp> {
       theme: ThemeData(
         useMaterial3: true,
         colorScheme: ColorScheme.fromSeed(
-            seedColor: Colors.white,
-            brightness: Brightness.light,
-            primary: Color(0xff6750A4)),
+          seedColor: Colors.white,
+          brightness: Brightness.light,
+          primary: const Color(0xff6750A4),
+        ),
         textTheme: GoogleFonts.nanumGothicTextTheme(),
       ),
     );
@@ -54,6 +56,7 @@ class HomeProvider extends StatelessWidget {
     return MultiRepositoryProvider(
       providers: [
         RepositoryProvider(create: (context) => WeatherAPI()),
+        RepositoryProvider(create: (context) => YoutubeServices()),
         RepositoryProvider(
           create: ((context) => ConnectivityService()),
         )

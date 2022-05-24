@@ -5,8 +5,10 @@ abstract class YoutubeEvent extends Equatable {
 }
 
 class LoadApiEvent extends YoutubeEvent {
+  final String keyword;
+  const LoadApiEvent(this.keyword);
   @override
-  List<Object> get props => ['keyword'];
+  List<String> get props => [];
 }
 
 class NetworkErrorEvent extends YoutubeEvent {
