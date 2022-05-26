@@ -12,11 +12,9 @@ class YoutubeLoadingState extends YoutubeState {
 class YoutubeLoadedState extends YoutubeState {
   //var youtubeModel = YoutubeListModel;
   final List<Item> items;
-  const YoutubeLoadedState(
-    this.items,
-  );
+  const YoutubeLoadedState({this.items = const <Item>[]});
   @override
-  List<Item> get props => items;
+  List<Object> get props => [items];
 }
 
 class YoutubeNetworkErrorState extends YoutubeState {

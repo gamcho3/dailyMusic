@@ -8,6 +8,7 @@ import 'package:carousel_slider/carousel_slider.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 
 import '../bloc/weatherBloc/weather_bloc.dart';
+import '../bloc/youtubeBloc/youtube_bloc.dart';
 import '../services/weather.dart';
 
 class HomeScreen extends StatefulWidget {
@@ -41,7 +42,7 @@ class _HomeScreenState extends State<HomeScreen> {
       create: (context) => WeatherBloc(
           RepositoryProvider.of<WeatherAPI>(context),
           RepositoryProvider.of<ConnectivityService>(context))
-        ..add(LoadApiEvent()),
+        ..add(LoadWeatherEvent()),
       child: Scaffold(
         backgroundColor: Theme.of(context).colorScheme.background,
         appBar: AppBar(
@@ -145,7 +146,7 @@ class _HomeScreenState extends State<HomeScreen> {
                   ),
                   IconButton(
                       onPressed: (() => BlocProvider.of<WeatherBloc>(context)
-                          .add(LoadApiEvent())),
+                          .add(LoadWeatherEvent())),
                       icon: const Icon(
                         Icons.refresh,
                         color: Colors.black,

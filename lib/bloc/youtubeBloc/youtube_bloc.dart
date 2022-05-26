@@ -9,31 +9,23 @@ part 'youtube_state.dart';
 
 class YoutubeBloc extends Bloc<YoutubeEvent, YoutubeState> {
   final YoutubeServices _youtubeList;
-  final ConnectivityService _connectivityService;
-  YoutubeBloc(this._youtubeList, this._connectivityService)
-      : super(YoutubeLoadingState()) {
-    _connectivityService.connectivityStream.stream.asBroadcastStream(
-        onListen: ((subscription) {
-      subscription.onData((data) {
-        if (data == ConnectivityResult.none) {
-          add(NetworkErrorEvent());
-        } else {
-          add(LoadApiEvent('bts'));
-        }
-      });
-    }));
 
-    on<LoadApiEvent>((event, emit) async {
-      //print(event.props[0]);
-      emit(YoutubeLoadingState());
-
-      YoutubeListModel youtubeListModel =
-          await _youtubeList.getYoutubeData(keyword: 'bts');
-      emit(YoutubeLoadedState(youtubeListModel.items));
-    });
+  YoutubeBloc(
+    this._youtubeList,
+  ) : super(YoutubeLoadingState()) {
+    on<LoadYoutubeEvent>(_onLoadYoutube);
 
     on<NetworkErrorEvent>((event, emit) {
       emit(YoutubeNetworkErrorState());
     });
+  }
+  void _onLoadYoutube(
+      LoadYoutubeEvent event, Emitter<YoutubeState> emit) async {
+    emit(YoutubeLoadingState());
+
+    YoutubeListModel youtube =
+        await _youtubeList.getYoutubeData(keyword: event.keyword);
+
+    emit(YoutubeLoadedState(items: youtube.items));
   }
 }

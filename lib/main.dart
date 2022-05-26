@@ -29,18 +29,26 @@ class MyApp extends StatefulWidget {
 class _MyAppState extends State<MyApp> {
   @override
   Widget build(BuildContext context) {
-    return MaterialApp(
-      initialRoute: '/',
-      routes: customRoutes,
-      title: 'Flutter Demo',
-      theme: ThemeData(
-        useMaterial3: true,
-        colorScheme: ColorScheme.fromSeed(
-          seedColor: Colors.white,
-          brightness: Brightness.light,
-          primary: const Color(0xff6750A4),
+    return MultiRepositoryProvider(
+      providers: [
+        RepositoryProvider(create: (context) => WeatherAPI()),
+        RepositoryProvider(create: (context) => YoutubeServices()),
+        RepositoryProvider(create: (context) => ConnectivityService())
+      ],
+      child: MaterialApp(
+        initialRoute: '/',
+        routes: customRoutes,
+        title: 'Flutter Demo',
+        theme: ThemeData(
+          useMaterial3: true,
+          colorScheme: ColorScheme.fromSeed(
+              seedColor: Colors.white,
+              brightness: Brightness.light,
+              primary: const Color(0xff00C853),
+              secondary: const Color(0xffA5D6A7),
+              background: const Color(0xffE8F5E9)),
+          textTheme: GoogleFonts.nanumGothicTextTheme(),
         ),
-        textTheme: GoogleFonts.nanumGothicTextTheme(),
       ),
     );
   }
@@ -53,15 +61,6 @@ class HomeProvider extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return MultiRepositoryProvider(
-      providers: [
-        RepositoryProvider(create: (context) => WeatherAPI()),
-        RepositoryProvider(create: (context) => YoutubeServices()),
-        RepositoryProvider(
-          create: ((context) => ConnectivityService()),
-        )
-      ],
-      child: const BottomNavigationPage(),
-    );
+    return const BottomNavigationPage();
   }
 }
