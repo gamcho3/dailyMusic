@@ -152,8 +152,8 @@ class Sys {
     required this.sunset,
   });
 
-  int type;
-  int id;
+  int? type;
+  int? id;
   String country;
   int sunrise;
   int sunset;
