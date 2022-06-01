@@ -31,8 +31,10 @@ class WeatherBloc extends Bloc<WeatherEvent, WeatherState> {
     on<LoadWeatherEvent>((event, emit) async {
       emit(WeatherLoadingState());
       var result = await LocationAPI.determinePosition();
-      WeatherModel weather =
-          await _weatherApi.getWeather(result.latitude, result.longitude);
+      print(result);
+      WeatherModel weather = await _weatherApi.getWeather(
+          result?.latitude ?? 37.554197896721,
+          result?.longitude ?? 127.19885348533894);
 
       emit(WeatherLoadedState(weather.main.temp, weather.weather[0].icon,
           weather.weather[0].main, weather.weather[0].description));

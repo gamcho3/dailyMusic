@@ -1,14 +1,9 @@
-import 'package:daliy_music/API/API_list.dart';
-
 import 'package:daliy_music/services/connectivityService.dart';
-
-import 'package:daliy_music/theme/constants.dart';
 import 'package:flutter/material.dart';
 import 'package:carousel_slider/carousel_slider.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 
 import '../bloc/weatherBloc/weather_bloc.dart';
-import '../bloc/youtubeBloc/youtube_bloc.dart';
 import '../services/weather.dart';
 
 class HomeScreen extends StatefulWidget {

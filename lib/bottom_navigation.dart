@@ -18,7 +18,7 @@ class _BottomNavigationPageState extends State<BottomNavigationPage> {
       body: <Widget>[
         const HomeScreen(),
         Container(color: Colors.white, child: const Text('list')),
-        const SearchPage(),
+        Container(color: Colors.white, child: const Text('list')),
         Container(color: Colors.white, child: const Text('More'))
       ][currentPageIndex],
       bottomNavigationBar: NavigationBar(
