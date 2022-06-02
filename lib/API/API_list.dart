@@ -6,7 +6,7 @@ import 'package:geolocator/geolocator.dart';
 /// are denied the `Future` will return an error.
 
 class LocationAPI {
-  static Future<Position> determinePosition() async {
+  static Future<Position?> determinePosition() async {
     bool serviceEnabled;
     LocationPermission permission;
 
@@ -34,8 +34,9 @@ class LocationAPI {
 
     if (permission == LocationPermission.deniedForever) {
       // Permissions are denied forever, handle appropriately.
-      return Future.error(
+      Future.error(
           'Location permissions are permanently denied, we cannot request permissions.');
+      return null;
     }
 
     // When we reach here, permissions are granted and we can

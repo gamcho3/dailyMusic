@@ -46,7 +46,7 @@ class _MyAppState extends State<MyApp> {
               brightness: Brightness.light,
               primary: const Color(0xff00C853),
               secondary: const Color(0xffA5D6A7),
-              background: const Color(0xffE8F5E9)),
+              background: Color.fromARGB(255, 249, 249, 249)),
           textTheme: GoogleFonts.nanumGothicTextTheme(),
         ),
       ),

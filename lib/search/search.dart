@@ -3,6 +3,7 @@ import 'package:daliy_music/services/youtube.dart';
 
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:http/http.dart';
 import 'package:line_awesome_flutter/line_awesome_flutter.dart';
 
 import '../services/connectivityService.dart';
@@ -32,17 +33,51 @@ class _SearchPageState extends State<SearchPage> {
 
   @override
   Widget build(BuildContext context) {
-    return BlocProvider(
+    return RepositoryProvider(
       create: (context) => YoutubeBloc(
         RepositoryProvider.of<YoutubeServices>(context),
       )..add(LoadYoutubeEvent(keyword)),
-      child: Scaffold(
-        body: SafeArea(
-          child: BlocBuilder<YoutubeBloc, YoutubeState>(
+      child: BlocListener<YoutubeBloc, YoutubeState>(
+        listener: (context, state) {},
+        child: Scaffold(
+          appBar: AppBar(
+            title: TextField(
+              controller: _textController,
+              onSubmitted: (value) {
+                print(value);
+                context.read<YoutubeBloc>().add(LoadYoutubeEvent(value));
+                // RepositoryProvider.of<YoutubeBloc>(context)
+                //     .add(LoadYoutubeEvent(value));
+              },
+              onChanged: (value) {
+                setState(() {
+                  keyword = value;
+                });
+              },
+              decoration: InputDecoration(
+                  contentPadding:
+                      const EdgeInsets.symmetric(vertical: 0, horizontal: 12),
+                  border: OutlineInputBorder(
+                      borderRadius: BorderRadius.circular(20)),
+                  suffixIcon: keyword.isEmpty
+                      ? null
+                      : IconButton(
+                          onPressed: (() {
+                            _textController.clear();
+                            setState(() {
+                              keyword = '';
+                            });
+                          }),
+                          icon: const Icon(LineAwesomeIcons.times)),
+                  hintText: "노래,아티스트 검색"),
+              maxLines: 1,
+            ),
+          ),
+          body: BlocBuilder<YoutubeBloc, YoutubeState>(
             builder: (context, state) {
-              if (state is YoutubeLoadingState) {
-                return const Center(child: CircularProgressIndicator());
-              }
+              // if (state is YoutubeLoadingState) {
+              //   return const Center(child: CircularProgressIndicator());
+              // }
 
               if (state is YoutubeLoadedState) {
                 print(state.items.length);
@@ -50,48 +85,56 @@ class _SearchPageState extends State<SearchPage> {
                   padding: const EdgeInsets.only(left: 20, right: 20),
                   child: Column(
                     children: [
-                      Row(
-                        mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                        children: [
-                          const Expanded(
-                              flex: 1,
-                              child: Icon(LineAwesomeIcons.angle_left)),
-                          Expanded(
-                            flex: 6,
-                            child: TextField(
-                              controller: _textController,
-                              onSubmitted: (value) {
-                                print(value);
-                                BlocProvider.of<YoutubeBloc>(context)
-                                    .add(LoadYoutubeEvent(value));
-                              },
-                              // onChanged: (value) {
-                              //   setState(() {
-                              //     keyword = value;
-                              //   });
-                              // },
-                              decoration: InputDecoration(
-                                  contentPadding: const EdgeInsets.symmetric(
-                                      vertical: 0, horizontal: 12),
-                                  border: OutlineInputBorder(
-                                      borderRadius: BorderRadius.circular(20)),
-                                  suffixIcon: keyword.isEmpty
-                                      ? null
-                                      : IconButton(
-                                          onPressed: (() {
-                                            _textController.clear();
-                                            setState(() {
-                                              keyword = '';
-                                            });
-                                          }),
-                                          icon: const Icon(
-                                              LineAwesomeIcons.times)),
-                                  hintText: "노래,아티스트 검색"),
-                              maxLines: 1,
-                            ),
-                          ),
-                        ],
-                      ),
+                      //MARK: 앱바
+                      // Row(
+                      //   mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                      //   children: [
+                      //     Expanded(
+                      //         flex: 1,
+                      //         child: IconButton(
+                      //             onPressed: () {
+                      //               Navigator.pop(context);
+                      //             },
+                      //             icon: const Icon(
+                      //                 LineAwesomeIcons.angle_left))),
+                      //     Expanded(
+                      //       flex: 6,
+                      //       child: TextField(
+                      //         controller: _textController,
+                      //         onSubmitted: (value) {
+                      //           print(value);
+                      //           BlocProvider.of<YoutubeBloc>(context)
+                      //               .add(LoadYoutubeEvent(value));
+                      //         },
+                      //         onChanged: (value) {
+                      //           setState(() {
+                      //             keyword = value;
+                      //           });
+                      //         },
+                      //         decoration: InputDecoration(
+                      //             contentPadding:
+                      //                 const EdgeInsets.symmetric(
+                      //                     vertical: 0, horizontal: 12),
+                      //             border: OutlineInputBorder(
+                      //                 borderRadius:
+                      //                     BorderRadius.circular(20)),
+                      //             suffixIcon: keyword.isEmpty
+                      //                 ? null
+                      //                 : IconButton(
+                      //                     onPressed: (() {
+                      //                       _textController.clear();
+                      //                       setState(() {
+                      //                         keyword = '';
+                      //                       });
+                      //                     }),
+                      //                     icon: const Icon(
+                      //                         LineAwesomeIcons.times)),
+                      //             hintText: "노래,아티스트 검색"),
+                      //         maxLines: 1,
+                      //       ),
+                      //     ),
+                      //   ],
+                      // ),
                       const SizedBox(
                         height: 15,
                       ),
@@ -139,21 +182,23 @@ class MusicList extends StatelessWidget {
           ),
         ),
       ),
-      Column(
-        crossAxisAlignment: CrossAxisAlignment.start,
-        children: <Widget>[
-          Text(
-            item.snippet.title,
-            maxLines: 2,
-            overflow: TextOverflow.ellipsis,
-            style: TextStyle(fontWeight: FontWeight.bold),
-          ),
-          Text(
-            item.snippet.channelTitle,
-            maxLines: 2,
-          ),
-          //Text(state.items[1].snippet.description)
-        ],
+      Expanded(
+        child: Column(
+          crossAxisAlignment: CrossAxisAlignment.start,
+          children: <Widget>[
+            Text(
+              item.snippet.title,
+              maxLines: 1,
+              overflow: TextOverflow.ellipsis,
+              style: const TextStyle(fontWeight: FontWeight.bold),
+            ),
+            Text(
+              item.snippet.channelTitle,
+              maxLines: 2,
+            ),
+            //Text(state.items[1].snippet.description)
+          ],
+        ),
       )
     ]);
   }
