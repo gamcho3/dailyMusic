@@ -40,28 +40,6 @@ class _HomeScreenState extends State<HomeScreen> {
         ..add(LoadWeatherEvent()),
       child: Scaffold(
         backgroundColor: Theme.of(context).colorScheme.background,
-        appBar: AppBar(
-          backgroundColor: Theme.of(context).colorScheme.background,
-          elevation: 0,
-          title: const Text(
-            "daily Music",
-            style: TextStyle(color: Colors.black),
-          ),
-          centerTitle: true,
-          leading: CircleAvatar(
-            backgroundColor: Theme.of(context).colorScheme.primary,
-          ),
-          actions: [
-            IconButton(
-                onPressed: () {
-                  Navigator.pushNamed(context, '/search');
-                },
-                icon: Icon(
-                  Icons.search,
-                  color: Theme.of(context).colorScheme.primary,
-                ))
-          ],
-        ),
         body: BlocBuilder<WeatherBloc, WeatherState>(
           builder: (context, state) {
             if (state is WeatherLoadingState) {

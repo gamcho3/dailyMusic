@@ -5,12 +5,14 @@ import 'package:daliy_music/routes/routes.dart';
 import 'package:daliy_music/services/connectivityService.dart';
 import 'package:daliy_music/services/weather.dart';
 import 'package:daliy_music/services/youtube.dart';
+import 'package:daliy_music/viewModel/youtubeProvider.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:kakao_flutter_sdk/kakao_flutter_sdk.dart';
 import 'package:firebase_core/firebase_core.dart';
 
 import 'package:google_fonts/google_fonts.dart';
+import 'package:provider/provider.dart';
 
 void main() async {
   WidgetsFlutterBinding.ensureInitialized();
@@ -29,11 +31,9 @@ class MyApp extends StatefulWidget {
 class _MyAppState extends State<MyApp> {
   @override
   Widget build(BuildContext context) {
-    return MultiRepositoryProvider(
+    return MultiProvider(
       providers: [
-        RepositoryProvider(create: (context) => WeatherAPI()),
-        RepositoryProvider(create: (context) => YoutubeServices()),
-        RepositoryProvider(create: (context) => ConnectivityService())
+        ChangeNotifierProvider(create: (context) => YoutubeProvider()),
       ],
       child: MaterialApp(
         initialRoute: '/',
@@ -46,7 +46,7 @@ class _MyAppState extends State<MyApp> {
               brightness: Brightness.light,
               primary: const Color(0xff00C853),
               secondary: const Color(0xffA5D6A7),
-              background: Color.fromARGB(255, 249, 249, 249)),
+              background: const Color.fromARGB(255, 249, 249, 249)),
           textTheme: GoogleFonts.nanumGothicTextTheme(),
         ),
       ),

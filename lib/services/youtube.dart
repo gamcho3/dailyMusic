@@ -82,7 +82,7 @@ class Id {
   });
 
   String kind;
-  String videoId;
+  String? videoId;
 
   factory Id.fromJson(Map<String, dynamic> json) => Id(
         kind: json["kind"],
@@ -171,7 +171,7 @@ class Default {
   });
 
   String url;
-  int width;
+  int? width;
   int height;
 
   factory Default.fromJson(Map<String, dynamic> json) => Default(
@@ -208,7 +208,8 @@ class PageInfo {
 }
 
 class YoutubeServices {
-  Future getYoutubeData<YoutubeListModel>({required String keyword}) async {
+  static Future getYoutubeList<YoutubeListModel>(
+      {required String keyword}) async {
     var response = await http
         .get(
           Uri.parse(
