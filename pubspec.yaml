@@ -48,7 +48,7 @@ dependencies:
   flutter_youtube_downloader: ^0.0.5
   google_sign_in: ^5.3.1
   firebase_core: ^1.17.0
-  just_audio: ^0.9.21
+  just_audio: ^0.9.24
   google_fonts: ^2.3.2
   line_awesome_flutter: ^2.0.0
 dev_dependencies:

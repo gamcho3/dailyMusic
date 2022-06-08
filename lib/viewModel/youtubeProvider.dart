@@ -11,6 +11,7 @@ class YoutubeProvider with ChangeNotifier {
   //MARK: - setter
 
   void getList() async {
+    clearMusicList();
     YoutubeListModel list =
         await YoutubeServices.getYoutubeList(keyword: _keyword);
     _musicList = list.items;
@@ -24,6 +25,11 @@ class YoutubeProvider with ChangeNotifier {
 
   void clearKeyword() {
     _keyword = '';
+    notifyListeners();
+  }
+
+  void clearMusicList() {
+    _musicList.clear();
     notifyListeners();
   }
 }
