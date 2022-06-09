@@ -1,11 +1,17 @@
-import 'package:daliy_music/services/youtube.dart';
-import 'package:daliy_music/viewModel/youtubeProvider.dart';
+import 'dart:io';
+
+import 'package:daliy_music/youtube_list/view_models/youtubeProvider.dart';
 
 import 'package:flutter/material.dart';
+import 'package:flutter/services.dart';
 
 import 'package:line_awesome_flutter/line_awesome_flutter.dart';
 import 'package:provider/provider.dart';
-import 'package:flutter_youtube_downloader/flutter_youtube_downloader.dart';
+import 'package:share_plus/share_plus.dart';
+
+import 'package:youtube_explode_dart/youtube_explode_dart.dart';
+
+import '../models/youtube_list_models.dart';
 
 class SearchPage extends StatefulWidget {
   const SearchPage({Key? key}) : super(key: key);
@@ -18,31 +24,17 @@ class _SearchPageState extends State<SearchPage> {
   final _textController = TextEditingController();
   FocusNode _focus = FocusNode();
   bool isFocus = true;
-  //String keyword = '';
 
   @override
   void initState() {
     super.initState();
-    // _focus.addListener(_onFocusChange);
-    // context.read<YoutubeProvider>().clearKeyword();
-    // asyncMethod();
   }
 
   @override
   void dispose() {
     super.dispose();
-    //_focus.removeListener(_onFocusChange);
     _focus.dispose();
   }
-
-  // void _onFocusChange() {
-  //   debugPrint("Focus: ${_focus.hasFocus.toString()}");
-  // }
-  // void asyncMethod() async {
-  //   var _youtubeList = YoutubeServices();
-  //   var value = await _youtubeList.getYoutubeData(keyword: 'bts');
-  //   print(value);
-  // }
 
   @override
   Widget build(BuildContext context) {
@@ -59,24 +51,19 @@ class _SearchPageState extends State<SearchPage> {
                     focusNode: _focus,
                     controller: _textController,
                     onSubmitted: (value) {
-                      print(value);
-                      provider.getList();
+                      provider.getYoutubeList(value);
                       isFocus = false;
                       setState(() {});
-                    },
-                    onChanged: (value) {
-                      provider.getKeyword(value);
                     },
                     decoration: InputDecoration(
                         contentPadding: const EdgeInsets.symmetric(
                             vertical: 0, horizontal: 12),
                         border: OutlineInputBorder(
                             borderRadius: BorderRadius.circular(20)),
-                        suffixIcon: provider.keyword.isEmpty
+                        suffixIcon: _textController.text.isEmpty
                             ? null
                             : IconButton(
                                 onPressed: (() {
-                                  provider.clearKeyword();
                                   _textController.clear();
                                 }),
                                 icon: const Icon(LineAwesomeIcons.times)),
@@ -90,7 +77,7 @@ class _SearchPageState extends State<SearchPage> {
                     Column(
                         crossAxisAlignment: CrossAxisAlignment.start,
                         children: [Text("최근 검색어")]),
-                  if (!isFocus && provider.musicList.isEmpty)
+                  if (provider.loading)
                     const Expanded(
                       child: Center(
                         child: CircularProgressIndicator(),
@@ -100,15 +87,13 @@ class _SearchPageState extends State<SearchPage> {
                     Expanded(
                       child: ListView.separated(
                           separatorBuilder: ((context, index) {
-                            return SizedBox(
+                            return const SizedBox(
                               height: 13,
                             );
                           }),
                           itemCount: provider.musicList.length,
                           itemBuilder: ((context, index) {
-                            return MusicList(
-                              item: provider.musicList[index],
-                            );
+                            return MusicList(item: provider.musicList[index]);
                           })),
                     )
                 ],
@@ -121,7 +106,7 @@ class _SearchPageState extends State<SearchPage> {
   }
 }
 
-class MusicList extends StatelessWidget {
+class MusicList extends StatefulWidget {
   final Item item;
 
   const MusicList({
@@ -129,18 +114,71 @@ class MusicList extends StatelessWidget {
     required this.item,
   }) : super(key: key);
 
-  Future<void> downloadVideo(link) async {
-    final result = await FlutterYoutubeDownloader.downloadVideo(
-        "https://www.youtube.com/watch?v=$link", "Video Title goes Here", 18);
-    print(result);
+  @override
+  State<MusicList> createState() => _MusicListState();
+}
+
+class _MusicListState extends State<MusicList> {
+  @override
+  void initState() {
+    super.initState();
+  }
+
+  downloadYoutube(link) async {
+    var yt = YoutubeExplode();
+    //Directory('downloads').createSync();
+    // Get video metadata.
+    var video = await yt.videos.get(link);
+    // Get the video manifest.
+    var manifest = await yt.videos.streamsClient.getManifest(link);
+    var streams = manifest.audioOnly;
+    // Get the audio track with the highest bitrate.
+    var audio = streams.first;
+    var audioStream = yt.videos.streamsClient.get(audio);
+    print(streams.whereType());
+    var fileName = '${video.title}.${audio.container.name}'
+        .replaceAll(r'\', '')
+        .replaceAll('/', '')
+        .replaceAll('*', '')
+        .replaceAll('?', '')
+        .replaceAll('"', '')
+        .replaceAll('<', '')
+        .replaceAll('>', '')
+        .replaceAll('|', '');
+    var file = File('downloads/$fileName');
+    // Delete the file if exists.
+    if (file.existsSync()) {
+      file.deleteSync();
+    }
+    print(file.path);
+    Share.shareFiles([file.path]);
+    // Open the file in writeAppend.
+    // var output = file.openWrite(mode: FileMode.writeOnlyAppend);
+
+    // // Track the file download status.
+    // var len = audio.size.totalBytes;
+    // var count = 0;
+
+    // // Create the message and set the cursor position.
+    // var msg = 'Downloading ${video.title}.${audio.container.name}';
+    // stdout.writeln(msg);
+
+    // // Listen for data received.
+
+    // await for (final data in audioStream) {
+    //   // Write to file.
+    //   output.add(data);
+    // }
+    // await output.close();
+    // yt.close();
+    // exit(0);
   }
 
   @override
   Widget build(BuildContext context) {
     return GestureDetector(
       onTap: () async {
-        print(item.id.videoId);
-        downloadVideo(item.id.videoId);
+        downloadYoutube(widget.item.id.videoId);
       },
       child: Row(crossAxisAlignment: CrossAxisAlignment.center, children: [
         Padding(
@@ -153,7 +191,7 @@ class MusicList extends StatelessWidget {
               BoxShadow(color: Colors.grey, blurRadius: 1.0, spreadRadius: 1.0)
             ], borderRadius: BorderRadius.circular(15)),
             child: Image.network(
-              item.snippet.thumbnails.medium.url,
+              widget.item.snippet.thumbnails.medium.url,
               fit: BoxFit.cover,
             ),
           ),
@@ -163,13 +201,13 @@ class MusicList extends StatelessWidget {
             crossAxisAlignment: CrossAxisAlignment.start,
             children: <Widget>[
               Text(
-                item.snippet.title,
+                widget.item.snippet.title,
                 maxLines: 1,
                 overflow: TextOverflow.ellipsis,
                 style: const TextStyle(fontWeight: FontWeight.bold),
               ),
               Text(
-                item.snippet.channelTitle,
+                widget.item.snippet.channelTitle,
                 maxLines: 2,
               ),
               //Text(state.items[1].snippet.description)

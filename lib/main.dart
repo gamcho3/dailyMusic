@@ -5,7 +5,7 @@ import 'package:daliy_music/routes/routes.dart';
 import 'package:daliy_music/services/connectivityService.dart';
 import 'package:daliy_music/services/weather.dart';
 import 'package:daliy_music/services/youtube.dart';
-import 'package:daliy_music/viewModel/youtubeProvider.dart';
+import 'package:daliy_music/youtube_list/view_models/youtubeProvider.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:kakao_flutter_sdk/kakao_flutter_sdk.dart';

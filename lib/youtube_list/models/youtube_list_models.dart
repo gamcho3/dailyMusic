@@ -1,17 +1,13 @@
-// To parse this JSON data, do
-//
-//     final YoutubeListModel = YoutubeListModelFromJson(jsonString);
-import 'package:http/http.dart' as http;
 import 'dart:convert';
 
-YoutubeListModel youtubeListModelFromJson(String str) =>
-    YoutubeListModel.fromJson(json.decode(str));
+YoutubeModel youtubeModelFromJson(String str) =>
+    YoutubeModel.fromJson(json.decode(str));
 
-String youtubeListModelToJson(YoutubeListModel data) =>
+String youtubeModelToJson(YoutubeModel data) =>
     json.encode(data.toJson());
 
-class YoutubeListModel {
-  YoutubeListModel({
+class YoutubeModel {
+  YoutubeModel({
     required this.kind,
     required this.etag,
     required this.nextPageToken,
@@ -27,8 +23,8 @@ class YoutubeListModel {
   PageInfo pageInfo;
   List<Item> items;
 
-  factory YoutubeListModel.fromJson(Map<String, dynamic> json) =>
-      YoutubeListModel(
+  factory YoutubeModel.fromJson(Map<String, dynamic> json) =>
+      YoutubeModel(
         kind: json["kind"],
         etag: json["etag"],
         nextPageToken: json["nextPageToken"],
