@@ -1,3 +1,4 @@
+import 'dart:async';
 import 'dart:io';
 
 import 'package:daliy_music/youtube_list/view_models/youtubeProvider.dart';
@@ -21,6 +22,7 @@ class SearchPage extends StatefulWidget {
 }
 
 class _SearchPageState extends State<SearchPage> {
+  Timer? _debounce;
   final _textController = TextEditingController();
   FocusNode _focus = FocusNode();
   bool isFocus = true;
@@ -30,10 +32,19 @@ class _SearchPageState extends State<SearchPage> {
     super.initState();
   }
 
+  _onsearchChanged(String query, YoutubeProvider provider) {
+    if (_debounce?.isActive ?? false) _debounce?.cancel();
+    print(query);
+    _debounce = Timer(Duration(milliseconds: 500), () {
+      provider.getYoutubeList(query);
+    });
+  }
+
   @override
   void dispose() {
     super.dispose();
     _focus.dispose();
+    _debounce?.cancel();
   }
 
   @override
@@ -55,6 +66,9 @@ class _SearchPageState extends State<SearchPage> {
                       isFocus = false;
                       setState(() {});
                     },
+                    onChanged: (value) {
+                      _onsearchChanged(value, provider);
+                    },
                     decoration: InputDecoration(
                         contentPadding: const EdgeInsets.symmetric(
                             vertical: 0, horizontal: 12),
@@ -73,17 +87,17 @@ class _SearchPageState extends State<SearchPage> {
                   const SizedBox(
                     height: 15,
                   ),
-                  if (isFocus)
-                    Column(
-                        crossAxisAlignment: CrossAxisAlignment.start,
-                        children: [Text("최근 검색어")]),
+                  // if (isFocus)
+                  //   Column(
+                  //       crossAxisAlignment: CrossAxisAlignment.start,
+                  //       children: [Text("최근 검색어")]),
                   if (provider.loading)
                     const Expanded(
                       child: Center(
                         child: CircularProgressIndicator(),
                       ),
                     ),
-                  if (!isFocus && provider.musicList.isNotEmpty)
+                  if (provider.musicList.isNotEmpty)
                     Expanded(
                       child: ListView.separated(
                           separatorBuilder: ((context, index) {
