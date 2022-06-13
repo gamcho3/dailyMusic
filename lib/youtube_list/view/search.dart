@@ -165,7 +165,7 @@ class _MusicListState extends State<MusicList> {
       file.deleteSync();
     }
     print(file.path);
-    Share.shareFiles([file.path]);
+
     // Open the file in writeAppend.
     // var output = file.openWrite(mode: FileMode.writeOnlyAppend);
 
@@ -192,7 +192,9 @@ class _MusicListState extends State<MusicList> {
   Widget build(BuildContext context) {
     return GestureDetector(
       onTap: () async {
-        downloadYoutube(widget.item.id.videoId);
+        Navigator.pushNamed(context, '/player',
+            arguments: widget.item.id.videoId);
+        //downloadYoutube(widget.item.id.videoId);
       },
       child: Row(crossAxisAlignment: CrossAxisAlignment.center, children: [
         Padding(
