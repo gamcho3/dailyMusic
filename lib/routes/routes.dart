@@ -10,5 +10,4 @@ var customRoutes = <String, WidgetBuilder>{
   '/': (context) => const HomeProvider(),
   '/home': (context) => const HomeScreen(),
   '/search': (context) => const SearchPage(),
-  '/player': ((context) => const PlayerPage())
 };

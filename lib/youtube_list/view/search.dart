@@ -1,17 +1,14 @@
 import 'dart:async';
 import 'dart:io';
-
+import 'package:daliy_music/player/player.dart';
 import 'package:daliy_music/youtube_list/view_models/youtubeProvider.dart';
-
 import 'package:flutter/material.dart';
-import 'package:flutter/services.dart';
-
 import 'package:line_awesome_flutter/line_awesome_flutter.dart';
+import 'package:path_provider/path_provider.dart';
 import 'package:provider/provider.dart';
+import 'package:path/path.dart' as path;
 import 'package:share_plus/share_plus.dart';
-
 import 'package:youtube_explode_dart/youtube_explode_dart.dart';
-
 import '../models/youtube_list_models.dart';
 
 class SearchPage extends StatefulWidget {
@@ -138,63 +135,58 @@ class _MusicListState extends State<MusicList> {
     super.initState();
   }
 
-  downloadYoutube(link) async {
+  Future<File> downloadYoutube(link) async {
     var yt = YoutubeExplode();
     //Directory('downloads').createSync();
     // Get video metadata.
     var video = await yt.videos.get(link);
     // Get the video manifest.
     var manifest = await yt.videos.streamsClient.getManifest(link);
-    var streams = manifest.audioOnly;
-    // Get the audio track with the highest bitrate.
-    var audio = streams.first;
-    var audioStream = yt.videos.streamsClient.get(audio);
-    print(streams.whereType());
-    var fileName = '${video.title}.${audio.container.name}'
-        .replaceAll(r'\', '')
-        .replaceAll('/', '')
-        .replaceAll('*', '')
-        .replaceAll('?', '')
-        .replaceAll('"', '')
-        .replaceAll('<', '')
-        .replaceAll('>', '')
-        .replaceAll('|', '');
-    var file = File('downloads/$fileName');
-    // Delete the file if exists.
-    if (file.existsSync()) {
-      file.deleteSync();
-    }
-    print(file.path);
+    var audio = manifest.videoOnly.last;
+    // Build the directory.
+    var dir = await getApplicationDocumentsDirectory();
+    var filePath =
+        path.join(dir.uri.toFilePath(), '${video.id}.${audio.container.name}');
 
-    // Open the file in writeAppend.
-    // var output = file.openWrite(mode: FileMode.writeOnlyAppend);
-
-    // // Track the file download status.
-    // var len = audio.size.totalBytes;
-    // var count = 0;
-
-    // // Create the message and set the cursor position.
-    // var msg = 'Downloading ${video.title}.${audio.container.name}';
-    // stdout.writeln(msg);
-
-    // // Listen for data received.
-
-    // await for (final data in audioStream) {
-    //   // Write to file.
-    //   output.add(data);
+    // var fileName = '${video.title}.${audio.container.name}'
+    //     .replaceAll(r'\', '')
+    //     .replaceAll('/', '')
+    //     .replaceAll('*', '')
+    //     .replaceAll('?', '')
+    //     .replaceAll('"', '')
+    //     .replaceAll('<', '')
+    //     .replaceAll('>', '')
+    //     .replaceAll('|', '');
+    // var file = File('downloads/$fileName');
+    // // Delete the file if exists.
+    // if (file.existsSync()) {
+    //   file.deleteSync();
     // }
-    // await output.close();
-    // yt.close();
-    // exit(0);
+    //Open the file to write.
+    var file = File(filePath);
+    var fileStream = file.openWrite();
+
+    await yt.videos.streamsClient.get(audio).pipe(fileStream);
+    // Create the message and set the cursor position.
+
+    await fileStream.flush();
+    await fileStream.close();
+    print(filePath);
+    //Share.shareFiles([file.path]);
+    return file;
   }
 
   @override
   Widget build(BuildContext context) {
     return GestureDetector(
       onTap: () async {
-        Navigator.pushNamed(context, '/player',
-            arguments: widget.item.id.videoId);
-        //downloadYoutube(widget.item.id.videoId);
+        downloadYoutube(widget.item.id.videoId).then((value) {
+          Navigator.push(context, MaterialPageRoute(builder: (context) {
+            return PlayerPage(
+              videoFile: value,
+            );
+          }));
+        });
       },
       child: Row(crossAxisAlignment: CrossAxisAlignment.center, children: [
         Padding(
