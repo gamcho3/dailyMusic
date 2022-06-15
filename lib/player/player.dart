@@ -36,12 +36,7 @@ class _PlayerPageState extends State<PlayerPage> {
       BetterPlayerDataSourceType.file,
       widget.videoFile.path,
       notificationConfiguration: const BetterPlayerNotificationConfiguration(
-        showNotification: true,
-        title: "Elephant dream",
-        author: "Some author",
-        imageUrl:
-            "https://upload.wikimedia.org/wikipedia/commons/thumb/3/37/African_Bush_Elephant.jpg/1200px-African_Bush_Elephant.jpg",
-      ),
+          title: "test", showNotification: true, activityName: "test"),
     );
     _betterPlayerController.setupDataSource(dataSource);
   }
@@ -52,11 +47,21 @@ class _PlayerPageState extends State<PlayerPage> {
       appBar: AppBar(
         title: const Text("Example player"),
       ),
-      body: AspectRatio(
-        aspectRatio: 16 / 9,
-        child: BetterPlayer(
-          controller: _betterPlayerController,
-        ),
+      body: Column(
+        children: [
+          const SizedBox(height: 8),
+          Padding(
+            padding: const EdgeInsets.symmetric(horizontal: 16),
+            child: Text(
+              "Click play on player to show notification in status bar.",
+              style: TextStyle(fontSize: 16),
+            ),
+          ),
+          AspectRatio(
+            aspectRatio: 16 / 9,
+            child: BetterPlayer(controller: _betterPlayerController),
+          ),
+        ],
       ),
     );
   }

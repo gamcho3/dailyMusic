@@ -9,7 +9,7 @@
       "client_info": {
         "mobilesdk_app_id": "1:196115385458:android:1b00b8b266ca1236f2c6eb",
         "android_client_info": {
-          "package_name": "com.park.daliy_music"
+          "package_name": "com.example.daliy_music"
         }
       },
       "oauth_client": [
@@ -34,7 +34,7 @@
               "client_id": "196115385458-h94tllpa1f5n32k228fpp0si7qq7i4ta.apps.googleusercontent.com",
               "client_type": 2,
               "ios_info": {
-                "bundle_id": "com.park.daliyMusic"
+                "bundle_id": "com.example.daliyMusic"
               }
             }
           ]

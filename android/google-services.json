@@ -9,7 +9,7 @@
       "client_info": {
         "mobilesdk_app_id": "1:196115385458:android:1b00b8b266ca1236f2c6eb",
         "android_client_info": {
-          "package_name": "com.park.daliy_music"
+          "package_name": "com.example.daliy_music"
         }
       },
       "oauth_client": [
@@ -17,7 +17,7 @@
           "client_id": "196115385458-g3eqinofekqi86i35fobos18c9oucjvh.apps.googleusercontent.com",
           "client_type": 1,
           "android_info": {
-            "package_name": "com.park.daliy_music",
+            "package_name": "com.example.daliy_music",
             "certificate_hash": "161defb44084fc17c7b00b0d374e2e13918dc28c"
           }
         },
@@ -25,7 +25,7 @@
           "client_id": "196115385458-heqia7q154t3p22ateddtn7cd9ho5q8e.apps.googleusercontent.com",
           "client_type": 1,
           "android_info": {
-            "package_name": "com.park.daliy_music",
+            "package_name": "com.example.daliy_music",
             "certificate_hash": "8f9ffff2ed69d743b50dc7559e58e90a9b267b72"
           }
         },
@@ -50,7 +50,7 @@
               "client_id": "196115385458-h94tllpa1f5n32k228fpp0si7qq7i4ta.apps.googleusercontent.com",
               "client_type": 2,
               "ios_info": {
-                "bundle_id": "com.park.daliyMusic"
+                "bundle_id": "com.example.daliyMusic"
               }
             }
           ]

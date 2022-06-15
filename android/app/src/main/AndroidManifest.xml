@@ -1,6 +1,6 @@
 <manifest xmlns:android="http://schemas.android.com/apk/res/android"
 xmlns:tools="http://schemas.android.com/tools"
-    package="com.park.daliy_music">
+    package="com.example.daliy_music">
    <uses-permission android:name="android.permission.ACCESS_FINE_LOCATION" />
    <uses-permission android:name="android.permission.ACCESS_COARSE_LOCATION" />
    <uses-permission android:name="android.permission.INTERNET" />
@@ -8,7 +8,7 @@ xmlns:tools="http://schemas.android.com/tools"
     tools:replace="android:label" 
         android:requestLegacyExternalStorage="true"
         android:label="daliy_music"
-        android:name="데일리뮤직"
+        android:name="${applicationName}"
         android:icon="@mipmap/ic_launcher">
         <activity
             android:name=".MainActivity"

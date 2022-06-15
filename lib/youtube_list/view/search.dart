@@ -142,7 +142,7 @@ class _MusicListState extends State<MusicList> {
     var video = await yt.videos.get(link);
     // Get the video manifest.
     var manifest = await yt.videos.streamsClient.getManifest(link);
-    var audio = manifest.videoOnly.last;
+    var audio = manifest.muxed.last;
     // Build the directory.
     var dir = await getApplicationDocumentsDirectory();
     var filePath =
@@ -168,11 +168,10 @@ class _MusicListState extends State<MusicList> {
 
     await yt.videos.streamsClient.get(audio).pipe(fileStream);
     // Create the message and set the cursor position.
-
+    print(file.path);
     await fileStream.flush();
     await fileStream.close();
-    print(filePath);
-    //Share.shareFiles([file.path]);
+
     return file;
   }
 
