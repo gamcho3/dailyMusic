@@ -2,9 +2,11 @@ import 'dart:io';
 
 import 'package:better_player/better_player.dart';
 import 'package:flutter/material.dart';
+import 'package:line_awesome_flutter/line_awesome_flutter.dart';
+import 'package:shared_preferences/shared_preferences.dart';
 
 class PlayerPage extends StatefulWidget {
-  final File videoFile;
+  final File? videoFile;
   const PlayerPage({
     Key? key,
     required this.videoFile,
@@ -34,9 +36,15 @@ class _PlayerPageState extends State<PlayerPage> {
   void _setupDataSource() async {
     BetterPlayerDataSource dataSource = BetterPlayerDataSource(
       BetterPlayerDataSourceType.file,
-      widget.videoFile.path,
+      widget.videoFile!.path,
       notificationConfiguration: const BetterPlayerNotificationConfiguration(
-          title: "test", showNotification: true, activityName: "test"),
+        showNotification: true,
+        title: "Elephant dream",
+        author: "Some author",
+        imageUrl:
+            "https://upload.wikimedia.org/wikipedia/commons/thumb/3/37/African_Bush_Elephant.jpg/1200px-African_Bush_Elephant.jpg",
+        activityName: "MainActivity",
+      ),
     );
     _betterPlayerController.setupDataSource(dataSource);
   }
@@ -49,18 +57,18 @@ class _PlayerPageState extends State<PlayerPage> {
       ),
       body: Column(
         children: [
-          const SizedBox(height: 8),
-          Padding(
-            padding: const EdgeInsets.symmetric(horizontal: 16),
-            child: Text(
-              "Click play on player to show notification in status bar.",
-              style: TextStyle(fontSize: 16),
-            ),
-          ),
           AspectRatio(
             aspectRatio: 16 / 9,
             child: BetterPlayer(controller: _betterPlayerController),
           ),
+          Expanded(
+            child: IconButton(
+              onPressed: () async {
+                await _betterPlayerController.videoPlayerController?.pause();
+              },
+              icon: Icon(LineAwesomeIcons.pause_circle),
+            ),
+          )
         ],
       ),
     );

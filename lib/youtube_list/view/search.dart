@@ -8,6 +8,7 @@ import 'package:path_provider/path_provider.dart';
 import 'package:provider/provider.dart';
 import 'package:path/path.dart' as path;
 import 'package:share_plus/share_plus.dart';
+import 'package:shared_preferences/shared_preferences.dart';
 import 'package:youtube_explode_dart/youtube_explode_dart.dart';
 import '../models/youtube_list_models.dart';
 
@@ -54,32 +55,48 @@ class _SearchPageState extends State<SearchPage> {
               padding: const EdgeInsets.only(left: 20, right: 20),
               child: Column(
                 children: [
-                  TextField(
-                    autofocus: true,
-                    focusNode: _focus,
-                    controller: _textController,
-                    onSubmitted: (value) {
-                      provider.getYoutubeList(value);
-                      isFocus = false;
-                      setState(() {});
-                    },
-                    onChanged: (value) {
-                      _onsearchChanged(value, provider);
-                    },
-                    decoration: InputDecoration(
-                        contentPadding: const EdgeInsets.symmetric(
-                            vertical: 0, horizontal: 12),
-                        border: OutlineInputBorder(
-                            borderRadius: BorderRadius.circular(20)),
-                        suffixIcon: _textController.text.isEmpty
-                            ? null
-                            : IconButton(
-                                onPressed: (() {
-                                  _textController.clear();
-                                }),
-                                icon: const Icon(LineAwesomeIcons.times)),
-                        hintText: "노래,아티스트 검색"),
-                    maxLines: 1,
+                  Row(
+                    mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                    children: [
+                      Expanded(
+                        flex: 1,
+                        child: GestureDetector(
+                            onTap: () {
+                              Navigator.pop(context);
+                            },
+                            child: const Icon(LineAwesomeIcons.arrow_left)),
+                      ),
+                      Expanded(
+                        flex: 6,
+                        child: TextField(
+                          autofocus: true,
+                          focusNode: _focus,
+                          controller: _textController,
+                          onSubmitted: (value) {
+                            provider.getYoutubeList(value);
+                            isFocus = false;
+                            setState(() {});
+                          },
+                          onChanged: (value) {
+                            // _onsearchChanged(value, provider);
+                          },
+                          decoration: InputDecoration(
+                              contentPadding: const EdgeInsets.symmetric(
+                                  vertical: 0, horizontal: 12),
+                              border: OutlineInputBorder(
+                                  borderRadius: BorderRadius.circular(20)),
+                              suffixIcon: _textController.text.isEmpty
+                                  ? null
+                                  : IconButton(
+                                      onPressed: (() {
+                                        _textController.clear();
+                                      }),
+                                      icon: const Icon(LineAwesomeIcons.times)),
+                              hintText: "노래,아티스트 검색"),
+                          maxLines: 1,
+                        ),
+                      ),
+                    ],
                   ),
                   const SizedBox(
                     height: 15,
@@ -136,6 +153,7 @@ class _MusicListState extends State<MusicList> {
   }
 
   Future<File> downloadYoutube(link) async {
+    final prefs = await SharedPreferences.getInstance();
     var yt = YoutubeExplode();
     //Directory('downloads').createSync();
     // Get video metadata.
@@ -168,6 +186,7 @@ class _MusicListState extends State<MusicList> {
 
     await yt.videos.streamsClient.get(audio).pipe(fileStream);
     // Create the message and set the cursor position.
+    prefs.setString("music", file.path);
     print(file.path);
     await fileStream.flush();
     await fileStream.close();

@@ -52,7 +52,6 @@ class _BottomNavigationPageState extends State<BottomNavigationPage> {
       body: <Widget>[
         const LibraryPage(),
         Container(color: Colors.white, child: const Text('list')),
-        Container(color: Colors.white, child: const Text('list')),
         Container(color: Colors.white, child: const Text('More'))
       ][currentPageIndex],
       bottomNavigationBar: NavigationBar(
@@ -67,8 +66,6 @@ class _BottomNavigationPageState extends State<BottomNavigationPage> {
               icon: Icon(LineAwesomeIcons.home), label: 'Home'),
           NavigationDestination(
               icon: Icon(LineAwesomeIcons.headphones), label: 'PlayList'),
-          NavigationDestination(
-              icon: Icon(LineAwesomeIcons.search), label: 'Search'),
           NavigationDestination(icon: Icon(Icons.more_horiz), label: 'More'),
         ],
       ),
