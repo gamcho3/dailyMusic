@@ -224,7 +224,7 @@ class Wind {
 }
 
 class WeatherAPI {
-  Future getWeather<WeatherModel>(double lat, double lon) async {
+  static Future getWeather<WeatherModel>(double lat, double lon) async {
     const appId = '8db55fc21a695d9d1bc4a050faaa8af9';
     final response = await http
         .get(Uri.parse(

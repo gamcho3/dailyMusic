@@ -39,7 +39,7 @@ class YoutubeServices {
     try {
       String videoCategoryId = "10";
 
-      String regionCode = "KR";
+      String regionCode = region;
 
       String url =
           'https://www.googleapis.com/youtube/v3/videos?key=${ApiKey.youtubeKey}&part=snippet&chart=mostPopular&videoCategoryId=$videoCategoryId&regionCode=$regionCode';

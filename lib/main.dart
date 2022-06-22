@@ -1,16 +1,8 @@
 import 'package:daliy_music/bottom_navigation.dart';
-import 'package:daliy_music/home/home_screen.dart';
 import 'package:daliy_music/routes/routes.dart';
-
-import 'package:daliy_music/services/connectivityService.dart';
-import 'package:daliy_music/services/weather.dart';
-import 'package:daliy_music/services/youtube.dart';
+import 'package:daliy_music/youtube_list/view_models/card.dart';
 import 'package:daliy_music/youtube_list/view_models/youtubeProvider.dart';
 import 'package:flutter/material.dart';
-import 'package:flutter_bloc/flutter_bloc.dart';
-import 'package:kakao_flutter_sdk/kakao_flutter_sdk.dart';
-import 'package:firebase_core/firebase_core.dart';
-
 import 'package:google_fonts/google_fonts.dart';
 import 'package:provider/provider.dart';
 
@@ -34,8 +26,15 @@ class _MyAppState extends State<MyApp> {
     return MultiProvider(
       providers: [
         ChangeNotifierProvider(create: (context) => YoutubeProvider()),
+        ChangeNotifierProvider(create: (context) => CardProvider()),
       ],
       child: MaterialApp(
+        builder: (context, child) => MediaQuery(
+          data: MediaQuery.of(context).copyWith(
+            textScaleFactor: 1.0,
+          ),
+          child: child!,
+        ),
         initialRoute: '/',
         routes: customRoutes,
         title: 'Flutter Demo',

@@ -1,4 +1,5 @@
 import 'package:daliy_music/library/library.dart';
+import 'package:daliy_music/playlist/play_list.dart';
 
 import 'package:flutter/material.dart';
 import 'package:line_awesome_flutter/line_awesome_flutter.dart';
@@ -21,7 +22,7 @@ class _BottomNavigationPageState extends State<BottomNavigationPage> {
           backgroundColor: Theme.of(context).colorScheme.background,
           elevation: 0,
           title: const Text(
-            "daily Music",
+            "Daily Music",
             style: TextStyle(
                 color: Colors.black, fontWeight: FontWeight.bold, fontSize: 25),
           ),
@@ -51,7 +52,7 @@ class _BottomNavigationPageState extends State<BottomNavigationPage> {
           ]),
       body: <Widget>[
         const LibraryPage(),
-        Container(color: Colors.white, child: const Text('list')),
+        const PlayListPage(),
         Container(color: Colors.white, child: const Text('More'))
       ][currentPageIndex],
       bottomNavigationBar: NavigationBar(
