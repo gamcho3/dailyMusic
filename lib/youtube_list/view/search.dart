@@ -1,5 +1,6 @@
 import 'dart:async';
 import 'dart:io';
+import 'package:daliy_music/db/database.dart';
 import 'package:daliy_music/player/player.dart';
 import 'package:daliy_music/youtube_list/view_models/youtubeProvider.dart';
 import 'package:flutter/material.dart';
@@ -146,6 +147,7 @@ class MusicList extends StatefulWidget {
 }
 
 class _MusicListState extends State<MusicList> {
+  bool isCheck = false;
   @override
   void initState() {
     super.initState();
@@ -241,7 +243,20 @@ class _MusicListState extends State<MusicList> {
                 //Text(state.items[1].snippet.description)
               ],
             ),
-          )
+          ),
+          IconButton(
+              onPressed: () {
+                if (isCheck) {
+                  return;
+                } else {
+                  setState(() {
+                    isCheck = true;
+                  });
+                }
+              },
+              icon: isCheck
+                  ? Icon(LineAwesomeIcons.check)
+                  : Icon(LineAwesomeIcons.plus))
         ],
       ),
     );

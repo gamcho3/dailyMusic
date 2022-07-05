@@ -4,56 +4,6 @@
 
 import 'dart:convert';
 
-List<CardList> cardListFromJson(String str) =>
-    List<CardList>.from(json.decode(str).map((x) => CardList.fromJson(x)));
-
-String cardListToJson(List<CardList> data) =>
-    json.encode(List<dynamic>.from(data.map((x) => x.toJson())));
-
-class CardList {
-  CardList({
-    required this.title,
-    required this.image,
-    required this.musicList,
-  });
-
-  String title;
-  Image image;
-  List<String> musicList;
-
-  factory CardList.fromJson(Map<String, dynamic> json) => CardList(
-        title: json["title"],
-        image: Image.fromJson(json["image"]),
-        musicList: List<String>.from(json["musicList"].map((x) => x)),
-      );
-
-  Map<String, dynamic> toJson() => {
-        "title": title,
-        "image": image.toJson(),
-        "musicList": List<dynamic>.from(musicList.map((x) => x)),
-      };
-}
-
-class Image {
-  Image({
-    required this.hot,
-    required this.cool,
-  });
-
-  String hot;
-  String cool;
-
-  factory Image.fromJson(Map<String, dynamic> json) => Image(
-        hot: json["hot"],
-        cool: json["cool"],
-      );
-
-  Map<String, dynamic> toJson() => {
-        "hot": hot,
-        "cool": cool,
-      };
-}
-
 class TestCard {
   static List items = [
     {

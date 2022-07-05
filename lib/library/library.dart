@@ -27,6 +27,40 @@ class _LibraryPageState extends State<LibraryPage> {
   Widget build(BuildContext context) {
     var size = MediaQuery.of(context).size;
     return Scaffold(
+      appBar: AppBar(
+          centerTitle: false,
+          titleSpacing: 15,
+          backgroundColor: Theme.of(context).colorScheme.background,
+          elevation: 0,
+          title: const Text(
+            "Daily Music",
+            style: TextStyle(
+                color: Colors.black, fontWeight: FontWeight.bold, fontSize: 25),
+          ),
+          actions: [
+            Padding(
+              padding: const EdgeInsets.only(right: 10),
+              child: Row(
+                children: [
+                  IconButton(
+                    onPressed: () {
+                      Navigator.pushNamed(context, '/search');
+                    },
+                    icon: Icon(
+                      Icons.search,
+                      color: Theme.of(context).colorScheme.primary,
+                    ),
+                  ),
+                  GestureDetector(
+                    onTap: () {},
+                    child: CircleAvatar(
+                      backgroundColor: Theme.of(context).colorScheme.primary,
+                    ),
+                  )
+                ],
+              ),
+            ),
+          ]),
       body: Consumer<CardProvider>(builder: (context, provider, child) {
         return SingleChildScrollView(
           child: SizedBox(

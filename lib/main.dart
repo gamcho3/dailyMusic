@@ -1,4 +1,5 @@
 import 'package:daliy_music/bottom_navigation.dart';
+import 'package:daliy_music/playlist/viewModel/playlist.dart';
 import 'package:daliy_music/routes/routes.dart';
 import 'package:daliy_music/youtube_list/view_models/card.dart';
 import 'package:daliy_music/youtube_list/view_models/youtubeProvider.dart';
@@ -27,6 +28,7 @@ class _MyAppState extends State<MyApp> {
       providers: [
         ChangeNotifierProvider(create: (context) => YoutubeProvider()),
         ChangeNotifierProvider(create: (context) => CardProvider()),
+        ChangeNotifierProvider(create: (context) => PlayListProvider()),
       ],
       child: MaterialApp(
         builder: (context, child) => MediaQuery(
