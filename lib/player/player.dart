@@ -1,17 +1,16 @@
 import 'dart:io';
 
 import 'package:better_player/better_player.dart';
+import 'package:daliy_music/playlist/model/music_files.dart';
 import 'package:flutter/material.dart';
 import 'package:line_awesome_flutter/line_awesome_flutter.dart';
 import 'package:marquee/marquee.dart';
 
 class PlayerPage extends StatefulWidget {
-  final List<File> videoFiles;
-  final List items;
+  final List<MusicFiles> items;
 
   const PlayerPage({
     Key? key,
-    required this.videoFiles,
     required this.items,
   }) : super(key: key);
 
@@ -22,6 +21,7 @@ class PlayerPage extends StatefulWidget {
 class _PlayerPageState extends State<PlayerPage> {
   //late BetterPlayerController _betterPlayerController;
   bool isPause = false;
+  double rating = 0.5;
   final GlobalKey<BetterPlayerPlaylistState> _betterPlayerPlaylistStateKey =
       GlobalKey();
   late BetterPlayerConfiguration _betterPlayerConfiguration;
@@ -61,16 +61,15 @@ class _PlayerPageState extends State<PlayerPage> {
   // }
 
   List<BetterPlayerDataSource> createDataSet() {
-    for (var i = 0; i < widget.videoFiles.length; i++) {
+    for (var i = 0; i < widget.items.length; i++) {
       _dataSourceList.add(
         BetterPlayerDataSource(
           BetterPlayerDataSourceType.file,
-          widget.videoFiles[i].path,
+          widget.items[i].musicFilePath,
           notificationConfiguration: BetterPlayerNotificationConfiguration(
               showNotification: true,
-              title: widget.items[i]['title'],
-              author: widget.items[i]['singer'],
-              imageUrl: widget.items[i]['thumbnail']),
+              title: widget.items[i].title,
+              imageUrl: widget.items[i].imgUrl),
         ),
       );
     }
@@ -106,7 +105,11 @@ class _PlayerPageState extends State<PlayerPage> {
           SizedBox(
             height: 50,
             child: Marquee(
-              text: 'qwerqrwqer',
+              text: widget
+                  .items[
+                      _betterPlayerPlaylistController?.currentDataSourceIndex ??
+                          0]
+                  .title,
               style: const TextStyle(fontWeight: FontWeight.bold, fontSize: 20),
               blankSpace: 20.0,
               scrollAxis: Axis.horizontal,
@@ -133,6 +136,7 @@ class _PlayerPageState extends State<PlayerPage> {
                       ? null
                       : () {
                           _betterPlayerPlaylistController?.setupDataSource(0);
+                          setState(() {});
                         },
                   icon: const Icon(
                     LineAwesomeIcons.reply,
@@ -162,18 +166,19 @@ class _PlayerPageState extends State<PlayerPage> {
                 IconButton(
                   color:
                       _betterPlayerPlaylistController?.currentDataSourceIndex ==
-                              4
+                              widget.items.length - 1
                           ? Colors.grey
                           : Colors.black,
                   iconSize: 50,
                   onPressed:
                       _betterPlayerPlaylistController?.currentDataSourceIndex ==
-                              4
+                              widget.items.length - 1
                           ? null
                           : () {
                               _betterPlayerPlaylistController
                                   ?.betterPlayerController
                                   ?.playNextVideo();
+                              setState(() {});
                             },
                   icon: const Icon(
                     LineAwesomeIcons.step_forward,
@@ -182,7 +187,15 @@ class _PlayerPageState extends State<PlayerPage> {
               ],
             ),
           ),
-
+          Slider(
+              value: rating,
+              onChanged: (newRating) {
+                setState(() {
+                  rating = newRating;
+                  _betterPlayerPlaylistController?.betterPlayerController!
+                      .setVolume(rating);
+                });
+              })
           // ElevatedButton(
           //   onPressed: () {
           //     var list = [

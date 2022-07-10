@@ -1,5 +1,8 @@
 import 'dart:io';
 import 'package:daliy_music/player/player.dart';
+import 'package:daliy_music/playlist/model/music_files.dart';
+import 'package:daliy_music/playlist/model/playList.dart';
+import 'package:daliy_music/playlist/viewModel/playlist.dart';
 import 'package:daliy_music/youtube_list/view_models/card.dart';
 import 'package:flutter/material.dart';
 import 'package:line_awesome_flutter/line_awesome_flutter.dart';
@@ -9,7 +12,7 @@ import 'package:provider/provider.dart';
 import 'package:youtube_explode_dart/youtube_explode_dart.dart';
 
 class CardDetail extends StatefulWidget {
-  final Map item;
+  final PlayList item;
   const CardDetail({Key? key, required this.item}) : super(key: key);
 
   @override
@@ -18,32 +21,43 @@ class CardDetail extends StatefulWidget {
 
 class _CardDetailState extends State<CardDetail> {
   @override
+  void initState() {
+    WidgetsBinding.instance.addPostFrameCallback((timeStamp) {
+      context.read<PlayListProvider>().readPlayList(widget.item.id);
+    });
+
+    super.initState();
+  }
+
+  @override
   Widget build(BuildContext context) {
-    bool loading = context.watch<CardProvider>().isLoading;
-    Future<File> downloadYoutube(link) async {
-      var yt = YoutubeExplode();
-      //Directory('downloads').createSync();
-      // Get video metadata.
-      var video = await yt.videos.get(link);
-      // Get the video manifest.
-      var manifest = await yt.videos.streamsClient.getManifest(link);
+    var list = context.watch<PlayListProvider>().playList;
 
-      var audio = manifest.audio[1];
-      // Build the directory.
-      var dir = await getApplicationDocumentsDirectory();
-      var filePath = path.join(
-          dir.uri.toFilePath(), '${video.id}.${audio.container.name}');
+    // bool loading = context.watch<CardProvider>().isLoading;
+    // Future<File> downloadYoutube(link) async {
+    //   var yt = YoutubeExplode();
+    //   //Directory('downloads').createSync();
+    //   // Get video metadata.
+    //   var video = await yt.videos.get(link);
+    //   // Get the video manifest.
+    //   var manifest = await yt.videos.streamsClient.getManifest(link);
 
-      var file = File(filePath);
-      var fileStream = file.openWrite();
+    //   var audio = manifest.audio[1];
+    //   // Build the directory.
+    //   var dir = await getApplicationDocumentsDirectory();
+    //   var filePath = path.join(
+    //       dir.uri.toFilePath(), '${video.id}.${audio.container.name}');
 
-      await yt.videos.streamsClient.get(audio).pipe(fileStream);
-      // Create the message and set the cursor position.
+    //   var file = File(filePath);
+    //   var fileStream = file.openWrite();
 
-      await fileStream.flush();
-      await fileStream.close();
-      return file;
-    }
+    //   await yt.videos.streamsClient.get(audio).pipe(fileStream);
+    //   // Create the message and set the cursor position.
+
+    //   await fileStream.flush();
+    //   await fileStream.close();
+    //   return file;
+    // }
 
     return Scaffold(
       body: Stack(
@@ -58,8 +72,8 @@ class _CardDetailState extends State<CardDetail> {
                 flexibleSpace: FlexibleSpaceBar(
                     background: SizedBox(
                         width: double.infinity,
-                        child: Image.network(
-                          widget.item['image']["hot"],
+                        child: Image.asset(
+                          widget.item.imgUrl,
                           fit: BoxFit.fill,
                         ))),
               ),
@@ -73,26 +87,11 @@ class _CardDetailState extends State<CardDetail> {
                       alignment: Alignment.centerRight,
                       child: GestureDetector(
                           onTap: () async {
-                            context.read<CardProvider>().updateLoading(true);
-                            List<File> list = [];
-                            for (var i = 0;
-                                i < widget.item['musicList'].length;
-                                i++) {
-                              list.add(
-                                await downloadYoutube(
-                                  widget.item['musicList'][i]['musicCode'],
-                                ),
-                              );
-                            }
-                            // ignore: use_build_context_synchronously
-                            context.read<CardProvider>().updateLoading(false);
-                            print(list.length);
                             // ignore: use_build_context_synchronously
                             Navigator.push(context,
                                 MaterialPageRoute(builder: ((context) {
                               return PlayerPage(
-                                videoFiles: list,
-                                items: widget.item['musicList'],
+                                items: list,
                               );
                             })));
                           },
@@ -107,37 +106,17 @@ class _CardDetailState extends State<CardDetail> {
                             ),
                           )),
                     ),
-                    for (var i = 0; i < widget.item['musicList'].length; i++)
-                      MusicTile(
-                        item: widget.item,
-                        index: i,
-                      ),
+                    if (list.isNotEmpty)
+                      for (var i = 0; i < list.length; i++)
+                        MusicTile(
+                          item: list[i],
+                          index: i,
+                        ),
                   ]),
                 ),
               )
             ],
           ),
-          if (loading)
-            Container(
-              height: double.infinity,
-              width: double.infinity,
-              color: Colors.black.withOpacity(0.5),
-              child: Center(
-                  child: Column(
-                mainAxisAlignment: MainAxisAlignment.center,
-                crossAxisAlignment: CrossAxisAlignment.center,
-                children: [
-                  Padding(
-                    padding: const EdgeInsets.all(8.0),
-                    child: Text(
-                      "노래 준비중...",
-                      style: TextStyle(color: Colors.white, fontSize: 15),
-                    ),
-                  ),
-                  CircularProgressIndicator(),
-                ],
-              )),
-            )
         ],
       ),
     );
@@ -152,7 +131,7 @@ class MusicTile extends StatelessWidget {
   }) : super(key: key);
 
   final int index;
-  final Map item;
+  final MusicFiles item;
 
   @override
   Widget build(BuildContext context) {
@@ -164,13 +143,12 @@ class MusicTile extends StatelessWidget {
           decoration: BoxDecoration(borderRadius: BorderRadius.circular(5)),
           clipBehavior: Clip.antiAlias,
           child: Image.network(
-            item['musicList'][index]['thumbnail'],
+            item.imgUrl,
             fit: BoxFit.fill,
           ),
         ),
       ),
-      title: Text(item['musicList'][index]['title']),
-      subtitle: Text(item['musicList'][index]['singer']),
+      title: Text(item.title),
     );
   }
 }

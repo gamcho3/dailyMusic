@@ -1,8 +1,10 @@
 import 'dart:io';
 import 'package:daliy_music/youtube_list/models/youtube_list_models.dart';
+import 'package:daliy_music/youtube_list/view_models/card.dart';
 import 'package:flutter/material.dart';
 import 'package:line_awesome_flutter/line_awesome_flutter.dart';
 import 'package:path_provider/path_provider.dart';
+import 'package:provider/provider.dart';
 import 'package:youtube_explode_dart/youtube_explode_dart.dart';
 
 class MusicList extends StatefulWidget {
@@ -108,7 +110,11 @@ class _MusicListState extends State<MusicList> {
                 if (isCheck) {
                   return;
                 } else {
-                  var result = await downloadYoutube(widget.item.id.videoId);
+                  context.read<CardProvider>().addPlayList(
+                      widget.item.snippet.thumbnails.medium.url,
+                      widget.item.snippet.title,
+                      widget.item.id.videoId);
+                  // var result = await downloadYoutube(widget.item.id.videoId);
                   setState(() {
                     isCheck = true;
                   });

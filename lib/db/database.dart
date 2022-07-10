@@ -26,6 +26,7 @@ class PlayListDatabase {
   Future _createDB(Database db, int version) async {
     const idType = 'INTEGER PRIMARY KEY AUTOINCREMENT';
     const textType = 'TEXT NOT NULL';
+    const intType = "INTEGER NOT NULL";
 
 //table 생성
     await db.execute('''
@@ -40,9 +41,9 @@ CREATE TABLE $tablePlayLists (
 CREATE TABLE $tableMusicFiles (
   ${MusicFilesFields.id} $idType,
   ${MusicFilesFields.imgUrl} $textType,
-  ${MusicFilesFields.name} $textType,
   ${MusicFilesFields.title} $textType,
-  ${MusicFilesFields.filePath} $textType 
+  ${MusicFilesFields.filePath} $textType,
+  ${MusicFilesFields.cardNum} $intType
 )
 ''');
   }
@@ -53,16 +54,20 @@ CREATE TABLE $tableMusicFiles (
     return file.copy(id: id);
   }
 
-  Future<MusicFiles> readFiles(int id) async {
+  Future<List<MusicFiles>> readFiles(int cardNum) async {
     final db = await instance.database;
-    final maps = await db.query(tablePlayLists,
+    final maps = await db.query(tableMusicFiles,
         columns: MusicFilesFields.values,
-        where: '${MusicFilesFields.id} = ?',
-        whereArgs: [id]);
+        where: '${MusicFilesFields.cardNum} = ?',
+        whereArgs: [cardNum]);
+    print(maps);
     if (maps.isNotEmpty) {
-      return MusicFiles.fromJson(maps.first);
+      List<MusicFiles> result = maps.map((e) {
+        return MusicFiles.fromJson(e);
+      }).toList();
+      return result;
     } else {
-      throw Exception('ID $id not found');
+      throw Exception('ID $cardNum not found');
     }
   }
 
