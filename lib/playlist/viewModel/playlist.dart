@@ -3,6 +3,7 @@ import 'dart:io';
 import 'package:daliy_music/db/database.dart';
 import 'package:flutter/material.dart';
 
+import '../model/music_files.dart';
 import '../model/playList.dart';
 
 class PlayListProvider with ChangeNotifier {
@@ -25,7 +26,8 @@ class PlayListProvider with ChangeNotifier {
       List<MusicFiles>? musicFiles,
       required String content}) async {
     final list = PlayList(imgUrl: imgUrl, title: title, content: content);
-    await PlayListDatabase.instance.create(list);
+    var result = await PlayListDatabase.instance.create(list);
+    print(result);
     getAllLists();
   }
 }

@@ -1,5 +1,6 @@
 import 'package:sqflite/sqflite.dart';
 import 'package:path/path.dart';
+import '../playlist/model/music_files.dart';
 import '../playlist/model/playList.dart';
 
 class PlayListDatabase {
@@ -26,6 +27,7 @@ class PlayListDatabase {
     const idType = 'INTEGER PRIMARY KEY AUTOINCREMENT';
     const textType = 'TEXT NOT NULL';
 
+//table 생성
     await db.execute('''
 CREATE TABLE $tablePlayLists (
   ${PlayListFields.id} $idType,
