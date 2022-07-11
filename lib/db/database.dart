@@ -113,6 +113,12 @@ CREATE TABLE $tableMusicFiles (
         where: '${PlayListFields.id} = ?', whereArgs: [id]);
   }
 
+  Future deleteMusics(int musicNum) async {
+    final db = await instance.database;
+    return await db.delete(tableMusicFiles,
+        where: '${MusicFilesFields.cardNum} = ?', whereArgs: [musicNum]);
+  }
+
   Future close() async {
     final db = await instance.database;
     db.close();

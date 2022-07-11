@@ -39,4 +39,9 @@ class CardProvider with ChangeNotifier {
     _playList.removeAt(index);
     notifyListeners();
   }
+
+  void deletePlayListAll() {
+    _playList.clear();
+    notifyListeners();
+  }
 }

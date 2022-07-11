@@ -18,34 +18,17 @@ class YoutubeProvider with ChangeNotifier {
   bool get loading => _loading;
   //MARK: - setter
 
-  YoutubeProvider() {
-    popularYoutubeList();
-    popularYoutubeListUs();
-  }
-
   setLoading(bool loading) async {
     _loading = loading;
     notifyListeners();
   }
 
-  Future loadMainPage() async {
-    popularYoutubeList();
-    popularYoutubeListUs();
-  }
+  Future loadMainPage() async {}
 
   setYoutubeListModel(YoutubeModel youtubeListModel) {
     print('search');
     _musicList = youtubeListModel.items;
     notifyListeners();
-  }
-
-  setPopularList(PopularList list) {
-    _popularList = list.items;
-    notifyListeners();
-  }
-
-  setPopularListUs(PopularList list) {
-    _popularListUs = list.items;
   }
 
   getYoutubeList(keyword) async {
@@ -55,20 +38,6 @@ class YoutubeProvider with ChangeNotifier {
     if (response is Success) {
       setYoutubeListModel(response.response as YoutubeModel);
       setLoading(false);
-    }
-  }
-
-  popularYoutubeList() async {
-    var response = await YoutubeServices.popularYoutubeList();
-    if (response is Success) {
-      setPopularList(response.response as PopularList);
-    }
-  }
-
-  popularYoutubeListUs() async {
-    var response = await YoutubeServices.popularYoutubeList(region: "US");
-    if (response is Success) {
-      setPopularListUs(response.response as PopularList);
     }
   }
 

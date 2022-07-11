@@ -1,5 +1,6 @@
 import 'package:daliy_music/library/widget/main_title.dart';
 import 'package:daliy_music/library/widget/music_list.dart';
+import 'package:daliy_music/services/weather.dart';
 import 'package:daliy_music/youtube_list/view_models/card.dart';
 
 import 'package:daliy_music/youtube_list/view_models/youtubeProvider.dart';
@@ -8,6 +9,8 @@ import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 
 import 'package:shimmer/shimmer.dart';
+
+import '../API/API_list.dart';
 
 class LibraryPage extends StatefulWidget {
   const LibraryPage({Key? key}) : super(key: key);
@@ -19,8 +22,19 @@ class LibraryPage extends StatefulWidget {
 class _LibraryPageState extends State<LibraryPage> {
   @override
   void initState() {
-    // TODO: implement initState
+    WidgetsBinding.instance.addPostFrameCallback((timeStamp) {
+      obtainWeather();
+    });
     super.initState();
+  }
+
+  void obtainWeather() async {
+    var result = await LocationAPI.determinePosition();
+    if (result != null) {
+      WeatherModel data =
+          await WeatherAPI.getWeather(result.latitude, result.longitude);
+      print(data.main.temp);
+    }
   }
 
   @override

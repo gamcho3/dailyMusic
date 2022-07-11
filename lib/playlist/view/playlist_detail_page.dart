@@ -75,6 +75,7 @@ class _PlayListDetailPageState extends State<PlayListDetailPage> {
                     content: content!,
                     musicFiles: playList);
                 context.read<CardProvider>().updateLoading(false);
+
                 Navigator.pop(context);
               }
             },

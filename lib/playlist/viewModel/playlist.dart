@@ -48,4 +48,14 @@ class PlayListProvider with ChangeNotifier {
 
     getAllLists();
   }
+
+  void deleteCard(id, List<MusicFiles> playList) async {
+    await PlayListDatabase.instance.delete(id);
+    await PlayListDatabase.instance.deleteMusics(id);
+    for (var i = 0; i < playList.length; i++) {
+      var file = File(playList[i].musicFilePath);
+      await file.delete();
+    }
+    getAllLists();
+  }
 }

@@ -11,6 +11,7 @@ import 'package:line_awesome_flutter/line_awesome_flutter.dart';
 import 'package:modal_bottom_sheet/modal_bottom_sheet.dart';
 import 'package:provider/provider.dart';
 
+import '../../youtube_list/view_models/card.dart';
 import '../model/playList.dart';
 
 class PlayListPage extends StatefulWidget {
@@ -41,12 +42,10 @@ class _PlayListPageState extends State<PlayListPage> {
         appBar: AppBar(title: Text('플레이리스트'), centerTitle: true, actions: [
           IconButton(
               onPressed: () {
-                // Navigator.push(context, MaterialPageRoute(builder: ((context) {
-                //   return PlayListDetailPage();
-                // })));
+                context.read<CardProvider>().deletePlayListAll();
                 showCupertinoModalBottomSheet(
                     context: context,
-                    builder: (context) => PlayListDetailPage());
+                    builder: (context) => const PlayListDetailPage());
               },
               icon: const Icon(LineAwesomeIcons.plus))
         ]),
