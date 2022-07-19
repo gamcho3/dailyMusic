@@ -115,11 +115,11 @@ class _PlayListDetailPageState extends State<PlayListDetailPage> {
                           setState(() {});
                         },
                         itemBuilder: (context) => [
-                          PopupMenuItem(
+                          const PopupMenuItem(
                             child: Text("사진 찍기"),
                             value: 0,
                           ),
-                          PopupMenuItem(
+                          const PopupMenuItem(
                             child: Text("사진 선택"),
                             value: 1,
                           )
@@ -138,7 +138,7 @@ class _PlayListDetailPageState extends State<PlayListDetailPage> {
                       ),
                     ),
                   )),
-                  SizedBox(
+                  const SizedBox(
                     height: 30,
                   ),
                   MusicTextField(
@@ -148,7 +148,7 @@ class _PlayListDetailPageState extends State<PlayListDetailPage> {
                       title = value;
                     },
                   ),
-                  SizedBox(
+                  const SizedBox(
                     height: 10,
                   ),
                   MusicTextField(
@@ -171,55 +171,50 @@ class _PlayListDetailPageState extends State<PlayListDetailPage> {
                             children: [
                               Row(
                                 crossAxisAlignment: CrossAxisAlignment.center,
-                                children: [
+                                children: const [
                                   Icon(
                                     LineAwesomeIcons.plus,
                                     color: Colors.green,
                                   ),
-                                  const Text(
+                                  Text(
                                     '노래 추가',
                                     style: TextStyle(color: Colors.red),
                                   ),
                                 ],
                               ),
-                              Divider(
+                              const Divider(
                                 thickness: 3,
                               ),
                             ],
                           ))),
                   if (playList.isNotEmpty)
                     for (var i = 0; i < playList.length; i++)
-                      Padding(
-                        padding: const EdgeInsets.only(bottom: 10),
-                        child: ListTile(
-                          dense: true,
-                          leading: Row(
-                            mainAxisSize: MainAxisSize.min,
-                            children: [
-                              GestureDetector(
-                                onTap: () {
-                                  context
-                                      .read<CardProvider>()
-                                      .deletePlayList(i);
-                                },
-                                child: Icon(
-                                  LineAwesomeIcons.minus,
-                                  color: Colors.red,
-                                ),
+                      ListTile(
+                        dense: true,
+                        leading: Row(
+                          mainAxisSize: MainAxisSize.min,
+                          children: [
+                            GestureDetector(
+                              onTap: () {
+                                context.read<CardProvider>().deletePlayList(i);
+                              },
+                              child: const Icon(
+                                LineAwesomeIcons.minus,
+                                color: Colors.red,
                               ),
-                              SizedBox(
-                                width: 10,
-                              ),
-                              Image.network(
-                                playList[i]['imageUrl'],
-                                width: 50,
-                                height: 50,
-                                fit: BoxFit.fill,
-                              )
-                            ],
-                          ),
-                          title: Text(playList[i]['title']),
+                            ),
+                            const SizedBox(
+                              width: 10,
+                            ),
+                            Image.network(
+                              playList[i]['imageUrl'],
+                              width: 50,
+                              height: 50,
+                              fit: BoxFit.fill,
+                            )
+                          ],
                         ),
+                        title: Text(playList[i]['title']),
                       )
                 ],
               ),
@@ -234,11 +229,11 @@ class _PlayListDetailPageState extends State<PlayListDetailPage> {
                 child: Column(
                   mainAxisAlignment: MainAxisAlignment.center,
                   crossAxisAlignment: CrossAxisAlignment.center,
-                  children: [
+                  children: const [
                     Padding(
-                      padding: const EdgeInsets.all(8.0),
+                      padding: EdgeInsets.all(8.0),
                       child: Text(
-                        "노래 준비중...",
+                        "노래 다운로드중...",
                         style: TextStyle(color: Colors.white, fontSize: 15),
                       ),
                     ),

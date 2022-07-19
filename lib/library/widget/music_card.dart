@@ -1,23 +1,33 @@
 import 'package:animations/animations.dart';
+import 'package:daliy_music/color_schemes.g.dart';
 import 'package:daliy_music/library/widget/card_detail.dart';
+import 'package:daliy_music/playlist/model/playList.dart';
+import 'package:daliy_music/playlist/viewModel/playlist.dart';
 import 'package:flutter/material.dart';
+import 'package:provider/provider.dart';
 
 class MusicCard extends StatelessWidget {
   const MusicCard(
-      {Key? key, required this.size, required this.items, required this.index})
+      {Key? key,
+      required this.items,
+      required this.index,
+      required this.sizeWidth,
+      required this.sizeHeight})
       : super(key: key);
 
-  final Size size;
-  final List items;
+  final double sizeWidth;
+  final double sizeHeight;
+  final PlayList items;
   final int index;
 
   @override
   Widget build(BuildContext context) {
+    print(sizeHeight);
     return OpenContainer<bool>(
-        transitionDuration: Duration(milliseconds: 500),
+        transitionDuration: const Duration(milliseconds: 300),
         openBuilder: (context, action) {
           return CardDetail(
-            item: items[index],
+            item: items,
           );
         },
         closedBuilder: (context, action) {
@@ -27,28 +37,13 @@ class MusicCard extends StatelessWidget {
             },
             child: Container(
               clipBehavior: Clip.antiAlias,
-              height: size.height * 0.5,
-              width: size.width * 0.6,
+              width: sizeWidth,
+              height: sizeHeight,
               decoration: BoxDecoration(
                   borderRadius: BorderRadius.circular(10),
-                  color: Colors.amber,
                   image: DecorationImage(
-                      image: NetworkImage(items[index]['image']['hot']),
-                      fit: BoxFit.fill)),
-              child: Align(
-                alignment: Alignment.bottomCenter,
-                child: Container(
-                  color: Color.fromARGB(255, 39, 39, 39).withOpacity(0.9),
-                  height: size.height * 0.1,
-                  width: size.width * 0.6,
-                  child: Center(
-                    child: Text(
-                      items[index]['title'],
-                      style: TextStyle(color: Colors.white, fontSize: 15),
-                    ),
-                  ),
-                ),
-              ),
+                      image: AssetImage(items.imgUrl),
+                      fit: sizeHeight == 400 ? BoxFit.fitHeight : BoxFit.fill)),
             ),
           );
         });

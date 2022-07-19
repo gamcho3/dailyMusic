@@ -22,6 +22,7 @@ class _BottomNavigationPageState extends State<BottomNavigationPage> {
         Container(color: Colors.white, child: const Text('More'))
       ][currentPageIndex],
       bottomNavigationBar: NavigationBar(
+        labelBehavior: NavigationDestinationLabelBehavior.onlyShowSelected,
         onDestinationSelected: ((int index) {
           setState(() {
             currentPageIndex = index;

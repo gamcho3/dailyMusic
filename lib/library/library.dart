@@ -1,10 +1,13 @@
 import 'package:daliy_music/library/widget/main_title.dart';
 import 'package:daliy_music/library/widget/music_list.dart';
+import 'package:daliy_music/playlist/model/playList.dart';
+import 'package:daliy_music/playlist/viewModel/playlist.dart';
 import 'package:daliy_music/services/weather.dart';
 import 'package:daliy_music/youtube_list/view_models/card.dart';
 
 import 'package:daliy_music/youtube_list/view_models/youtubeProvider.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter/semantics.dart';
 
 import 'package:provider/provider.dart';
 
@@ -44,12 +47,10 @@ class _LibraryPageState extends State<LibraryPage> {
       appBar: AppBar(
           centerTitle: false,
           titleSpacing: 15,
-          backgroundColor: Theme.of(context).colorScheme.background,
           elevation: 0,
           title: const Text(
             "Daily Music",
-            style: TextStyle(
-                color: Colors.black, fontWeight: FontWeight.bold, fontSize: 25),
+            style: TextStyle(fontWeight: FontWeight.bold, fontSize: 25),
           ),
           actions: [
             Padding(
@@ -65,33 +66,27 @@ class _LibraryPageState extends State<LibraryPage> {
                       color: Theme.of(context).colorScheme.primary,
                     ),
                   ),
-                  GestureDetector(
-                    onTap: () {},
-                    child: CircleAvatar(
-                      backgroundColor: Theme.of(context).colorScheme.primary,
-                    ),
-                  )
                 ],
               ),
             ),
           ]),
-      body: Consumer<CardProvider>(builder: (context, provider, child) {
-        return SingleChildScrollView(
-          child: SizedBox(
-            height: size.height,
-            width: size.width,
-            child: Column(
-              crossAxisAlignment: CrossAxisAlignment.start,
-              children: [
-                const MainTitle(
-                  title: "인기 추천곡",
-                ),
-                MusicListView(
-                  items: provider.cards,
-                ),
-              ],
-            ),
-          ),
+      body: Consumer<PlayListProvider>(builder: (context, provider, child) {
+        return CustomScrollView(
+          slivers: [
+            SliverToBoxAdapter(
+              child: Column(
+                crossAxisAlignment: CrossAxisAlignment.start,
+                children: [
+                  const MainTitle(
+                    title: "나의 플레이리스트",
+                  ),
+                  MusicListView(
+                    items: provider.cards,
+                  )
+                ],
+              ),
+            )
+          ],
         );
       }),
     );

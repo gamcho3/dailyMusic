@@ -1,5 +1,6 @@
 import 'package:daliy_music/db/database.dart';
 import 'package:daliy_music/library/widget/card_detail.dart';
+import 'package:daliy_music/library/widget/music_card.dart';
 import 'package:daliy_music/playlist/view/playlist_detail_page.dart';
 import 'package:daliy_music/playlist/viewModel/playlist.dart';
 import 'package:daliy_music/youtube_list/view/search.dart';
@@ -60,36 +61,46 @@ class _PlayListPageState extends State<PlayListPage> {
             crossAxisSpacing: 4,
             itemBuilder: (context, index) {
               return GestureDetector(
-                onTap: () {
-                  Navigator.push(context,
-                      MaterialPageRoute(builder: ((context) {
-                    return CardDetail(item: list[index]);
-                  })));
-                },
-                child: Container(
-                  clipBehavior: Clip.antiAlias,
-                  decoration: BoxDecoration(
-                      borderRadius: BorderRadius.circular(8),
-                      image: DecorationImage(
-                          image: AssetImage(list[index].imgUrl),
-                          fit: BoxFit.cover)),
-                  height: (index % 2 + 1) * 200,
-                  child: Align(
-                    alignment: Alignment.bottomCenter,
-                    child: Container(
-                      color: Color.fromARGB(255, 39, 39, 39).withOpacity(0.9),
-                      height: size.height * 0.1,
-                      width: size.width * 0.6,
-                      child: Center(
-                        child: Text(
-                          list[index].title,
-                          style: TextStyle(color: Colors.white, fontSize: 15),
-                        ),
-                      ),
-                    ),
-                  ),
-                ),
-              );
+                  onTap: () {
+                    Navigator.push(context,
+                        MaterialPageRoute(builder: ((context) {
+                      return CardDetail(item: list[index]);
+                    })));
+                  },
+                  child: MusicCard(
+                    index: index,
+                    sizeHeight: (index % 2 + 1) * 200,
+                    sizeWidth: size.width / 2,
+                    items: list[index],
+                  )
+
+                  // Container(
+                  //   clipBehavior: Clip.antiAlias,
+                  //   decoration: BoxDecoration(
+                  //       borderRadius: BorderRadius.circular(8),
+                  //       image: DecorationImage(
+                  //           image: AssetImage(list[index].imgUrl),
+                  //           fit: BoxFit.cover)),
+                  //   height: (index % 2 + 1) * 200,
+                  //   child: Align(
+                  //     alignment: Alignment.bottomCenter,
+                  //     child: Container(
+                  //       color: Color.fromARGB(255, 39, 39, 39).withOpacity(0.9),
+                  //       height: size.height * 0.05,
+                  //       width: size.width * 0.6,
+                  //       child: Center(
+                  //         child: Text(
+                  //           list[index].title,
+                  //           style: TextStyle(
+                  //               color: Colors.white,
+                  //               fontSize: 15,
+                  //               fontWeight: FontWeight.bold),
+                  //         ),
+                  //       ),
+                  //     ),
+                  //   ),
+                  // ),
+                  );
             },
           ),
         ));

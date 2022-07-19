@@ -1,4 +1,5 @@
 import 'dart:io';
+import 'package:daliy_music/library/widget/page_header.dart';
 import 'package:daliy_music/player/player.dart';
 import 'package:daliy_music/playlist/model/music_files.dart';
 import 'package:daliy_music/playlist/model/playList.dart';
@@ -39,7 +40,13 @@ class _CardDetailState extends State<CardDetail> {
         children: [
           CustomScrollView(
             slivers: [
+              // SliverPersistentHeader(
+              //     delegate: NetworkingPageHeader(
+              //         maxExtent: 250.0,
+              //         minExtent: 150.0,
+              //         image: widget.item.imgUrl)),
               SliverAppBar(
+                pinned: true,
                 actions: [
                   PopupMenuButton(
                       onSelected: (value) {
@@ -116,47 +123,50 @@ class _CardDetailState extends State<CardDetail> {
                         child: Icon(LineAwesomeIcons.horizontal_ellipsis),
                       ))
                 ],
-                backgroundColor: Colors.black,
-                iconTheme: IconThemeData(color: Colors.white),
-                pinned: true,
                 expandedHeight: MediaQuery.of(context).size.height * 0.3,
                 flexibleSpace: FlexibleSpaceBar(
-                    background: SizedBox(
-                        width: double.infinity,
-                        child: Image.asset(
-                          widget.item.imgUrl,
-                          fit: BoxFit.fill,
-                        ))),
+                  background: SizedBox(
+                    height: MediaQuery.of(context).size.height * 0.3,
+                    width: double.infinity,
+                    child: Image.asset(
+                      widget.item.imgUrl,
+                      fit: BoxFit.fill,
+                    ),
+                  ),
+                ),
+                bottom: PreferredSize(
+                    preferredSize: Size.fromHeight(70.0),
+                    child: Padding(
+                      padding: const EdgeInsets.all(8.0),
+                      child: Align(
+                        alignment: Alignment.centerRight,
+                        child: GestureDetector(
+                            onTap: () async {
+                              // ignore: use_build_context_synchronously
+                              Navigator.push(context,
+                                  MaterialPageRoute(builder: ((context) {
+                                return PlayerPage(
+                                  items: list,
+                                );
+                              })));
+                            },
+                            child: Container(
+                              width: 70,
+                              height: 70,
+                              decoration: const BoxDecoration(
+                                  color: Colors.green, shape: BoxShape.circle),
+                              child: const Icon(
+                                Icons.play_arrow,
+                                color: Colors.black,
+                              ),
+                            )),
+                      ),
+                    )),
               ),
-              SliverFillRemaining(
-                // 탭바 뷰 내부에는 스크롤이 되는 위젯이 들어옴.
-                hasScrollBody: false,
+              SliverToBoxAdapter(
                 child: Padding(
                   padding: const EdgeInsets.all(8.0),
                   child: Column(children: [
-                    Align(
-                      alignment: Alignment.centerRight,
-                      child: GestureDetector(
-                          onTap: () async {
-                            // ignore: use_build_context_synchronously
-                            Navigator.push(context,
-                                MaterialPageRoute(builder: ((context) {
-                              return PlayerPage(
-                                items: list,
-                              );
-                            })));
-                          },
-                          child: Container(
-                            width: 70,
-                            height: 70,
-                            decoration: const BoxDecoration(
-                                color: Colors.green, shape: BoxShape.circle),
-                            child: const Icon(
-                              Icons.play_arrow,
-                              color: Colors.black,
-                            ),
-                          )),
-                    ),
                     if (list.isNotEmpty)
                       for (var i = 0; i < list.length; i++)
                         MusicTile(

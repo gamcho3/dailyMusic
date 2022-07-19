@@ -49,11 +49,11 @@ class _SearchPageState extends State<SearchPage> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      body: Consumer<YoutubeProvider>(
-        builder: (context, provider, child) {
-          return SafeArea(
-            child: Padding(
-              padding: const EdgeInsets.only(left: 20, right: 20),
+      body: SafeArea(
+        child: Consumer<YoutubeProvider>(
+          builder: (context, provider, child) {
+            return Padding(
+              padding: const EdgeInsets.all(20),
               child: Column(
                 children: [
                   Row(
@@ -127,9 +127,9 @@ class _SearchPageState extends State<SearchPage> {
                     )
                 ],
               ),
-            ),
-          );
-        },
+            );
+          },
+        ),
       ),
     );
   }

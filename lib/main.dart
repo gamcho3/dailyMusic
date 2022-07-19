@@ -1,4 +1,5 @@
 import 'package:daliy_music/bottom_navigation.dart';
+import 'package:daliy_music/color_schemes.g.dart';
 import 'package:daliy_music/playlist/viewModel/playlist.dart';
 import 'package:daliy_music/routes/routes.dart';
 import 'package:daliy_music/youtube_list/view_models/card.dart';
@@ -39,17 +40,10 @@ class _MyAppState extends State<MyApp> {
         ),
         initialRoute: '/',
         routes: customRoutes,
-        title: 'Flutter Demo',
-        theme: ThemeData(
-          useMaterial3: true,
-          colorScheme: ColorScheme.fromSeed(
-              seedColor: Colors.white,
-              brightness: Brightness.light,
-              primary: const Color(0xff00C853),
-              secondary: const Color(0xffA5D6A7),
-              background: const Color.fromARGB(255, 249, 249, 249)),
-          textTheme: GoogleFonts.nanumGothicTextTheme(),
-        ),
+        title: 'music',
+        theme: ThemeData(useMaterial3: true, colorScheme: lightColorScheme),
+        darkTheme: ThemeData(useMaterial3: true, colorScheme: darkColorScheme),
+        themeMode: ThemeMode.system,
       ),
     );
   }
