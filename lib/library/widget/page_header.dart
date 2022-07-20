@@ -3,15 +3,19 @@ import 'dart:math';
 import 'package:flutter/material.dart';
 import 'package:flutter/rendering.dart';
 
-class NetworkingPageHeader implements SliverPersistentHeaderDelegate {
+class NetworkingPageHeader extends SliverPersistentHeaderDelegate {
   NetworkingPageHeader({
+    required this.title,
     required this.minExtent,
     required this.image,
     required this.maxExtent,
   });
+  @override
   final double minExtent;
+  @override
   final double maxExtent;
   final String image;
+  final String title;
 
   @override
   Widget build(
@@ -23,23 +27,12 @@ class NetworkingPageHeader implements SliverPersistentHeaderDelegate {
           image,
           fit: BoxFit.cover,
         ),
-        Container(
-          decoration: BoxDecoration(
-            gradient: LinearGradient(
-              colors: [Colors.transparent, Colors.black54],
-              stops: [0.5, 1.0],
-              begin: Alignment.topCenter,
-              end: Alignment.bottomCenter,
-              tileMode: TileMode.repeated,
-            ),
-          ),
-        ),
         Positioned(
           left: 16.0,
           right: 16.0,
           bottom: 16.0,
           child: Text(
-            'Lorem ipsum',
+            title,
             style: TextStyle(
               fontSize: 32.0,
               color: Colors.white.withOpacity(titleOpacity(shrinkOffset)),
@@ -58,24 +51,11 @@ class NetworkingPageHeader implements SliverPersistentHeaderDelegate {
   }
 
   @override
+  OverScrollHeaderStretchConfiguration get stretchConfiguration =>
+      OverScrollHeaderStretchConfiguration();
+
+  @override
   bool shouldRebuild(SliverPersistentHeaderDelegate oldDelegate) {
     return true;
   }
-
-  @override
-  FloatingHeaderSnapConfiguration? get snapConfiguration => null;
-
-  @override
-  // TODO: implement showOnScreenConfiguration
-  PersistentHeaderShowOnScreenConfiguration? get showOnScreenConfiguration =>
-      throw UnimplementedError();
-
-  @override
-  // TODO: implement stretchConfiguration
-  OverScrollHeaderStretchConfiguration? get stretchConfiguration =>
-      throw UnimplementedError();
-
-  @override
-  // TODO: implement vsync
-  TickerProvider? get vsync => throw UnimplementedError();
 }
