@@ -1,11 +1,13 @@
 import 'dart:io';
-import 'package:daliy_music/youtube_list/models/youtube_list_models.dart';
-import 'package:daliy_music/youtube_list/view_models/card.dart';
+
+import 'package:daliy_music/models/youtube_list_models.dart';
 import 'package:flutter/material.dart';
 import 'package:line_awesome_flutter/line_awesome_flutter.dart';
 import 'package:path_provider/path_provider.dart';
 import 'package:provider/provider.dart';
 import 'package:youtube_explode_dart/youtube_explode_dart.dart';
+
+import '../../view_models/card.dart';
 
 class MusicList extends StatefulWidget {
   final Item item;

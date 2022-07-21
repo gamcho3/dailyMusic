@@ -1,9 +1,10 @@
-import 'package:daliy_music/playlist/model/playList.dart';
-import 'package:daliy_music/youtube_list/models/test_card.dart';
+import 'package:daliy_music/models/playList.dart';
+
 import 'package:flutter/material.dart';
 import 'package:flutter/rendering.dart';
+import 'package:provider/provider.dart';
 
-import '../../youtube_list/models/youtube_popular_model.dart';
+import '../../../view_models/playlist.dart';
 import 'music_card.dart';
 
 class MusicListView extends StatelessWidget {
@@ -13,8 +14,9 @@ class MusicListView extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     var size = MediaQuery.of(context).size;
+    var songs = context.watch<PlayListProvider>().playList;
     return SizedBox(
-      height: size.height * 0.25,
+      height: size.height * 0.3,
       child: Builder(builder: (context) {
         if (items.isEmpty) {
           return const Center(
@@ -31,7 +33,7 @@ class MusicListView extends StatelessWidget {
                   Expanded(
                     child: MusicCard(
                       sizeWidth: size.width / 2,
-                      sizeHeight: size.height * 0.25,
+                      sizeHeight: size.height * 0.3,
                       items: items[index],
                       index: index,
                     ),
@@ -43,6 +45,7 @@ class MusicListView extends StatelessWidget {
                     items[index].title,
                     style: TextStyle(fontWeight: FontWeight.bold, fontSize: 20),
                   ),
+                  Text('${songs.length}개')
                 ],
               );
             },

@@ -1,9 +1,9 @@
 import 'dart:async';
 import 'dart:io';
 import 'package:daliy_music/db/database.dart';
-import 'package:daliy_music/player/player.dart';
-import 'package:daliy_music/youtube_list/view/music_list.dart';
-import 'package:daliy_music/youtube_list/view_models/youtubeProvider.dart';
+import 'package:daliy_music/view_models/youtubeProvider.dart';
+import 'package:daliy_music/views/youtube_list/music_list.dart';
+
 import 'package:flutter/material.dart';
 import 'package:line_awesome_flutter/line_awesome_flutter.dart';
 import 'package:path_provider/path_provider.dart';
@@ -11,7 +11,6 @@ import 'package:provider/provider.dart';
 import 'package:path/path.dart' as path;
 
 import 'package:youtube_explode_dart/youtube_explode_dart.dart';
-import '../models/youtube_list_models.dart';
 
 class SearchPage extends StatefulWidget {
   const SearchPage({Key? key}) : super(key: key);

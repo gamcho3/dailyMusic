@@ -5,10 +5,12 @@ import 'package:flutter/rendering.dart';
 
 class NetworkingPageHeader extends SliverPersistentHeaderDelegate {
   NetworkingPageHeader({
+    required this.edit,
     required this.title,
     required this.minExtent,
     required this.image,
     required this.maxExtent,
+    required this.onChanged,
   });
   @override
   final double minExtent;
@@ -16,7 +18,8 @@ class NetworkingPageHeader extends SliverPersistentHeaderDelegate {
   final double maxExtent;
   final String image;
   final String title;
-
+  final bool edit;
+  final Function(String) onChanged;
   @override
   Widget build(
       BuildContext context, double shrinkOffset, bool overlapsContent) {
@@ -28,16 +31,35 @@ class NetworkingPageHeader extends SliverPersistentHeaderDelegate {
           fit: BoxFit.cover,
         ),
         Positioned(
+            left: 0,
+            top: 0,
+            right: 0,
+            bottom: 0,
+            child: Container(
+              color: Colors.black.withOpacity(0.2),
+            )),
+        Positioned(
           left: 16.0,
           right: 16.0,
           bottom: 16.0,
-          child: Text(
-            title,
-            style: TextStyle(
-              fontSize: 32.0,
-              color: Colors.white.withOpacity(titleOpacity(shrinkOffset)),
-            ),
-          ),
+          child: edit
+              ? TextField(
+                  decoration: InputDecoration(border: InputBorder.none),
+                  style: TextStyle(
+                    fontSize: 32.0,
+                    fontWeight: FontWeight.bold,
+                    color: Colors.white.withOpacity(titleOpacity(shrinkOffset)),
+                  ),
+                  onChanged: onChanged,
+                )
+              : Text(
+                  title,
+                  style: TextStyle(
+                    fontSize: 32.0,
+                    fontWeight: FontWeight.bold,
+                    color: Colors.white.withOpacity(titleOpacity(shrinkOffset)),
+                  ),
+                ),
         ),
       ],
     );

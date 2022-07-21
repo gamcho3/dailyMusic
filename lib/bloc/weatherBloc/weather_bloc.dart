@@ -1,33 +1,19 @@
 import 'package:bloc/bloc.dart';
 import 'package:connectivity_plus/connectivity_plus.dart';
+import 'package:daliy_music/models/weather.dart';
 
-import 'package:daliy_music/services/connectivityService.dart';
-import 'package:daliy_music/services/youtube.dart';
 import 'package:equatable/equatable.dart';
 import '../../API/API_list.dart';
-import '../../services/weather.dart';
+
 part 'weather_event.dart';
 part 'weather_state.dart';
 
 class WeatherBloc extends Bloc<WeatherEvent, WeatherState> {
   final WeatherAPI _weatherApi;
-  final ConnectivityService _connectivityService;
 
   WeatherBloc(
     this._weatherApi,
-    this._connectivityService,
   ) : super(WeatherLoadingState()) {
-    _connectivityService.connectivityStream.stream.asBroadcastStream(
-        onListen: ((subscription) {
-      subscription.onData((data) {
-        if (data == ConnectivityResult.none) {
-          add(NetworkErrorEvent());
-        } else {
-          add(LoadWeatherEvent());
-        }
-      });
-    }));
-
     // on<LoadWeatherEvent>((event, emit) async {
     //   emit(WeatherLoadingState());
     //   var result = await LocationAPI.determinePosition();

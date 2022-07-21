@@ -1,9 +1,8 @@
 import 'package:daliy_music/db/database.dart';
-import 'package:daliy_music/library/widget/card_detail.dart';
-import 'package:daliy_music/library/widget/music_card.dart';
-import 'package:daliy_music/playlist/view/playlist_detail_page.dart';
-import 'package:daliy_music/playlist/viewModel/playlist.dart';
-import 'package:daliy_music/youtube_list/view/search.dart';
+
+import 'package:daliy_music/views/library/widget/card_detail.dart';
+import 'package:daliy_music/views/playlist/playlist_detail_page.dart';
+
 import 'package:flutter/material.dart';
 import 'package:flutter/src/foundation/key.dart';
 import 'package:flutter/src/widgets/framework.dart';
@@ -12,8 +11,9 @@ import 'package:line_awesome_flutter/line_awesome_flutter.dart';
 import 'package:modal_bottom_sheet/modal_bottom_sheet.dart';
 import 'package:provider/provider.dart';
 
-import '../../youtube_list/view_models/card.dart';
-import '../model/playList.dart';
+import '../../view_models/card.dart';
+import '../../view_models/playlist.dart';
+import '../library/widget/music_card.dart';
 
 class PlayListPage extends StatefulWidget {
   const PlayListPage({Key? key}) : super(key: key);
@@ -53,7 +53,7 @@ class _PlayListPageState extends State<PlayListPage> {
         body:
             // print(provider.lists.length);
             Padding(
-          padding: const EdgeInsets.symmetric(horizontal: 10),
+          padding: const EdgeInsets.symmetric(horizontal: 10, vertical: 10),
           child: MasonryGridView.count(
             itemCount: list.length,
             crossAxisCount: 2,

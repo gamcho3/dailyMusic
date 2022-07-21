@@ -1,5 +1,5 @@
-import 'package:daliy_music/library/library.dart';
-import 'package:daliy_music/playlist/view/play_list.dart';
+import 'package:daliy_music/views/library/library.dart';
+import 'package:daliy_music/views/playlist/play_list.dart';
 
 import 'package:flutter/material.dart';
 import 'package:line_awesome_flutter/line_awesome_flutter.dart';
@@ -16,6 +16,17 @@ class _BottomNavigationPageState extends State<BottomNavigationPage> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
+      // bottomSheet: GestureDetector(
+      //   onTap: () {
+      //     showModalBottomSheet(
+      //         context: context, builder: ((context) => SearchPage()));
+      //   },
+      //   child: Container(
+      //       height: 40,
+      //       width: double.infinity,
+      //       color: Colors.blue,
+      //       child: Text('sdfsdf')),
+      // ),
       body: <Widget>[
         const LibraryPage(),
         const PlayListPage(),

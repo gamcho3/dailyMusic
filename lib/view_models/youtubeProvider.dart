@@ -1,8 +1,11 @@
-import 'package:daliy_music/youtube_list/models/youtube_list_models.dart';
-import 'package:daliy_music/youtube_list/models/youtube_popular_model.dart';
-import 'package:daliy_music/youtube_list/repo/api_status.dart';
-import 'package:daliy_music/youtube_list/repo/youtube_services.dart';
+import 'package:daliy_music/models/youtube_list_models.dart';
+
+import 'package:daliy_music/API/api_status.dart';
+
 import 'package:flutter/material.dart';
+
+import '../API/API_list.dart';
+import '../models/youtube_popular_model.dart';
 
 class YoutubeProvider with ChangeNotifier {
   bool _loading = false;

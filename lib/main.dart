@@ -1,15 +1,18 @@
 import 'package:daliy_music/bottom_navigation.dart';
 import 'package:daliy_music/color_schemes.g.dart';
-import 'package:daliy_music/playlist/viewModel/playlist.dart';
+
 import 'package:daliy_music/routes/routes.dart';
-import 'package:daliy_music/youtube_list/view_models/card.dart';
-import 'package:daliy_music/youtube_list/view_models/youtubeProvider.dart';
+import 'package:daliy_music/view_models/card.dart';
+import 'package:daliy_music/view_models/playlist.dart';
+import 'package:daliy_music/view_models/youtubeProvider.dart';
+
 import 'package:flutter/material.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:provider/provider.dart';
 
 void main() async {
   WidgetsFlutterBinding.ensureInitialized();
+
   // KakaoSdk.init(nativeAppKey: Constants.kakaoAppKey);
   // await Firebase.initializeApp(options: DefaultFirebaseOptions.currentPlatform);
   runApp(const MyApp());
@@ -32,6 +35,7 @@ class _MyAppState extends State<MyApp> {
         ChangeNotifierProvider(create: (context) => PlayListProvider()),
       ],
       child: MaterialApp(
+        debugShowCheckedModeBanner: false,
         builder: (context, child) => MediaQuery(
           data: MediaQuery.of(context).copyWith(
             textScaleFactor: 1.0,

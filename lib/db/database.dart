@@ -1,7 +1,7 @@
 import 'package:sqflite/sqflite.dart';
 import 'package:path/path.dart';
-import '../playlist/model/music_files.dart';
-import '../playlist/model/playList.dart';
+import '../models/music_files.dart';
+import '../models/playList.dart';
 
 class PlayListDatabase {
   static final PlayListDatabase instance = PlayListDatabase._init();
@@ -48,13 +48,15 @@ CREATE TABLE $tableMusicFiles (
 ''');
   }
 
+  //음악 db에 넣기
   Future<MusicFiles> insertMusicFile(MusicFiles file) async {
     final db = await instance.database;
     final id = await db.insert(tableMusicFiles, file.toJson());
     return file.copy(id: id);
   }
 
-  Future<List<MusicFiles>> readFiles(int cardNum) async {
+  //음악 리스트 불러오기
+  Future<List<MusicFiles>> readFiles(int? cardNum) async {
     final db = await instance.database;
     final maps = await db.query(tableMusicFiles,
         columns: MusicFilesFields.values,
@@ -71,12 +73,14 @@ CREATE TABLE $tableMusicFiles (
     }
   }
 
+  //플레이 리스트 만들기
   Future<PlayList> create(PlayList list) async {
     final db = await instance.database;
     final id = await db.insert(tablePlayLists, list.toJson());
     return list.copy(id: id);
   }
 
+  //플레이리스트 읽기
   Future<PlayList> readPlayList(int id) async {
     final db = await instance.database;
     final maps = await db.query(tablePlayLists,
@@ -91,6 +95,7 @@ CREATE TABLE $tableMusicFiles (
     }
   }
 
+  //모든 플레이리스트 불러오기
   Future<List<PlayList>> readAllLists() async {
     final db = await instance.database;
     const orderBy = '${PlayListFields.id} ASC';
@@ -101,7 +106,7 @@ CREATE TABLE $tableMusicFiles (
     return result.map((json) => PlayList.fromJson(json)).toList();
   }
 
-  Future<int> update(PlayList list) async {
+  Future<int> updateCard(PlayList list) async {
     final db = await instance.database;
     return db.update(tablePlayLists, list.toJson(),
         where: '${PlayListFields.id} = ?', whereArgs: [list.id]);
@@ -113,10 +118,16 @@ CREATE TABLE $tableMusicFiles (
         where: '${PlayListFields.id} = ?', whereArgs: [id]);
   }
 
-  Future deleteMusics(int musicNum) async {
+  Future deleteAllMusics(int musicNum) async {
     final db = await instance.database;
     return await db.delete(tableMusicFiles,
         where: '${MusicFilesFields.cardNum} = ?', whereArgs: [musicNum]);
+  }
+
+  Future deleteMusic(int id) async {
+    final db = await instance.database;
+    return await db.delete(tableMusicFiles,
+        where: '${MusicFilesFields.id} = ?', whereArgs: [id]);
   }
 
   Future close() async {

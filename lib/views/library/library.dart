@@ -1,19 +1,18 @@
-import 'package:daliy_music/library/widget/main_title.dart';
-import 'package:daliy_music/library/widget/music_list.dart';
-import 'package:daliy_music/playlist/model/playList.dart';
-import 'package:daliy_music/playlist/viewModel/playlist.dart';
-import 'package:daliy_music/services/weather.dart';
-import 'package:daliy_music/youtube_list/view_models/card.dart';
+import 'package:daliy_music/API/API_list.dart';
 
-import 'package:daliy_music/youtube_list/view_models/youtubeProvider.dart';
+import 'package:daliy_music/models/playList.dart';
+
+import 'package:daliy_music/view_models/playlist.dart';
+import 'package:daliy_music/views/library/widget/main_title.dart';
+import 'package:daliy_music/views/library/widget/music_list.dart';
+
 import 'package:flutter/material.dart';
-import 'package:flutter/semantics.dart';
 
 import 'package:provider/provider.dart';
 
 import 'package:shimmer/shimmer.dart';
 
-import '../API/API_list.dart';
+import '../../models/weather.dart';
 
 class LibraryPage extends StatefulWidget {
   const LibraryPage({Key? key}) : super(key: key);

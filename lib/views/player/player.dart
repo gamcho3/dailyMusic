@@ -1,7 +1,7 @@
 import 'dart:io';
 
 import 'package:better_player/better_player.dart';
-import 'package:daliy_music/playlist/model/music_files.dart';
+import 'package:daliy_music/models/music_files.dart';
 import 'package:flutter/material.dart';
 import 'package:line_awesome_flutter/line_awesome_flutter.dart';
 import 'package:marquee/marquee.dart';

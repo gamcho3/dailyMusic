@@ -1,10 +1,12 @@
 import 'package:animations/animations.dart';
 import 'package:daliy_music/color_schemes.g.dart';
-import 'package:daliy_music/library/widget/card_detail.dart';
-import 'package:daliy_music/playlist/model/playList.dart';
-import 'package:daliy_music/playlist/viewModel/playlist.dart';
+
+import 'package:daliy_music/models/playList.dart';
+
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
+
+import 'card_detail.dart';
 
 class MusicCard extends StatelessWidget {
   const MusicCard(
