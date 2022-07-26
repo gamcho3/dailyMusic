@@ -143,6 +143,7 @@ class _CardDetailState extends State<CardDetail> {
         slivers: [
           SliverPersistentHeader(
               delegate: NetworkingPageHeader(
+                  controller: titleEditController,
                   onChanged: (value) {
                     print(value);
                   },

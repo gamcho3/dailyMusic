@@ -11,6 +11,7 @@ class NetworkingPageHeader extends SliverPersistentHeaderDelegate {
     required this.image,
     required this.maxExtent,
     required this.onChanged,
+    required this.controller,
   });
   @override
   final double minExtent;
@@ -20,6 +21,7 @@ class NetworkingPageHeader extends SliverPersistentHeaderDelegate {
   final String title;
   final bool edit;
   final Function(String) onChanged;
+  final TextEditingController controller;
   @override
   Widget build(
       BuildContext context, double shrinkOffset, bool overlapsContent) {
@@ -44,6 +46,7 @@ class NetworkingPageHeader extends SliverPersistentHeaderDelegate {
           bottom: 16.0,
           child: edit
               ? TextField(
+                  controller: controller,
                   decoration: InputDecoration(border: InputBorder.none),
                   style: TextStyle(
                     fontSize: 32.0,
