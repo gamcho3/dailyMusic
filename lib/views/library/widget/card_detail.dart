@@ -144,9 +144,7 @@ class _CardDetailState extends State<CardDetail> {
           SliverPersistentHeader(
               delegate: NetworkingPageHeader(
                   controller: titleEditController,
-                  onChanged: (value) {
-                    print(value);
-                  },
+                  onChanged: (value) {},
                   edit: isEdit,
                   maxExtent: 300.0,
                   minExtent: 150.0,
