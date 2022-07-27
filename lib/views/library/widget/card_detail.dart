@@ -1,5 +1,6 @@
 import 'dart:io';
 
+import 'package:daliy_music/constants/constants.dart';
 import 'package:daliy_music/models/music_files.dart';
 import 'package:daliy_music/models/playList.dart';
 import 'package:daliy_music/views/library/widget/page_header.dart';
@@ -26,12 +27,18 @@ class CardDetail extends StatefulWidget {
 class _CardDetailState extends State<CardDetail> {
   bool isEdit = false;
   late TextEditingController titleEditController;
+  late TextEditingController contentEditController;
+  late String title;
+  late String content;
   @override
   void initState() {
     WidgetsBinding.instance.addPostFrameCallback((timeStamp) {
       context.read<PlayListProvider>().loadPlayList(widget.item.id);
     });
-    titleEditController = TextEditingController(text: widget.item.title);
+    title = widget.item.title;
+    content = widget.item.content;
+    titleEditController = TextEditingController(text: title);
+    contentEditController = TextEditingController(text: content);
     super.initState();
   }
 
@@ -55,6 +62,14 @@ class _CardDetailState extends State<CardDetail> {
               TextButton(
                   onPressed: () {
                     isEdit = false;
+                    if (title.isNotEmpty && content.isNotEmpty) {
+                      PlayList newCard = PlayList(
+                          id: widget.item.id,
+                          title: title,
+                          imgUrl: widget.item.imgUrl,
+                          content: content);
+                      context.read<PlayListProvider>().updateCard(newCard);
+                    }
                     setState(() {});
                   },
                   child: Text("완료")),
@@ -144,12 +159,14 @@ class _CardDetailState extends State<CardDetail> {
           SliverPersistentHeader(
               delegate: NetworkingPageHeader(
                   controller: titleEditController,
-                  onChanged: (value) {},
+                  onChanged: (value) {
+                    title = value;
+                  },
                   edit: isEdit,
                   maxExtent: 300.0,
                   minExtent: 150.0,
                   image: widget.item.imgUrl,
-                  title: widget.item.title)),
+                  title: title)),
           SliverToBoxAdapter(
             child: Padding(
               padding: const EdgeInsets.only(left: 20, top: 8),
@@ -195,13 +212,17 @@ class _CardDetailState extends State<CardDetail> {
                       padding: const EdgeInsets.symmetric(vertical: 20),
                       child: isEdit
                           ? TextField(
-                              style: TextStyle(fontSize: 20),
-                              decoration:
-                                  InputDecoration(border: InputBorder.none),
+                              onChanged: (value) {
+                                content = value;
+                              },
+                              controller: contentEditController,
+                              style: const TextStyle(fontSize: 20),
+                              decoration: const InputDecoration(
+                                  border: InputBorder.none),
                             )
                           : Text(
-                              widget.item.content,
-                              style: TextStyle(fontSize: 20),
+                              content,
+                              style: const TextStyle(fontSize: 20),
                             ),
                     ),
                     Divider(

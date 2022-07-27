@@ -60,5 +60,6 @@ class PlayListProvider with ChangeNotifier {
 
   void updateCard(PlayList list) async {
     await PlayListDatabase.instance.updateCard(list);
+    getAllLists();
   }
 }

@@ -24,7 +24,6 @@ class MusicCard extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    print(sizeHeight);
     return OpenContainer<bool>(
         transitionDuration: const Duration(milliseconds: 300),
         openBuilder: (context, action) {
