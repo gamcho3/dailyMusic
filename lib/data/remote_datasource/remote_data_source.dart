@@ -16,7 +16,7 @@ import 'api_status.dart';
 /// When the location services are not enabled or permissions
 /// are denied the `Future` will return an error.
 
-class LocationAPI {
+class RemoteDataSource {
   static Future<Position?> determinePosition() async {
     bool serviceEnabled;
     LocationPermission permission;
@@ -55,11 +55,8 @@ class LocationAPI {
     return await Geolocator.getCurrentPosition(
         desiredAccuracy: LocationAccuracy.low);
   }
-}
 
-class YoutubeServices {
-  static Future getYoutubeList<YoutubeListModel>(
-      {required String keyword}) async {
+  Future getYoutubeList<YoutubeListModel>({required String keyword}) async {
     try {
       var response = await http
           .get(
@@ -82,8 +79,7 @@ class YoutubeServices {
     }
   }
 
-  static Future popularYoutubeList<YoutubeListModel>(
-      {String region = "KR"}) async {
+  Future popularYoutubeList<YoutubeListModel>({String region = "KR"}) async {
     try {
       String videoCategoryId = "10";
 

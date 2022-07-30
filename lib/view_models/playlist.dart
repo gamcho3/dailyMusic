@@ -23,6 +23,7 @@ class PlayListProvider with ChangeNotifier {
 
   void loadPlayList(int? cardNum) async {
     var result = await PlayListDatabase.instance.readFiles(cardNum);
+    print(result);
     _playList = result;
     notifyListeners();
   }
@@ -61,5 +62,9 @@ class PlayListProvider with ChangeNotifier {
   void updateCard(PlayList list) async {
     await PlayListDatabase.instance.updateCard(list);
     getAllLists();
+  }
+
+  void deleteMusic(int id) async {
+    await PlayListDatabase.instance.deleteMusic(id);
   }
 }

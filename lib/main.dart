@@ -31,10 +31,13 @@ class _MyAppState extends State<MyApp> {
     return MultiProvider(
       providers: [
         ChangeNotifierProvider(create: (context) => YoutubeProvider()),
-        ChangeNotifierProvider(create: (context) => CardProvider()),
+        ChangeNotifierProvider(create: (context) => AddListProvider()),
         ChangeNotifierProvider(create: (context) => PlayListProvider()),
       ],
-      child: MaterialApp(
+      child: MaterialApp.router(
+        routeInformationParser: router.routeInformationParser,
+        routerDelegate: router.routerDelegate,
+        routeInformationProvider: router.routeInformationProvider,
         debugShowCheckedModeBanner: false,
         builder: (context, child) => MediaQuery(
           data: MediaQuery.of(context).copyWith(
@@ -42,9 +45,7 @@ class _MyAppState extends State<MyApp> {
           ),
           child: child!,
         ),
-        initialRoute: '/',
-        routes: customRoutes,
-        title: 'music',
+        title: 'daliy_music',
         theme: ThemeData(useMaterial3: true, colorScheme: lightColorScheme),
         darkTheme: ThemeData(useMaterial3: true, colorScheme: darkColorScheme),
         themeMode: ThemeMode.system,

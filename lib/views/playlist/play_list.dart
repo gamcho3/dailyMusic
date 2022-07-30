@@ -43,7 +43,7 @@ class _PlayListPageState extends State<PlayListPage> {
         appBar: AppBar(title: Text('플레이리스트'), centerTitle: true, actions: [
           IconButton(
               onPressed: () {
-                context.read<CardProvider>().deletePlayListAll();
+                context.read<AddListProvider>().deletePlayListAll();
                 showCupertinoModalBottomSheet(
                     context: context,
                     builder: (context) => const PlayListDetailPage());

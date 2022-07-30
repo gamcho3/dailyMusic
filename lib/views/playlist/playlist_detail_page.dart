@@ -1,5 +1,4 @@
 import 'dart:io';
-import 'package:daliy_music/constants/constants.dart';
 
 import 'package:flutter/material.dart';
 import 'package:line_awesome_flutter/line_awesome_flutter.dart';
@@ -10,6 +9,7 @@ import 'package:image_picker/image_picker.dart';
 import 'package:youtube_explode_dart/youtube_explode_dart.dart';
 import 'package:path/path.dart' as path;
 
+import '../../utils/constants/constants.dart';
 import '../../view_models/card.dart';
 import '../../view_models/playlist.dart';
 import '../youtube_list/search.dart';
@@ -58,8 +58,8 @@ class _PlayListDetailPageState extends State<PlayListDetailPage> {
 
   @override
   Widget build(BuildContext context) {
-    List<Map> playList = context.watch<CardProvider>().playList;
-    bool loading = context.watch<CardProvider>().isLoading;
+    List<Map> playList = context.watch<AddListProvider>().playList;
+    bool loading = context.watch<AddListProvider>().isLoading;
 
     return Scaffold(
       appBar: AppBar(actions: [
@@ -67,10 +67,10 @@ class _PlayListDetailPageState extends State<PlayListDetailPage> {
             onPressed: () async {
               if (image == null || title == null || content == null) {
                 //공백전달시 스낵바 출력
-                Constants.showActionSnackbar(context);
+                Constants.showActionSnackbar(context, "정보를 정확히 입력해주세요");
               } else {
                 //로딩 함수
-                context.read<CardProvider>().updateLoading(true);
+                context.read<AddListProvider>().updateLoading(true);
 
                 //유튜브 음악 다운로드
                 for (var i = 0; i < playList.length; i++) {
@@ -86,7 +86,7 @@ class _PlayListDetailPageState extends State<PlayListDetailPage> {
                     musicFiles: playList);
 
                 //로딩 멈춤
-                context.read<CardProvider>().updateLoading(false);
+                context.read<AddListProvider>().updateLoading(false);
 
                 Navigator.pop(context);
               }
@@ -211,7 +211,7 @@ class _PlayListDetailPageState extends State<PlayListDetailPage> {
                               GestureDetector(
                                 onTap: () {
                                   context
-                                      .read<CardProvider>()
+                                      .read<AddListProvider>()
                                       .deletePlayList(i);
                                 },
                                 child: const Icon(
@@ -249,7 +249,7 @@ class _PlayListDetailPageState extends State<PlayListDetailPage> {
                       Padding(
                         padding: EdgeInsets.all(8.0),
                         child: Text(
-                          "노래 다운로드중...",
+                          "노래 준비중...",
                           style: TextStyle(color: Colors.white, fontSize: 15),
                         ),
                       ),

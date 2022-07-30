@@ -1,17 +1,17 @@
 import 'dart:io';
-
-import 'package:daliy_music/constants/constants.dart';
 import 'package:daliy_music/models/music_files.dart';
 import 'package:daliy_music/models/playList.dart';
 import 'package:daliy_music/views/library/widget/page_header.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_slidable/flutter_slidable.dart';
 import 'package:line_awesome_flutter/line_awesome_flutter.dart';
 import 'package:path/path.dart' as path;
 import 'package:path_provider/path_provider.dart';
 import 'package:provider/provider.dart';
 import 'package:youtube_explode_dart/youtube_explode_dart.dart';
 
+import '../../../utils/constants/constants.dart';
 import '../../../view_models/playlist.dart';
 import '../../player/player.dart';
 import '../../playlist/playlist_detail_page.dart';
@@ -45,7 +45,7 @@ class _CardDetailState extends State<CardDetail> {
   @override
   Widget build(BuildContext context) {
     var list = context.watch<PlayListProvider>().playList;
-
+    List<MusicFiles> curFiles = list;
     return Scaffold(
       extendBodyBehindAppBar: true,
       appBar: AppBar(
@@ -62,6 +62,7 @@ class _CardDetailState extends State<CardDetail> {
               TextButton(
                   onPressed: () {
                     isEdit = false;
+
                     if (title.isNotEmpty && content.isNotEmpty) {
                       PlayList newCard = PlayList(
                           id: widget.item.id,
@@ -69,6 +70,7 @@ class _CardDetailState extends State<CardDetail> {
                           imgUrl: widget.item.imgUrl,
                           content: content);
                       context.read<PlayListProvider>().updateCard(newCard);
+                      context.read<PlayListProvider>().loadPlayList(newCard.id);
                     }
                     setState(() {});
                   },
@@ -225,50 +227,112 @@ class _CardDetailState extends State<CardDetail> {
                               style: const TextStyle(fontSize: 20),
                             ),
                     ),
-                    Divider(
+                    const Divider(
                       thickness: 1,
                     ),
-                    if (list.isNotEmpty)
-                      for (var i = 0; i < list.length; i++)
-                        MusicTile(
-                          item: list[i],
-                          index: i,
-                        ),
                   ]),
             ),
-          )
+          ),
+          if (list.isEmpty)
+            const SliverFillRemaining(
+              child: Center(child: Text("노래가 없습니다.")),
+            ),
+          if (list.isNotEmpty)
+            SliverList(
+              delegate: SliverChildBuilderDelegate(
+                  ((context, index) => MusicTile(
+                        refresh: () {
+                          setState(() {});
+                        },
+                        isEdit: isEdit,
+                        items: list,
+                        index: index,
+                      )),
+                  childCount: list.length),
+            )
         ],
       ),
     );
   }
 }
 
-class MusicTile extends StatelessWidget {
-  const MusicTile({
-    Key? key,
-    required this.index,
-    required this.item,
-  }) : super(key: key);
+class MusicTile extends StatefulWidget {
+  const MusicTile(
+      {Key? key,
+      required this.index,
+      required this.items,
+      required this.isEdit,
+      required this.refresh})
+      : super(key: key);
 
   final int index;
-  final MusicFiles item;
+  final bool isEdit;
+  final Function() refresh;
+  final List<MusicFiles> items;
 
   @override
-  Widget build(BuildContext context) {
-    return ListTile(
-      leading: SizedBox(
-        width: 60,
-        height: 50,
-        child: Container(
-          decoration: BoxDecoration(borderRadius: BorderRadius.circular(5)),
-          clipBehavior: Clip.antiAlias,
-          child: Image.network(
-            item.imgUrl,
-            fit: BoxFit.fill,
+  State<MusicTile> createState() => _MusicTileState();
+}
+
+class _MusicTileState extends State<MusicTile> {
+  @override
+  Widget build(BuildContext buildContext) {
+    return Slidable(
+      enabled: widget.isEdit,
+      key: const ValueKey(0),
+      endActionPane: ActionPane(
+        motion: const ScrollMotion(),
+        children: [
+          SlidableAction(
+            // An action can be bigger than the others.
+            flex: 2,
+            onPressed: (context) async {
+              context
+                  .read<PlayListProvider>()
+                  .deleteMusic(widget.items[widget.index].id!);
+              widget.items.removeAt(widget.index);
+              Constants.showActionSnackbar(buildContext, "노래가 삭제되었습니다.");
+
+              setState(() {});
+            },
+            backgroundColor: Colors.red,
+            foregroundColor: Colors.white,
+            icon: LineAwesomeIcons.trash,
+            label: '삭제',
           ),
-        ),
+        ],
       ),
-      title: Text(item.title),
+      child: Builder(builder: (ctx) {
+        if (widget.items.isEmpty) {
+          return const Align(
+              alignment: Alignment.bottomCenter, child: Text("노래가 없습니다."));
+        }
+        return ListTile(
+          trailing: widget.isEdit
+              ? IconButton(
+                  onPressed: () async {
+                    Slidable.of(ctx)?.openEndActionPane();
+                  },
+                  icon: const Icon(
+                    LineAwesomeIcons.minus_circle,
+                    color: Colors.red,
+                  ))
+              : null,
+          leading: SizedBox(
+            width: 60,
+            height: 50,
+            child: Container(
+              decoration: BoxDecoration(borderRadius: BorderRadius.circular(5)),
+              clipBehavior: Clip.antiAlias,
+              child: Image.network(
+                widget.items[widget.index].imgUrl,
+                fit: BoxFit.fill,
+              ),
+            ),
+          ),
+          title: Text(widget.items[widget.index].title),
+        );
+      }),
     );
   }
 }

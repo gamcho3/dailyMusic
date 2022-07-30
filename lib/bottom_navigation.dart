@@ -1,5 +1,6 @@
 import 'package:daliy_music/views/library/library.dart';
 import 'package:daliy_music/views/playlist/play_list.dart';
+import 'package:daliy_music/views/setting/more_page.dart';
 
 import 'package:flutter/material.dart';
 import 'package:line_awesome_flutter/line_awesome_flutter.dart';
@@ -30,7 +31,7 @@ class _BottomNavigationPageState extends State<BottomNavigationPage> {
       body: <Widget>[
         const LibraryPage(),
         const PlayListPage(),
-        Container(color: Colors.white, child: const Text('More'))
+        const MorePage()
       ][currentPageIndex],
       bottomNavigationBar: NavigationBar(
         labelBehavior: NavigationDestinationLabelBehavior.onlyShowSelected,

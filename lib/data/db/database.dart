@@ -62,7 +62,7 @@ CREATE TABLE $tableMusicFiles (
         columns: MusicFilesFields.values,
         where: '${MusicFilesFields.cardNum} = ?',
         whereArgs: [cardNum]);
-    print(maps);
+
     if (maps.isNotEmpty) {
       List<MusicFiles> result = maps.map((e) {
         return MusicFiles.fromJson(e);

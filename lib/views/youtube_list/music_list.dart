@@ -112,7 +112,7 @@ class _MusicListState extends State<MusicList> {
                 if (isCheck) {
                   return;
                 } else {
-                  context.read<CardProvider>().addPlayList(
+                  context.read<AddListProvider>().addPlayList(
                       widget.item.snippet.thumbnails.medium.url,
                       widget.item.snippet.title,
                       widget.item.id.videoId);

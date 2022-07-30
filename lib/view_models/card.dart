@@ -2,7 +2,7 @@ import 'dart:convert';
 
 import 'package:flutter/material.dart';
 
-class CardProvider with ChangeNotifier {
+class AddListProvider with ChangeNotifier {
   List _cards = [];
   List<Map> _playList = [];
   bool _isLoading = false;
