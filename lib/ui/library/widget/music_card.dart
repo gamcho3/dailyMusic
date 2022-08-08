@@ -1,12 +1,8 @@
 import 'package:animations/animations.dart';
-import 'package:daliy_music/color_schemes.g.dart';
-
-import 'package:daliy_music/models/playList.dart';
-
+import 'package:daliy_music/ui/musicCard/musicCard_page.dart';
 import 'package:flutter/material.dart';
-import 'package:provider/provider.dart';
-
-import 'card_detail.dart';
+import '../../../../data/models/playList.dart';
+import '../../musicCard/musicCard_view.dart';
 
 class MusicCard extends StatelessWidget {
   const MusicCard(
@@ -27,8 +23,9 @@ class MusicCard extends StatelessWidget {
     return OpenContainer<bool>(
         transitionDuration: const Duration(milliseconds: 300),
         openBuilder: (context, action) {
-          return CardDetail(
+          return MusicCardPage(
             item: items,
+            index: index,
           );
         },
         closedBuilder: (context, action) {

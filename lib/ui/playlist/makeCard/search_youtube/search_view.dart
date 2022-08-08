@@ -1,25 +1,21 @@
 import 'dart:async';
 import 'dart:io';
-import 'package:daliy_music/db/database.dart';
-import 'package:daliy_music/view_models/youtubeProvider.dart';
-import 'package:daliy_music/views/youtube_list/music_list.dart';
-
+import 'package:daliy_music/ui/playlist/makeCard/make_playlist_viewModel.dart';
 import 'package:flutter/material.dart';
 import 'package:line_awesome_flutter/line_awesome_flutter.dart';
-import 'package:path_provider/path_provider.dart';
 import 'package:provider/provider.dart';
 import 'package:path/path.dart' as path;
 
-import 'package:youtube_explode_dart/youtube_explode_dart.dart';
+import 'widgets/music_list.dart';
 
-class SearchPage extends StatefulWidget {
-  const SearchPage({Key? key}) : super(key: key);
+class SearchView extends StatefulWidget {
+  const SearchView({Key? key}) : super(key: key);
 
   @override
-  State<SearchPage> createState() => _SearchPageState();
+  State<SearchView> createState() => _SearchViewState();
 }
 
-class _SearchPageState extends State<SearchPage> {
+class _SearchViewState extends State<SearchView> {
   Timer? _debounce;
   final _textController = TextEditingController();
   FocusNode _focus = FocusNode();
@@ -30,13 +26,13 @@ class _SearchPageState extends State<SearchPage> {
     super.initState();
   }
 
-  _onsearchChanged(String query, YoutubeProvider provider) {
-    if (_debounce?.isActive ?? false) _debounce?.cancel();
-    print(query);
-    _debounce = Timer(Duration(milliseconds: 500), () {
-      provider.getYoutubeList(query);
-    });
-  }
+  // _onsearchChanged(String query, YoutubeProvider provider) {
+  //   if (_debounce?.isActive ?? false) _debounce?.cancel();
+  //   print(query);
+  //   _debounce = Timer(Duration(milliseconds: 500), () {
+  //     provider.getYoutubeList(query);
+  //   });
+  // }
 
   @override
   void dispose() {
@@ -49,7 +45,7 @@ class _SearchPageState extends State<SearchPage> {
   Widget build(BuildContext context) {
     return Scaffold(
       body: SafeArea(
-        child: Consumer<YoutubeProvider>(
+        child: Consumer<MakePlayListViewModel>(
           builder: (context, provider, child) {
             return Padding(
               padding: const EdgeInsets.all(20),
@@ -105,12 +101,7 @@ class _SearchPageState extends State<SearchPage> {
                   //   Column(
                   //       crossAxisAlignment: CrossAxisAlignment.start,
                   //       children: [Text("최근 검색어")]),
-                  if (provider.loading)
-                    const Expanded(
-                      child: Center(
-                        child: CircularProgressIndicator(),
-                      ),
-                    ),
+
                   if (provider.musicList.isNotEmpty)
                     Expanded(
                       child: ListView.separated(

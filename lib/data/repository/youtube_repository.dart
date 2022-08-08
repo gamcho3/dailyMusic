@@ -1,9 +1,15 @@
 import 'package:daliy_music/data/remote_datasource/remote_data_source.dart';
 
+import '../models/youtube_list_models.dart';
+
 class YoutubeRepository {
   late final RemoteDataSource _remoteDataSource;
 
-  Future searchYoutube({required String keyword}) {
-    return _remoteDataSource.getYoutubeList(keyword: keyword);
+  YoutubeRepository() {
+    _remoteDataSource = RemoteDataSource();
+  }
+
+  Future<YoutubeModel> searchYoutube({required String keyword}) async {
+    return await _remoteDataSource.getYoutubeList(keyword: keyword);
   }
 }

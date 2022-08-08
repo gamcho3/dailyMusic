@@ -1,65 +1,38 @@
 import 'dart:io';
 
+import 'package:daliy_music/data/models/temp_musicList.dart';
+import 'package:daliy_music/ui/playlist/makeCard/make_playlist_viewModel.dart';
+
 import 'package:flutter/material.dart';
 import 'package:line_awesome_flutter/line_awesome_flutter.dart';
 import 'package:modal_bottom_sheet/modal_bottom_sheet.dart';
 import 'package:path_provider/path_provider.dart';
 import 'package:provider/provider.dart';
 import 'package:image_picker/image_picker.dart';
-import 'package:youtube_explode_dart/youtube_explode_dart.dart';
-import 'package:path/path.dart' as path;
 
-import '../../utils/constants/constants.dart';
-import '../../view_models/card.dart';
-import '../../view_models/playlist.dart';
-import '../youtube_list/search.dart';
+import '../../../utils/constants/constants.dart';
+import 'search_youtube/search_pages.dart';
 
-class PlayListDetailPage extends StatefulWidget {
-  const PlayListDetailPage({
+class MakePlayListView extends StatefulWidget {
+  const MakePlayListView({
     Key? key,
   }) : super(key: key);
 
   @override
-  State<PlayListDetailPage> createState() => _PlayListDetailPageState();
+  State<MakePlayListView> createState() => _MakePlayListViewState();
 }
 
-class _PlayListDetailPageState extends State<PlayListDetailPage> {
+class _MakePlayListViewState extends State<MakePlayListView> {
   final ImagePicker _picker = ImagePicker();
   XFile? image;
   String? title;
   String? content;
 
-  Future<File> downloadYoutube(link) async {
-    var yt = YoutubeExplode();
-    //Directory('downloads').createSync();
-    // Get video metadata.
-    var video = await yt.videos.get(link);
-    // Get the video manifest.
-    var manifest = await yt.videos.streamsClient.getManifest(link);
-
-    var audio = manifest.audio[1];
-    // Build the directory.
-    var dir = await getApplicationDocumentsDirectory();
-    var filePath =
-        path.join(dir.uri.toFilePath(), '${video.id}.${audio.container.name}');
-
-    //Open the file to write.
-    var file = File(filePath);
-    var fileStream = file.openWrite();
-
-    await yt.videos.streamsClient.get(audio).pipe(fileStream);
-    // Create the message and set the cursor position.
-
-    await fileStream.flush();
-    await fileStream.close();
-
-    return file;
-  }
-
   @override
   Widget build(BuildContext context) {
-    List<Map> playList = context.watch<AddListProvider>().playList;
-    bool loading = context.watch<AddListProvider>().isLoading;
+    List<TempMusicList> playList =
+        context.watch<MakePlayListViewModel>().tempMusicList;
+    bool loading = context.watch<MakePlayListViewModel>().isLoading;
 
     return Scaffold(
       appBar: AppBar(actions: [
@@ -70,23 +43,30 @@ class _PlayListDetailPageState extends State<PlayListDetailPage> {
                 Constants.showActionSnackbar(context, "정보를 정확히 입력해주세요");
               } else {
                 //로딩 함수
-                context.read<AddListProvider>().updateLoading(true);
-
+                context.read<MakePlayListViewModel>().updateLoading(true);
+                List<Map> musicListPath = [];
                 //유튜브 음악 다운로드
                 for (var i = 0; i < playList.length; i++) {
-                  var result = await downloadYoutube(playList[i]['videoId']);
-                  playList[i]['musicPath'] = result.path;
+                  var result = await context
+                      .read<MakePlayListViewModel>()
+                      .downloadYoutube(playList[i].videoId);
+                  musicListPath.add({
+                    "musicPath": result.path,
+                    "imageUrl": playList[i].imageurl,
+                    "title": playList[i].title
+                  });
                 }
-
                 //리스트카드 만들기
-                context.read<PlayListProvider>().createCard(
-                    imgUrl: image!.path,
-                    title: title!,
-                    content: content!,
-                    musicFiles: playList);
-
+                var result = await context
+                    .read<MakePlayListViewModel>()
+                    .makeCard(
+                        imgUrl: image!.path, title: title!, content: content!);
+                //플레이리스트 만들기
+                await context
+                    .read<MakePlayListViewModel>()
+                    .makePlayList(result, musicListPath);
                 //로딩 멈춤
-                context.read<AddListProvider>().updateLoading(false);
+                context.read<MakePlayListViewModel>().updateLoading(false);
 
                 Navigator.pop(context);
               }
@@ -139,7 +119,7 @@ class _PlayListDetailPageState extends State<PlayListDetailPage> {
                             )
                           ],
                           child: Container(
-                            padding: EdgeInsets.all(7),
+                            padding: const EdgeInsets.all(7),
                             decoration: BoxDecoration(
                               shape: BoxShape.circle,
                               color: Colors.grey.withOpacity(0.3),
@@ -175,8 +155,11 @@ class _PlayListDetailPageState extends State<PlayListDetailPage> {
                     InkWell(
                         onTap: () {
                           showCupertinoModalBottomSheet(
-                              context: context,
-                              builder: (context) => const SearchPage());
+                                  context: context,
+                                  builder: (context) => const SearchPage())
+                              .then((value) {
+                            context.read<MakePlayListViewModel>().getTempList();
+                          });
                         },
                         child: Container(
                             padding: const EdgeInsets.symmetric(vertical: 13),
@@ -211,8 +194,8 @@ class _PlayListDetailPageState extends State<PlayListDetailPage> {
                               GestureDetector(
                                 onTap: () {
                                   context
-                                      .read<AddListProvider>()
-                                      .deletePlayList(i);
+                                      .read<MakePlayListViewModel>()
+                                      .deleteTempList(playList[i]);
                                 },
                                 child: const Icon(
                                   LineAwesomeIcons.minus,
@@ -223,14 +206,14 @@ class _PlayListDetailPageState extends State<PlayListDetailPage> {
                                 width: 10,
                               ),
                               Image.network(
-                                playList[i]['imageUrl'],
+                                playList[i].imageurl,
                                 width: 50,
                                 height: 50,
                                 fit: BoxFit.fill,
                               )
                             ],
                           ),
-                          title: Text(playList[i]['title']),
+                          title: Text(playList[i].title),
                         )
                   ],
                 ),

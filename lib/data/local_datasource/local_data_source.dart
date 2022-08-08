@@ -1,13 +1,15 @@
+import 'package:hive/hive.dart';
 import 'package:sqflite/sqflite.dart';
 import 'package:path/path.dart';
 import '../models/music_files.dart';
 import '../models/playList.dart';
+import '../models/temp_musicList.dart';
 
-class PlayListDatabase {
-  static final PlayListDatabase instance = PlayListDatabase._init();
+class LocalDataSource {
+  static final LocalDataSource instance = LocalDataSource._init();
   static Database? _database;
 
-  PlayListDatabase._init();
+  LocalDataSource._init();
 
   Future<Database> get database async {
     if (_database != null) return _database!;
@@ -133,5 +135,32 @@ CREATE TABLE $tableMusicFiles (
   Future close() async {
     final db = await instance.database;
     db.close();
+  }
+}
+
+class HiveDataSource {
+  Future<List<TempMusicList>> getTempMusicList() async {
+    var postBox = Hive.box<TempMusicList>('tempMusicList');
+    return postBox.values.toList();
+  }
+
+  Future<void> addTempPlayList(
+      String imageUrl, String title, String videoId) async {
+    final playList = TempMusicList()
+      ..imageurl = imageUrl
+      ..title = title
+      ..videoId = videoId;
+    final box = Hive.box<TempMusicList>('tempMusicList');
+    box.add(playList);
+  }
+
+  Future deleteTempMusicList(TempMusicList musicList) async {
+    var postBox = Hive.box<TempMusicList>('tempMusicList');
+    postBox.delete(musicList.key);
+  }
+
+  Future deleteTempMusicListAll() async {
+    var postBox = Hive.box<TempMusicList>('tempMusicList');
+    postBox.clear();
   }
 }

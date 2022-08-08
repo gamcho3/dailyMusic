@@ -7,9 +7,9 @@ import 'package:daliy_music/key/constants_key.dart';
 import 'package:flutter/material.dart';
 import 'package:http/http.dart' as http;
 
+import '../models/weather.dart';
 import '../models/youtube_list_models.dart';
 import '../models/youtube_popular_model.dart';
-import 'api_status.dart';
 
 /// Determine the current position of the device.
 ///
@@ -56,7 +56,21 @@ class RemoteDataSource {
         desiredAccuracy: LocationAccuracy.low);
   }
 
-  Future getYoutubeList<YoutubeListModel>({required String keyword}) async {
+  static Future getWeather<WeatherModel>(double lat, double lon) async {
+    const appId = '8db55fc21a695d9d1bc4a050faaa8af9';
+    final response = await http
+        .get(Uri.parse(
+            'https://api.openweathermap.org/data/2.5/weather?lat=$lat&lon=$lon&appid=$appId&units=metric&lang=kr'))
+        .timeout(const Duration(seconds: 3));
+    if (response.statusCode == 200) {
+      var responseBody = utf8.decode(response.bodyBytes);
+
+      final weatherData = weatherModelFromJson(responseBody);
+      return weatherData;
+    }
+  }
+
+  Future<YoutubeModel> getYoutubeList({required String keyword}) async {
     try {
       var response = await http
           .get(
@@ -67,44 +81,18 @@ class RemoteDataSource {
       if (response.statusCode == 200) {
         var responseBody = utf8.decode(response.bodyBytes);
         final youtubeList = youtubeModelFromJson(responseBody);
-        return Success(response: youtubeList);
+        return youtubeList;
+      } else {
+        throw Exception("Error on server");
       }
-      return Failure(code: 100, errResponse: "Inavalid Response");
     } on HttpException {
-      return Failure(code: 101, errResponse: "No internet");
+      throw Exception("Error on server");
     } on FormatException {
-      return Failure(code: 102, errResponse: "Invalid Format");
+      throw Exception("Error on format");
     } catch (e) {
-      return Failure(code: 103, errResponse: "Unknown Error");
+      throw Exception("Error on unknown");
     }
   }
 
-  Future popularYoutubeList<YoutubeListModel>({String region = "KR"}) async {
-    try {
-      String videoCategoryId = "10";
-
-      String regionCode = region;
-
-      String url =
-          'https://www.googleapis.com/youtube/v3/videos?key=${ApiKey.youtubeKey}&part=snippet&chart=mostPopular&videoCategoryId=$videoCategoryId&regionCode=$regionCode';
-
-      var response = await http
-          .get(
-            Uri.parse(url),
-          )
-          .timeout(const Duration(seconds: 3));
-      if (response.statusCode == 200) {
-        var responseBody = utf8.decode(response.bodyBytes);
-        final youtubeList = popularListFromJson(responseBody);
-        return Success(response: youtubeList);
-      }
-      return Failure(code: 100, errResponse: "Inavalid Response");
-    } on HttpException {
-      return Failure(code: 101, errResponse: "No internet");
-    } on FormatException {
-      return Failure(code: 102, errResponse: "Invalid Format");
-    } catch (e) {
-      return Failure(code: 103, errResponse: "Unknown Error");
-    }
-  }
+  Future addTempMusicList() async {}
 }

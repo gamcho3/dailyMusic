@@ -1,9 +1,9 @@
-import 'package:daliy_music/views/library/library.dart';
-import 'package:daliy_music/views/playlist/play_list.dart';
-import 'package:daliy_music/views/setting/more_page.dart';
-
+import 'package:daliy_music/ui/playlist/playlist_view.dart';
+import 'package:daliy_music/ui/setting/more_page.dart';
 import 'package:flutter/material.dart';
 import 'package:line_awesome_flutter/line_awesome_flutter.dart';
+import 'ui/library/library_page.dart';
+import 'ui/playlist/playlist_page.dart';
 
 class BottomNavigationPage extends StatefulWidget {
   const BottomNavigationPage({Key? key}) : super(key: key);
@@ -20,7 +20,7 @@ class _BottomNavigationPageState extends State<BottomNavigationPage> {
       // bottomSheet: GestureDetector(
       //   onTap: () {
       //     showModalBottomSheet(
-      //         context: context, builder: ((context) => SearchPage()));
+      //         context: context, builder: ((context) => SearchView()));
       //   },
       //   child: Container(
       //       height: 40,

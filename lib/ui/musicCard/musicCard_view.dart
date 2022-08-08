@@ -1,30 +1,27 @@
 import 'dart:io';
-import 'package:daliy_music/models/music_files.dart';
-import 'package:daliy_music/models/playList.dart';
-import 'package:daliy_music/views/library/widget/page_header.dart';
+
+import 'package:daliy_music/ui/musicCard/musicCard_viewModel.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_slidable/flutter_slidable.dart';
 import 'package:line_awesome_flutter/line_awesome_flutter.dart';
 import 'package:path/path.dart' as path;
-import 'package:path_provider/path_provider.dart';
 import 'package:provider/provider.dart';
-import 'package:youtube_explode_dart/youtube_explode_dart.dart';
+import '../../data/models/music_files.dart';
+import '../../data/models/playList.dart';
+import '../../utils/constants/constants.dart';
+import '../library/widget/page_header.dart';
+import '../player/player.dart';
 
-import '../../../utils/constants/constants.dart';
-import '../../../view_models/playlist.dart';
-import '../../player/player.dart';
-import '../../playlist/playlist_detail_page.dart';
-
-class CardDetail extends StatefulWidget {
+class MusicCardView extends StatefulWidget {
   final PlayList item;
-  const CardDetail({Key? key, required this.item}) : super(key: key);
+  const MusicCardView({Key? key, required this.item}) : super(key: key);
 
   @override
-  State<CardDetail> createState() => _CardDetailState();
+  State<MusicCardView> createState() => _MusicCardViewState();
 }
 
-class _CardDetailState extends State<CardDetail> {
+class _MusicCardViewState extends State<MusicCardView> {
   bool isEdit = false;
   late TextEditingController titleEditController;
   late TextEditingController contentEditController;
@@ -32,9 +29,6 @@ class _CardDetailState extends State<CardDetail> {
   late String content;
   @override
   void initState() {
-    WidgetsBinding.instance.addPostFrameCallback((timeStamp) {
-      context.read<PlayListProvider>().loadPlayList(widget.item.id);
-    });
     title = widget.item.title;
     content = widget.item.content;
     titleEditController = TextEditingController(text: title);
@@ -44,13 +38,13 @@ class _CardDetailState extends State<CardDetail> {
 
   @override
   Widget build(BuildContext context) {
-    var list = context.watch<PlayListProvider>().playList;
-    List<MusicFiles> curFiles = list;
+    var list = context.watch<MusicCardViewModel>().playList;
+    // List<MusicFiles>? curFiles = list;
     return Scaffold(
       extendBodyBehindAppBar: true,
       appBar: AppBar(
           leading: IconButton(
-            icon: Icon(
+            icon: const Icon(
               LineAwesomeIcons.angle_left,
               color: Colors.white,
             ),
@@ -69,8 +63,12 @@ class _CardDetailState extends State<CardDetail> {
                           title: title,
                           imgUrl: widget.item.imgUrl,
                           content: content);
-                      context.read<PlayListProvider>().updateCard(newCard);
-                      context.read<PlayListProvider>().loadPlayList(newCard.id);
+                      context
+                          .read<MusicCardViewModel>()
+                          .updateMusicCard(newCard);
+                      context
+                          .read<MusicCardViewModel>()
+                          .getPlayList(newCard.id!);
                     }
                     setState(() {});
                   },
@@ -99,8 +97,8 @@ class _CardDetailState extends State<CardDetail> {
                                     isDestructiveAction: true,
                                     onPressed: () {
                                       context
-                                          .read<PlayListProvider>()
-                                          .deleteCard(widget.item.id, list);
+                                          .read<MusicCardViewModel>()
+                                          .deleteCard(widget.item.id!, list);
 
                                       Navigator.popUntil(
                                           context, (route) => route.isFirst);
@@ -288,7 +286,7 @@ class _MusicTileState extends State<MusicTile> {
             flex: 2,
             onPressed: (context) async {
               context
-                  .read<PlayListProvider>()
+                  .read<MusicCardViewModel>()
                   .deleteMusic(widget.items[widget.index].id!);
               widget.items.removeAt(widget.index);
               Constants.showActionSnackbar(buildContext, "노래가 삭제되었습니다.");

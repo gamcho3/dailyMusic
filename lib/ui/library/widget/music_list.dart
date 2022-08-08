@@ -1,10 +1,9 @@
-import 'package:daliy_music/models/playList.dart';
-
 import 'package:flutter/material.dart';
 import 'package:flutter/rendering.dart';
 import 'package:provider/provider.dart';
 
-import '../../../view_models/playlist.dart';
+import '../../../../data/models/playList.dart';
+
 import 'music_card.dart';
 
 class MusicListView extends StatelessWidget {
@@ -14,7 +13,7 @@ class MusicListView extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     var size = MediaQuery.of(context).size;
-    var songs = context.watch<PlayListProvider>().playList;
+
     return SizedBox(
       height: size.height * 0.3,
       child: Builder(builder: (context) {
@@ -38,14 +37,14 @@ class MusicListView extends StatelessWidget {
                       index: index,
                     ),
                   ),
-                  SizedBox(
+                  const SizedBox(
                     height: 10,
                   ),
                   Text(
                     items[index].title,
-                    style: TextStyle(fontWeight: FontWeight.bold, fontSize: 20),
+                    style: const TextStyle(
+                        fontWeight: FontWeight.bold, fontSize: 20),
                   ),
-                  Text('${songs.length}개')
                 ],
               );
             },

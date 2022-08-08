@@ -45,6 +45,7 @@ dependencies:
   #google_mobile_ads: ^1.2.0
   flutter_local_notifications: ^9.5.2
   hive: ^2.1.0
+  hive_flutter: ^1.1.0
   google_sign_in: ^5.3.1
   firebase_core: ^1.17.0
   just_audio: ^0.9.24
@@ -66,6 +67,7 @@ dependencies:
   modal_bottom_sheet: ^2.1.0
   flutter_slidable: ^2.0.0
   go_router: ^4.2.2
+  path_to_regexp: ^0.4.0
 dev_dependencies:
   flutter_test:
     sdk: flutter
@@ -76,6 +78,8 @@ dev_dependencies:
   # package. See that file for information about deactivating specific lint
   # rules and activating additional ones.
   flutter_lints: ^2.0.1
+  build_runner: ^2.2.0
+  hive_generator: ^1.1.3
 
 # For information on the generic Dart part of this file, see the
 # following page: https://dart.dev/tools/pub/pubspec
