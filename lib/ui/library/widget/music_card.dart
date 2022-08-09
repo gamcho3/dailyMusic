@@ -5,13 +5,13 @@ import '../../../../data/models/playList.dart';
 import '../../musicCard/musicCard_view.dart';
 
 class MusicCard extends StatelessWidget {
-  const MusicCard(
-      {Key? key,
-      required this.items,
-      required this.index,
-      required this.sizeWidth,
-      required this.sizeHeight})
-      : super(key: key);
+  const MusicCard({
+    Key? key,
+    required this.items,
+    required this.index,
+    required this.sizeWidth,
+    required this.sizeHeight,
+  }) : super(key: key);
 
   final double sizeWidth;
   final double sizeHeight;

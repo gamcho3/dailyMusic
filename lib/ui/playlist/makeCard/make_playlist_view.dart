@@ -1,9 +1,12 @@
 import 'dart:io';
 
 import 'package:daliy_music/data/models/temp_musicList.dart';
+import 'package:daliy_music/ui/library/library_viewModel.dart';
 import 'package:daliy_music/ui/playlist/makeCard/make_playlist_viewModel.dart';
+import 'package:daliy_music/ui/playlist/playlist_viewModel.dart';
 
 import 'package:flutter/material.dart';
+import 'package:go_router/go_router.dart';
 import 'package:line_awesome_flutter/line_awesome_flutter.dart';
 import 'package:modal_bottom_sheet/modal_bottom_sheet.dart';
 import 'package:path_provider/path_provider.dart';
@@ -67,7 +70,7 @@ class _MakePlayListViewState extends State<MakePlayListView> {
                     .makePlayList(result, musicListPath);
                 //로딩 멈춤
                 context.read<MakePlayListViewModel>().updateLoading(false);
-
+                GoRouter.of(context).go('/playList');
                 Navigator.pop(context);
               }
             },

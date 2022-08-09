@@ -20,11 +20,6 @@ class MusicCardRepository {
   void deleteCard(id, List<MusicFiles> playList) async {
     await LocalDataSource.instance.delete(id);
     await LocalDataSource.instance.deleteAllMusics(id);
-    for (var i = 0; i < playList.length; i++) {
-      var file = File(playList[i].musicFilePath);
-      await file.delete();
-    }
-    getMusicCards();
   }
 
   Future<int> updateCard(PlayList list) async {

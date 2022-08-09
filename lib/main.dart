@@ -52,14 +52,3 @@ class _MyAppState extends State<MyApp> {
     );
   }
 }
-
-class HomeProvider extends StatelessWidget {
-  const HomeProvider({
-    Key? key,
-  }) : super(key: key);
-
-  @override
-  Widget build(BuildContext context) {
-    return const BottomNavigationPage();
-  }
-}

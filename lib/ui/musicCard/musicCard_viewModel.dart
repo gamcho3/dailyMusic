@@ -1,3 +1,5 @@
+import 'dart:io';
+
 import 'package:daliy_music/data/models/music_files.dart';
 import 'package:daliy_music/data/repository/musicCard_repository.dart';
 import 'package:daliy_music/data/repository/playList_repository.dart';
@@ -13,6 +15,7 @@ class MusicCardViewModel with ChangeNotifier {
 
   MusicCardViewModel(int cardNum) {
     _playListRepository = PlayListRepository();
+    _musicCardRepository = MusicCardRepository();
     getPlayList(cardNum);
   }
 
@@ -25,8 +28,12 @@ class MusicCardViewModel with ChangeNotifier {
     _musicCardRepository.updateCard(list);
   }
 
-  void deleteCard(int id, List<MusicFiles> playList) {
+  Future<void> deleteCard(int id, List<MusicFiles> playList) async {
     _musicCardRepository.deleteCard(id, playList);
+    for (var i = 0; i < playList.length; i++) {
+      var file = File(playList[i].musicFilePath);
+      await file.delete();
+    }
   }
 
   void deleteMusic(int id) {

@@ -4,15 +4,20 @@ import 'package:go_router/go_router.dart';
 final router = GoRouter(routes: <GoRoute>[
   GoRoute(
     path: '/',
-    name: 'main',
-    builder: (context, state) => const BottomNavigationPage(),
+    builder: (context, state) {
+      // String? index = state.queryParams['index'] ?? "0";
+
+      return const BottomNavigationPage(
+        pageIndex: 0,
+      );
+    },
   ),
-  // GoRoute(
-  //   path: '/musicCard',
-  //   name: "musicCard",
-  //   builder: ((context, state) {
-  //     PlayList item = state.queryParams['item'] as PlayList;
-  //     return MusicCardPage(item: item);
-  //   }),
-  // )
+  GoRoute(
+    path: '/playList',
+    builder: (context, state) {
+      return const BottomNavigationPage(
+        pageIndex: 1,
+      );
+    },
+  )
 ], initialLocation: '/', debugLogDiagnostics: true, routerNeglect: true);

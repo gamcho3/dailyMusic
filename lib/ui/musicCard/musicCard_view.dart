@@ -1,9 +1,12 @@
 import 'dart:io';
 
+import 'package:daliy_music/ui/library/library_viewModel.dart';
 import 'package:daliy_music/ui/musicCard/musicCard_viewModel.dart';
+import 'package:daliy_music/ui/playlist/playlist_viewModel.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_slidable/flutter_slidable.dart';
+import 'package:go_router/go_router.dart';
 import 'package:line_awesome_flutter/line_awesome_flutter.dart';
 import 'package:path/path.dart' as path;
 import 'package:provider/provider.dart';
@@ -37,7 +40,7 @@ class _MusicCardViewState extends State<MusicCardView> {
   }
 
   @override
-  Widget build(BuildContext context) {
+  Widget build(BuildContext buildContext) {
     var list = context.watch<MusicCardViewModel>().playList;
     // List<MusicFiles>? curFiles = list;
     return Scaffold(
@@ -96,12 +99,11 @@ class _MusicCardViewState extends State<MusicCardView> {
                                   CupertinoActionSheetAction(
                                     isDestructiveAction: true,
                                     onPressed: () {
-                                      context
+                                      buildContext
                                           .read<MusicCardViewModel>()
                                           .deleteCard(widget.item.id!, list);
-
-                                      Navigator.popUntil(
-                                          context, (route) => route.isFirst);
+                                      GoRouter.of(context).go('/playList');
+                                      Navigator.pop(context);
                                     },
                                     child: const Text('플레이리스트 삭제'),
                                   )

@@ -6,16 +6,26 @@ import 'ui/library/library_page.dart';
 import 'ui/playlist/playlist_page.dart';
 
 class BottomNavigationPage extends StatefulWidget {
-  const BottomNavigationPage({Key? key}) : super(key: key);
+  final int pageIndex;
+  const BottomNavigationPage({Key? key, required this.pageIndex})
+      : super(key: key);
 
   @override
   State<BottomNavigationPage> createState() => _BottomNavigationPageState();
 }
 
 class _BottomNavigationPageState extends State<BottomNavigationPage> {
-  int currentPageIndex = 0;
+  late int currentPageIndex;
+  @override
+  void initState() {
+    currentPageIndex = widget.pageIndex;
+    // TODO: implement initState
+    super.initState();
+  }
+
   @override
   Widget build(BuildContext context) {
+    print(currentPageIndex);
     return Scaffold(
       // bottomSheet: GestureDetector(
       //   onTap: () {

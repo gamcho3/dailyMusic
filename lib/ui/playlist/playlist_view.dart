@@ -39,9 +39,8 @@ class _PlayListViewState extends State<PlayListView> {
               onPressed: () {
                 // context.read<SearchViewModel>().deleteTempPlayListAll();
                 showCupertinoModalBottomSheet(
-                        context: context,
-                        builder: (context) => const MakePlayListPage())
-                    .then((value) {});
+                    context: context,
+                    builder: (context) => const MakePlayListPage());
               },
               icon: const Icon(LineAwesomeIcons.plus))
         ]),
@@ -62,16 +61,12 @@ class _PlayListViewState extends State<PlayListView> {
                 mainAxisSpacing: 4,
                 crossAxisSpacing: 4,
                 itemBuilder: (context, index) {
-                  return GestureDetector(
-                      onTap: () {
-                        context.go('/musicCard?query=${list[index]}');
-                      },
-                      child: MusicCard(
-                        index: index,
-                        sizeHeight: (index % 2 + 1) * 200,
-                        sizeWidth: size.width / 2,
-                        items: list[index],
-                      ));
+                  return MusicCard(
+                    index: index,
+                    sizeHeight: (index % 2 + 1) * 200,
+                    sizeWidth: size.width / 2,
+                    items: list[index],
+                  );
                 },
               ),
             );
