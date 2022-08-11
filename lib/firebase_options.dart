@@ -72,6 +72,6 @@ class DefaultFirebaseOptions {
     storageBucket: 'dailymusic-1de6d.appspot.com',
     iosClientId:
         '196115385458-h94tllpa1f5n32k228fpp0si7qq7i4ta.apps.googleusercontent.com',
-    iosBundleId: 'com.example.daliyMusic',
+    iosBundleId: 'com.park.daliyMusic',
   );
 }

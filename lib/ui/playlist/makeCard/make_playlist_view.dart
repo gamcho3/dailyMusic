@@ -1,10 +1,8 @@
 import 'dart:io';
 
 import 'package:daliy_music/data/models/temp_musicList.dart';
-import 'package:daliy_music/ui/library/library_viewModel.dart';
 import 'package:daliy_music/ui/playlist/makeCard/make_playlist_viewModel.dart';
-import 'package:daliy_music/ui/playlist/playlist_viewModel.dart';
-
+import 'package:path/path.dart' as path;
 import 'package:flutter/material.dart';
 import 'package:go_router/go_router.dart';
 import 'package:line_awesome_flutter/line_awesome_flutter.dart';
@@ -48,6 +46,11 @@ class _MakePlayListViewState extends State<MakePlayListView> {
                 //로딩 함수
                 context.read<MakePlayListViewModel>().updateLoading(true);
                 List<Map> musicListPath = [];
+                //이미지 따로 저장
+                var dir = await getApplicationDocumentsDirectory();
+                var filePath = path.join(dir.uri.toFilePath(),
+                    '$title.${image!.path.substring(image!.path.length - 2)}');
+                var file = File(filePath);
                 //유튜브 음악 다운로드
                 for (var i = 0; i < playList.length; i++) {
                   var result = await context
@@ -63,7 +66,7 @@ class _MakePlayListViewState extends State<MakePlayListView> {
                 var result = await context
                     .read<MakePlayListViewModel>()
                     .makeCard(
-                        imgUrl: image!.path, title: title!, content: content!);
+                        imgUrl: file.path, title: title!, content: content!);
                 //플레이리스트 만들기
                 await context
                     .read<MakePlayListViewModel>()
