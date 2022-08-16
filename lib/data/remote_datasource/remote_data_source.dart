@@ -80,6 +80,7 @@ class RemoteDataSource {
           .timeout(const Duration(seconds: 3));
       if (response.statusCode == 200) {
         var responseBody = utf8.decode(response.bodyBytes);
+
         final youtubeList = youtubeModelFromJson(responseBody);
         return youtubeList;
       } else {
@@ -93,6 +94,4 @@ class RemoteDataSource {
       throw Exception("Error on unknown");
     }
   }
-
-  Future addTempMusicList() async {}
 }

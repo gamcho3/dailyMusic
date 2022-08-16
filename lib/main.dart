@@ -41,13 +41,13 @@ class _MyAppState extends State<MyApp> {
       ),
       title: 'daliy_music',
       theme: ThemeData(
-        useMaterial3: true,
-        colorScheme: lightColorScheme,
-      ),
+          useMaterial3: true,
+          colorScheme: lightColorScheme,
+          primaryColor: Color(0xFF695F00)),
       darkTheme: ThemeData(
-        useMaterial3: true,
-        colorScheme: darkColorScheme,
-      ),
+          useMaterial3: true,
+          colorScheme: darkColorScheme,
+          textTheme: GoogleFonts.notoSansNKoTextTheme()),
       themeMode: ThemeMode.system,
     );
   }
