@@ -1,9 +1,23 @@
-import 'package:flutter/material.dart';
+import 'package:daliy_music/bottom_navigation.dart';
+import 'package:go_router/go_router.dart';
 
-import '../main.dart';
-import '../views/youtube_list/search.dart';
+final router = GoRouter(routes: <GoRoute>[
+  GoRoute(
+    path: '/',
+    builder: (context, state) {
+      // String? index = state.queryParams['index'] ?? "0";
 
-var customRoutes = <String, WidgetBuilder>{
-  '/': (context) => const HomeProvider(),
-  '/search': (context) => const SearchPage(),
-};
+      return const BottomNavigationPage(
+        pageIndex: 0,
+      );
+    },
+  ),
+  GoRoute(
+    path: '/playList',
+    builder: (context, state) {
+      return const BottomNavigationPage(
+        pageIndex: 1,
+      );
+    },
+  )
+], initialLocation: '/', debugLogDiagnostics: true, routerNeglect: true);

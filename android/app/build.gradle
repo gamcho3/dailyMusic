@@ -8,7 +8,7 @@ if (localPropertiesFile.exists()) {
 
 def flutterRoot = localProperties.getProperty('flutter.sdk')
 if (flutterRoot == null) {
-    throw new GradleException("Flutter SDK not found. Define location with flutter.sdk in the local.properties file.")
+    throw new FileNotFoundException("Flutter SDK not found. Define location with flutter.sdk in the local.properties file.")
 }
 
 def flutterVersionCode = localProperties.getProperty('flutter.versionCode')
@@ -49,30 +49,32 @@ android {
 
     defaultConfig {
         // TODO: Specify your own unique Application ID (https://developer.android.com/studio/build/application-id.html).
-        applicationId "com.example.daliy_music"
+        applicationId "com.park.daliy_music"
         minSdkVersion 21
         targetSdkVersion flutter.targetSdkVersion
         versionCode flutterVersionCode.toInteger()
         versionName flutterVersionName
     }
 
-//     signingConfigs {
+    signingConfigs {
        
-//        release {
-//            keyAlias keystoreProperties['keyAlias']
-//            keyPassword keystoreProperties['keyPassword']
-//            storeFile file(keystoreProperties['storeFile'])
-//            storePassword keystoreProperties['storePassword']
+       release {
+           keyAlias keystoreProperties['keyAlias']
+           keyPassword keystoreProperties['keyPassword']
+           storeFile file(keystoreProperties['storeFile'])
+           storePassword keystoreProperties['storePassword']
            
-//        }
-//    }
-//    buildTypes {
+       }
+   }
+   buildTypes {
        
-//        release {
-//            signingConfig signingConfigs.release
-//            proguardFiles 'proguard-kakao.pro'                   
-//        }
-//    }
+       release {
+           signingConfig signingConfigs.release
+           minifyEnabled true
+            useProguard true
+           proguardFiles 'proguard-kakao.pro'                   
+       }
+   }
 }
 
 flutter {

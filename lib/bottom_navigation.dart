@@ -1,25 +1,37 @@
-import 'package:daliy_music/views/library/library.dart';
-import 'package:daliy_music/views/playlist/play_list.dart';
-
+import 'package:daliy_music/ui/playlist/playlist_view.dart';
+import 'package:daliy_music/ui/setting/more_page.dart';
+import 'package:dot_navigation_bar/dot_navigation_bar.dart';
 import 'package:flutter/material.dart';
 import 'package:line_awesome_flutter/line_awesome_flutter.dart';
+import 'ui/library/library_page.dart';
+import 'ui/playlist/playlist_page.dart';
 
 class BottomNavigationPage extends StatefulWidget {
-  const BottomNavigationPage({Key? key}) : super(key: key);
+  final int pageIndex;
+  const BottomNavigationPage({Key? key, required this.pageIndex})
+      : super(key: key);
 
   @override
   State<BottomNavigationPage> createState() => _BottomNavigationPageState();
 }
 
 class _BottomNavigationPageState extends State<BottomNavigationPage> {
-  int currentPageIndex = 0;
+  late int currentPageIndex;
+  @override
+  void initState() {
+    currentPageIndex = widget.pageIndex;
+    // TODO: implement initState
+    super.initState();
+  }
+
   @override
   Widget build(BuildContext context) {
+    print(currentPageIndex);
     return Scaffold(
       // bottomSheet: GestureDetector(
       //   onTap: () {
       //     showModalBottomSheet(
-      //         context: context, builder: ((context) => SearchPage()));
+      //         context: context, builder: ((context) => SearchView()));
       //   },
       //   child: Container(
       //       height: 40,
@@ -30,22 +42,25 @@ class _BottomNavigationPageState extends State<BottomNavigationPage> {
       body: <Widget>[
         const LibraryPage(),
         const PlayListPage(),
-        Container(color: Colors.white, child: const Text('More'))
+        const MorePage()
       ][currentPageIndex],
-      bottomNavigationBar: NavigationBar(
-        labelBehavior: NavigationDestinationLabelBehavior.onlyShowSelected,
-        onDestinationSelected: ((int index) {
+      bottomNavigationBar: DotNavigationBar(
+        currentIndex: currentPageIndex,
+        onTap: (int index) {
           setState(() {
             currentPageIndex = index;
           });
-        }),
-        selectedIndex: currentPageIndex,
-        destinations: const <Widget>[
-          NavigationDestination(
-              icon: Icon(LineAwesomeIcons.home), label: 'Home'),
-          NavigationDestination(
-              icon: Icon(LineAwesomeIcons.headphones), label: 'PlayList'),
-          NavigationDestination(icon: Icon(Icons.more_horiz), label: 'More'),
+        },
+        items: [
+          DotNavigationBarItem(
+              icon: const Icon(LineAwesomeIcons.home),
+              selectedColor: Theme.of(context).primaryColor),
+          DotNavigationBarItem(
+            icon: const Icon(LineAwesomeIcons.headphones),
+          ),
+          DotNavigationBarItem(
+            icon: const Icon(Icons.more_horiz),
+          ),
         ],
       ),
     );
