@@ -47,31 +47,30 @@ class DefaultFirebaseOptions {
   }
 
   static const FirebaseOptions web = FirebaseOptions(
-    apiKey: 'AIzaSyB76gKL_W-RdfC7B1YPtg4CIv_IlxxvGxU',
-    appId: '1:196115385458:web:72b8db6c0cb61ab7f2c6eb',
-    messagingSenderId: '196115385458',
-    projectId: 'dailymusic-1de6d',
-    authDomain: 'dailymusic-1de6d.firebaseapp.com',
-    storageBucket: 'dailymusic-1de6d.appspot.com',
-    measurementId: 'G-6G9S0DYWE3',
+    apiKey: 'AIzaSyBE8Ru0eDDx68Cr3In01jHQpnL1bJjKE9Q',
+    appId: '1:162625826936:web:b67c1e3b5a4bec8f41bd8d',
+    messagingSenderId: '162625826936',
+    projectId: 'daily-music-a3d6e',
+    authDomain: 'daily-music-a3d6e.firebaseapp.com',
+    storageBucket: 'daily-music-a3d6e.appspot.com',
+    measurementId: 'G-EPW3W9KWQF',
   );
 
   static const FirebaseOptions android = FirebaseOptions(
-    apiKey: 'AIzaSyCySqS9U5-bCQwUBFBpt8aitw4buJQM9Ho',
-    appId: '1:196115385458:android:1b00b8b266ca1236f2c6eb',
-    messagingSenderId: '196115385458',
-    projectId: 'dailymusic-1de6d',
-    storageBucket: 'dailymusic-1de6d.appspot.com',
+    apiKey: 'AIzaSyD3mI_2WLL7hON0QxdI3NuPnSzgHT-C4fg',
+    appId: '1:162625826936:android:f574ba74d419d6f141bd8d',
+    messagingSenderId: '162625826936',
+    projectId: 'daily-music-a3d6e',
+    storageBucket: 'daily-music-a3d6e.appspot.com',
   );
 
   static const FirebaseOptions ios = FirebaseOptions(
-    apiKey: 'AIzaSyDY0z-8elpZoyQElX7nXBrkgI0AO6AiPDc',
-    appId: '1:196115385458:ios:1879d49511423cb4f2c6eb',
-    messagingSenderId: '196115385458',
-    projectId: 'dailymusic-1de6d',
-    storageBucket: 'dailymusic-1de6d.appspot.com',
-    iosClientId:
-        '196115385458-h94tllpa1f5n32k228fpp0si7qq7i4ta.apps.googleusercontent.com',
+    apiKey: 'AIzaSyAwxub6cyHKymm5jFT6CxBd65xi91MptGQ',
+    appId: '1:162625826936:ios:976de6424d7d6fd341bd8d',
+    messagingSenderId: '162625826936',
+    projectId: 'daily-music-a3d6e',
+    storageBucket: 'daily-music-a3d6e.appspot.com',
+    iosClientId: '162625826936-3k4mf967u42r6jpvm0e91km9qk83qf13.apps.googleusercontent.com',
     iosBundleId: 'com.park.daliyMusic',
   );
 }

@@ -1,7 +1,10 @@
 import 'package:daliy_music/bottom_navigation.dart';
 import 'package:daliy_music/color_schemes.g.dart';
 import 'package:daliy_music/data/models/temp_musicList.dart';
+import 'package:daliy_music/firebase_options.dart';
 import 'package:daliy_music/routes/routes.dart';
+import 'package:daliy_music/utils/theme/constants.dart';
+import 'package:firebase_core/firebase_core.dart';
 import 'package:flutter/material.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:hive_flutter/hive_flutter.dart';
@@ -14,7 +17,9 @@ Future main() async {
   Hive.registerAdapter(TempMusicListAdapter());
   await Hive.openBox<TempMusicList>('tempMusicList');
   // KakaoSdk.init(nativeAppKey: Constants.kakaoAppKey);
-  // await Firebase.initializeApp(options: DefaultFirebaseOptions.currentPlatform);
+  await Firebase.initializeApp(
+    options: DefaultFirebaseOptions.currentPlatform,
+  );
   runApp(const MyApp());
 }
 
@@ -40,10 +45,7 @@ class _MyAppState extends State<MyApp> {
         child: child!,
       ),
       title: 'daliy_music',
-      theme: ThemeData(
-          useMaterial3: true,
-          colorScheme: lightColorScheme,
-          primaryColor: Color(0xFF695F00)),
+      theme: themeData,
       darkTheme: ThemeData(
           useMaterial3: true,
           colorScheme: darkColorScheme,

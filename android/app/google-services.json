@@ -1,41 +1,34 @@
 {
   "project_info": {
-    "project_number": "196115385458",
-    "project_id": "dailymusic-1de6d",
-    "storage_bucket": "dailymusic-1de6d.appspot.com"
+    "project_number": "162625826936",
+    "project_id": "daily-music-a3d6e",
+    "storage_bucket": "daily-music-a3d6e.appspot.com"
   },
   "client": [
     {
       "client_info": {
-        "mobilesdk_app_id": "1:196115385458:android:1b00b8b266ca1236f2c6eb",
+        "mobilesdk_app_id": "1:162625826936:android:f574ba74d419d6f141bd8d",
         "android_client_info": {
           "package_name": "com.park.daliy_music"
         }
       },
       "oauth_client": [
         {
-          "client_id": "196115385458-etvc08d7gaf03mgv94vgg22rmunai638.apps.googleusercontent.com",
+          "client_id": "162625826936-tmjocajgelsf02qnic1brinb5hfah2su.apps.googleusercontent.com",
           "client_type": 3
         }
       ],
       "api_key": [
         {
-          "current_key": "AIzaSyCySqS9U5-bCQwUBFBpt8aitw4buJQM9Ho"
+          "current_key": "AIzaSyD3mI_2WLL7hON0QxdI3NuPnSzgHT-C4fg"
         }
       ],
       "services": {
         "appinvite_service": {
           "other_platform_oauth_client": [
             {
-              "client_id": "196115385458-etvc08d7gaf03mgv94vgg22rmunai638.apps.googleusercontent.com",
+              "client_id": "162625826936-tmjocajgelsf02qnic1brinb5hfah2su.apps.googleusercontent.com",
               "client_type": 3
-            },
-            {
-              "client_id": "196115385458-h94tllpa1f5n32k228fpp0si7qq7i4ta.apps.googleusercontent.com",
-              "client_type": 2,
-              "ios_info": {
-                "bundle_id": "com.park.daliyMusic"
-              }
             }
           ]
         }
