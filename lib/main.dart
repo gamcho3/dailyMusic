@@ -6,6 +6,7 @@ import 'package:daliy_music/routes/routes.dart';
 import 'package:daliy_music/utils/theme/constants.dart';
 import 'package:firebase_core/firebase_core.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_dotenv/flutter_dotenv.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:hive_flutter/hive_flutter.dart';
 
@@ -16,6 +17,7 @@ Future main() async {
   await Hive.initFlutter();
   Hive.registerAdapter(TempMusicListAdapter());
   await Hive.openBox<TempMusicList>('tempMusicList');
+  await dotenv.load();
   // KakaoSdk.init(nativeAppKey: Constants.kakaoAppKey);
   await Firebase.initializeApp(
     options: DefaultFirebaseOptions.currentPlatform,
