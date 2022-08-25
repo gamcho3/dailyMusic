@@ -31,12 +31,18 @@ class LibraryView extends StatelessWidget {
                   Padding(
                     padding: const EdgeInsets.all(10.0),
                     child: TextFormField(
+                      onFieldSubmitted: (value) {
+                        if (value.isEmpty) {
+                        } else {
+                          context.go('/search?query=$value');
+                        }
+                      },
                       decoration: InputDecoration(
                         isDense: true,
                         filled: true,
                         fillColor:
                             Theme.of(context).backgroundColor.withOpacity(0.3),
-                        hintText: "검색하기",
+                        hintText: "노래 검색하기",
                         prefixIcon: Icon(
                           LineAwesomeIcons.search,
                           color: Colors.grey.shade400,
@@ -84,14 +90,14 @@ class LibraryView extends StatelessWidget {
                                 padding: const EdgeInsets.all(10.0),
                                 child: Row(
                                   children: [
-                                    Icon(
+                                    const Icon(
                                       LineAwesomeIcons.map_marker,
                                       color: Colors.white,
                                       size: 30,
                                     ),
                                     Text(
                                       country!,
-                                      style: TextStyle(
+                                      style: const TextStyle(
                                           color: Colors.white,
                                           fontWeight: FontWeight.bold),
                                     )

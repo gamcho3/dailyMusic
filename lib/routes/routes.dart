@@ -1,4 +1,6 @@
 import 'package:daliy_music/bottom_navigation.dart';
+import 'package:daliy_music/ui/playlist/makeCard/search_youtube/search_pages.dart';
+import 'package:daliy_music/ui/search/music_search_page.dart';
 import 'package:go_router/go_router.dart';
 
 final router = GoRouter(routes: <GoRoute>[
@@ -19,5 +21,12 @@ final router = GoRouter(routes: <GoRoute>[
         pageIndex: 1,
       );
     },
-  )
+  ),
+  GoRoute(
+      path: '/search',
+      builder: ((context, state) {
+        String keyword = state.queryParams['query']!;
+
+        return MusicSearchPage(keyword: keyword);
+      }))
 ], initialLocation: '/', debugLogDiagnostics: true, routerNeglect: true);
