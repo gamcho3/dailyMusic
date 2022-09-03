@@ -1,8 +1,10 @@
-import 'dart:io';
+import 'dart:io' show Platform;
 
 import 'package:better_player/better_player.dart';
+import 'package:daliy_music/utils/constants/constants.dart';
 
 import 'package:flutter/material.dart';
+import 'package:google_mobile_ads/google_mobile_ads.dart';
 import 'package:line_awesome_flutter/line_awesome_flutter.dart';
 import 'package:marquee/marquee.dart';
 
@@ -29,6 +31,17 @@ class _PlayerPageState extends State<PlayerPage> {
   late BetterPlayerConfiguration _betterPlayerConfiguration;
   late BetterPlayerPlaylistConfiguration _betterPlayerPlaylistConfiguration;
   final List<BetterPlayerDataSource> _dataSourceList = [];
+
+  final BannerAd _banner = BannerAd(
+    listener: BannerAdListener(
+      onAdFailedToLoad: (Ad ad, LoadAdError error) {},
+      onAdLoaded: (_) {},
+    ),
+    size: AdSize.banner,
+    adUnitId: UNIT_ID[Platform.isIOS ? 'ios' : 'android']!,
+    request: const AdRequest(),
+  )..load();
+
   @override
   void initState() {
     _betterPlayerConfiguration = const BetterPlayerConfiguration(
@@ -48,20 +61,6 @@ class _PlayerPageState extends State<PlayerPage> {
     super.initState();
   }
 
-  // void _setupDataSource() async {
-  //   BetterPlayerDataSource dataSource = BetterPlayerDataSource(
-  //     BetterPlayerDataSourceType.file,
-  //     widget.videoFile!.path,
-  //     notificationConfiguration: BetterPlayerNotificationConfiguration(
-  //       showNotification: true,
-  //       title: "dff",
-  //       author: "Some author",
-  //       activityName: "MainActivity",
-  //     ),
-  //   );
-  //   _betterPlayerController.setupDataSource(dataSource);
-  // }
-
   List<BetterPlayerDataSource> createDataSet() {
     for (var i = 0; i < widget.items.length; i++) {
       _dataSourceList.add(
@@ -76,6 +75,12 @@ class _PlayerPageState extends State<PlayerPage> {
       );
     }
     return _dataSourceList;
+  }
+
+  @override
+  void dispose() {
+    super.dispose();
+    _banner.dispose();
   }
 
   @override
@@ -197,7 +202,8 @@ class _PlayerPageState extends State<PlayerPage> {
                   _betterPlayerPlaylistController?.betterPlayerController!
                       .setVolume(rating);
                 });
-              })
+              }),
+          AdWidget(ad: _banner)
           // ElevatedButton(
           //   onPressed: () {
           //     var list = [

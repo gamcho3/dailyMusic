@@ -1,3 +1,4 @@
+import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
 
 class Constants {
@@ -34,3 +35,13 @@ class Constants {
         });
   }
 }
+
+const Map<String, String> UNIT_ID = kReleaseMode
+    ? {
+        'ios': '[YOUR iOS AD UNIT ID]',
+        'android': 'ca-app-pub-1039451548608668/4361353898',
+      }
+    : {
+        'ios': 'ca-app-pub-3940256099942544/2934735716',
+        'android': 'ca-app-pub-1039451548608668/4361353898',
+      };

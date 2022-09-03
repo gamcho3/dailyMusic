@@ -5,15 +5,23 @@ import 'package:go_router/go_router.dart';
 
 final router = GoRouter(routes: <GoRoute>[
   GoRoute(
-    path: '/',
-    builder: (context, state) {
-      // String? index = state.queryParams['index'] ?? "0";
+      path: '/',
+      builder: (context, state) {
+        // String? index = state.queryParams['index'] ?? "0";
 
-      return const BottomNavigationPage(
-        pageIndex: 0,
-      );
-    },
-  ),
+        return const BottomNavigationPage(
+          pageIndex: 0,
+        );
+      },
+      routes: [
+        GoRoute(
+            path: 'search',
+            builder: ((context, state) {
+              String keyword = state.queryParams['query']!;
+
+              return MusicSearchPage(keyword: keyword);
+            }))
+      ]),
   GoRoute(
     path: '/playList',
     builder: (context, state) {
@@ -22,11 +30,4 @@ final router = GoRouter(routes: <GoRoute>[
       );
     },
   ),
-  GoRoute(
-      path: '/search',
-      builder: ((context, state) {
-        String keyword = state.queryParams['query']!;
-
-        return MusicSearchPage(keyword: keyword);
-      }))
 ], initialLocation: '/', debugLogDiagnostics: true, routerNeglect: true);
