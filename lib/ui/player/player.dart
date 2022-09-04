@@ -55,9 +55,7 @@ class _PlayerPageState extends State<PlayerPage> {
       loopVideos: true,
       nextVideoDelay: Duration(seconds: 3),
     );
-    // _betterPlayerController =
-    //     BetterPlayerController(_betterPlayerConfiguration);
-    // _setupDataSource();
+
     super.initState();
   }
 
@@ -203,7 +201,7 @@ class _PlayerPageState extends State<PlayerPage> {
                       .setVolume(rating);
                 });
               }),
-          AdWidget(ad: _banner)
+          // AdWidget(ad: _banner)
           // ElevatedButton(
           //   onPressed: () {
           //     var list = [

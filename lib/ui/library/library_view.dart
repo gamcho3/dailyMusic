@@ -17,6 +17,7 @@ class LibraryView extends StatelessWidget {
         centerTitle: false,
         titleSpacing: 15,
         elevation: 0,
+        backgroundColor: Colors.transparent,
         title: const Text(
           "오늘의 음악",
           style: TextStyle(fontWeight: FontWeight.bold, fontSize: 25),
@@ -108,7 +109,7 @@ class LibraryView extends StatelessWidget {
                                 mainAxisAlignment:
                                     MainAxisAlignment.spaceBetween,
                                 children: [
-                                  Spacer(),
+                                  const Spacer(),
                                   Column(
                                     children: [
                                       RichText(
@@ -125,14 +126,14 @@ class LibraryView extends StatelessWidget {
                                       ),
                                       Text(
                                         description,
-                                        style: TextStyle(
+                                        style: const TextStyle(
                                             fontSize: 20,
                                             fontWeight: FontWeight.bold,
                                             color: Colors.white),
                                       ),
                                     ],
                                   ),
-                                  Spacer(),
+                                  const Spacer(),
                                   Padding(
                                     padding: const EdgeInsets.only(bottom: 10),
                                     child: Row(
@@ -140,19 +141,19 @@ class LibraryView extends StatelessWidget {
                                           MainAxisAlignment.spaceEvenly,
                                       children: [
                                         weatherInfo(
-                                            Icon(
+                                            const Icon(
                                               LineAwesomeIcons.wind,
                                               color: Colors.white,
                                             ),
                                             windSpeed.toString()),
                                         weatherInfo(
-                                            Icon(
+                                            const Icon(
                                               LineAwesomeIcons.tint,
                                               color: Colors.white,
                                             ),
                                             humidity.toString()),
                                         weatherInfo(
-                                            Icon(
+                                            const Icon(
                                               LineAwesomeIcons.low_temperature,
                                               color: Colors.white,
                                             ),

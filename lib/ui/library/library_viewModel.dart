@@ -6,6 +6,23 @@ import 'package:daliy_music/data/repository/weather_repository.dart';
 import 'package:flutter/material.dart';
 
 class LibraryViewModel with ChangeNotifier {
+  bool _disposed = false;
+
+  // dispose 할 때 _disposed -> true
+  @override
+  void dispose() {
+    _disposed = true;
+    super.dispose();
+  }
+
+  // _disposed == false 일 때만, super.notifyListeners() 호출!
+  @override
+  notifyListeners() {
+    if (!_disposed) {
+      super.notifyListeners();
+    }
+  }
+
   late MusicCardRepository _musicCardRepository;
   late WeatherRepository _weatherRepository;
   List<PlayList>? _cards;

@@ -25,6 +25,7 @@ final router = GoRouter(routes: <GoRoute>[
   GoRoute(
     path: '/playList',
     builder: (context, state) {
+      print("move page");
       return const BottomNavigationPage(
         pageIndex: 1,
       );

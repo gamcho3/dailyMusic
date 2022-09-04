@@ -47,12 +47,17 @@ class _MakePlayListViewState extends State<MakePlayListView> {
                 context.read<MakePlayListViewModel>().updateLoading(true);
                 List<Map> musicListPath = [];
                 //이미지 따로 저장
-                var dir = await getApplicationDocumentsDirectory();
-                var filePath = path.join(dir.uri.toFilePath(),
-                    '$title.${image!.path.substring(image!.path.length - 2)}');
-                var file = File(filePath);
+                final dir = await getApplicationDocumentsDirectory();
+
+                // var filePath = path.join(dir.uri.toFilePath(),
+                //     '$title.${image!.path.substring(image!.path.length - 3)}');
+
+                var file = File(image!.path);
+                await file.copy(
+                    '${dir.path}/$title.${image!.path.substring(image!.path.length - 3)}');
                 //유튜브 음악 다운로드
                 for (var i = 0; i < playList.length; i++) {
+                  if (!mounted) return;
                   var result = await context
                       .read<MakePlayListViewModel>()
                       .downloadYoutube(playList[i].videoId);
@@ -63,15 +68,18 @@ class _MakePlayListViewState extends State<MakePlayListView> {
                   });
                 }
                 //리스트카드 만들기
+                if (!mounted) return;
                 var result = await context
                     .read<MakePlayListViewModel>()
                     .makeCard(
                         imgUrl: file.path, title: title!, content: content!);
                 //플레이리스트 만들기
+                if (!mounted) return;
                 await context
                     .read<MakePlayListViewModel>()
                     .makePlayList(result, musicListPath);
                 //로딩 멈춤
+                if (!mounted) return;
                 context.read<MakePlayListViewModel>().updateLoading(false);
                 GoRouter.of(context).go('/playList');
                 Navigator.pop(context);

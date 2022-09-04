@@ -50,10 +50,7 @@ class _MyAppState extends State<MyApp> {
       ),
       title: 'daliy_music',
       theme: themeData,
-      darkTheme: ThemeData(
-          useMaterial3: true,
-          colorScheme: darkColorScheme,
-          textTheme: GoogleFonts.notoSansNKoTextTheme()),
+      darkTheme: darkThemeData,
       themeMode: ThemeMode.system,
     );
   }
