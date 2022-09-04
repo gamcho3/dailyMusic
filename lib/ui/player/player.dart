@@ -201,7 +201,7 @@ class _PlayerPageState extends State<PlayerPage> {
                       .setVolume(rating);
                 });
               }),
-          // AdWidget(ad: _banner)
+          AdWidget(ad: _banner)
           // ElevatedButton(
           //   onPressed: () {
           //     var list = [

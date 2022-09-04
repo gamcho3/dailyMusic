@@ -82,7 +82,7 @@ dev_dependencies:
   hive_generator: ^1.1.3
   flutter_native_splash: ^2.2.8
 flutter_native_splash:
-  color: "#f5cb42"
+  color: "#ffffff"
   image: images/unnamed.png
 dependency_overrides:
   flutter_inappwebview:

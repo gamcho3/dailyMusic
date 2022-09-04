@@ -1,5 +1,3 @@
-import 'package:daliy_music/bottom_navigation.dart';
-import 'package:daliy_music/color_schemes.g.dart';
 import 'package:daliy_music/data/models/temp_musicList.dart';
 import 'package:daliy_music/firebase_options.dart';
 import 'package:daliy_music/routes/routes.dart';
@@ -7,14 +5,12 @@ import 'package:daliy_music/utils/theme/constants.dart';
 import 'package:firebase_core/firebase_core.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_dotenv/flutter_dotenv.dart';
-import 'package:google_fonts/google_fonts.dart';
 import 'package:google_mobile_ads/google_mobile_ads.dart';
 import 'package:hive_flutter/hive_flutter.dart';
 
-import 'package:provider/provider.dart';
-
 Future main() async {
   WidgetsFlutterBinding.ensureInitialized();
+
   await Hive.initFlutter();
   Hive.registerAdapter(TempMusicListAdapter());
   await Hive.openBox<TempMusicList>('tempMusicList');
