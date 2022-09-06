@@ -72,6 +72,7 @@ dependencies:
   flutter_dotenv: ^5.0.2
   google_mobile_ads: ^2.0.1
   permission_handler: ^10.0.0
+  flutter_bounceable: ^1.0.3
   
   
 dev_dependencies:
