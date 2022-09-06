@@ -1,3 +1,5 @@
+import 'dart:io';
+
 import 'package:animations/animations.dart';
 import 'package:daliy_music/ui/musicCard/musicCard_page.dart';
 import 'package:flutter/material.dart';
@@ -40,9 +42,11 @@ class MusicCard extends StatelessWidget {
               decoration: BoxDecoration(
                   borderRadius: BorderRadius.circular(10),
                   image: DecorationImage(
-                      image: Image.asset(items.imgUrl,
-                          errorBuilder: (context, error, stackTrace) =>
-                              Image.asset('images/unsplash.jpg')).image,
+                      image: Platform.isAndroid
+                          ? Image.file(File(items.imgUrl)).image
+                          : Image.asset(
+                              items.imgUrl,
+                            ).image,
                       fit: sizeHeight == 400 ? BoxFit.fitHeight : BoxFit.fill)),
             ),
           );

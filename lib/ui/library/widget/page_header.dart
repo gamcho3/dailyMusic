@@ -1,3 +1,4 @@
+import 'dart:io';
 import 'dart:math';
 
 import 'package:flutter/material.dart';
@@ -28,10 +29,16 @@ class NetworkingPageHeader extends SliverPersistentHeaderDelegate {
     return Stack(
       fit: StackFit.expand,
       children: [
-        Image.asset(
-          image,
-          fit: BoxFit.cover,
-        ),
+        if (Platform.isAndroid)
+          Image.file(
+            File(image),
+            fit: BoxFit.cover,
+          ),
+        if (Platform.isIOS)
+          Image.asset(
+            image,
+            fit: BoxFit.cover,
+          ),
         Positioned(
             left: 0,
             top: 0,

@@ -34,7 +34,9 @@ class _PlayerPageState extends State<PlayerPage> {
 
   final BannerAd _banner = BannerAd(
     listener: BannerAdListener(
-      onAdFailedToLoad: (Ad ad, LoadAdError error) {},
+      onAdFailedToLoad: (Ad ad, LoadAdError error) {
+        print(error);
+      },
       onAdLoaded: (_) {},
     ),
     size: AdSize.banner,
@@ -201,7 +203,7 @@ class _PlayerPageState extends State<PlayerPage> {
                       .setVolume(rating);
                 });
               }),
-          AdWidget(ad: _banner)
+          Expanded(child: AdWidget(ad: _banner))
           // ElevatedButton(
           //   onPressed: () {
           //     var list = [
