@@ -3,6 +3,7 @@ import 'dart:io';
 import 'package:animations/animations.dart';
 import 'package:daliy_music/ui/musicCard/musicCard_page.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_svg/svg.dart';
 import '../../../../data/models/playList.dart';
 import '../../musicCard/musicCard_view.dart';
 
@@ -47,7 +48,50 @@ class MusicCard extends StatelessWidget {
                           : Image.asset(
                               items.imgUrl,
                             ).image,
-                      fit: sizeHeight == 400 ? BoxFit.fitHeight : BoxFit.fill)),
+                      fit: sizeHeight == 400
+                          ? BoxFit.fitHeight
+                          : BoxFit.fitWidth)),
+              child: LayoutBuilder(
+                builder: ((context, constraints) {
+                  return Align(
+                      alignment: Alignment.bottomCenter,
+                      child: Container(
+                        height: constraints.maxHeight / 2.8,
+                        width: constraints.maxWidth,
+                        color: Color(0xff292929),
+                        child: Padding(
+                          padding: const EdgeInsets.symmetric(
+                              horizontal: 20, vertical: 10),
+                          child: Row(
+                              mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                              children: [
+                                Column(
+                                  crossAxisAlignment: CrossAxisAlignment.start,
+                                  children: [
+                                    Expanded(
+                                      child: Text(
+                                        items.title,
+                                        style: TextStyle(
+                                            color: Colors.white, fontSize: 15),
+                                      ),
+                                    ),
+                                    Text(
+                                      "hellosdfsdfasdf",
+                                      style: TextStyle(
+                                          color: Colors.white.withOpacity(0.5),
+                                          fontSize: 13),
+                                    )
+                                  ],
+                                ),
+                                SvgPicture.asset(
+                                  'images/play.svg',
+                                  height: constraints.maxHeight / 5,
+                                )
+                              ]),
+                        ),
+                      ));
+                }),
+              ),
             ),
           );
         });

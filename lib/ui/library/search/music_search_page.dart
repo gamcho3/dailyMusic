@@ -1,5 +1,5 @@
-import 'package:daliy_music/ui/search/music_search_view.dart';
-import 'package:daliy_music/ui/search/music_search_viewModel.dart';
+import 'package:daliy_music/ui/library/search/music_search_view.dart';
+import 'package:daliy_music/ui/library/search/music_search_viewModel.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:provider/provider.dart';
 

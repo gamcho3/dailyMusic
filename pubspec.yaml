@@ -73,6 +73,9 @@ dependencies:
   google_mobile_ads: ^2.0.1
   permission_handler: ^10.0.0
   flutter_bounceable: ^1.0.3
+  youtube_player_flutter: ^8.1.0
+  flutter_inappwebview: ^5.4.3+7
+  flutter_svg: ^1.1.5
   
   
 dev_dependencies:

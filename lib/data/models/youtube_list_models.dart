@@ -3,14 +3,13 @@ import 'dart:convert';
 YoutubeModel youtubeModelFromJson(String str) =>
     YoutubeModel.fromJson(json.decode(str));
 
-String youtubeModelToJson(YoutubeModel data) =>
-    json.encode(data.toJson());
+String youtubeModelToJson(YoutubeModel data) => json.encode(data.toJson());
 
 class YoutubeModel {
   YoutubeModel({
     required this.kind,
     required this.etag,
-    required this.nextPageToken,
+    this.nextPageToken,
     required this.regionCode,
     required this.pageInfo,
     required this.items,
@@ -18,13 +17,12 @@ class YoutubeModel {
 
   String kind;
   String etag;
-  String nextPageToken;
+  String? nextPageToken;
   String regionCode;
   PageInfo pageInfo;
   List<Item> items;
 
-  factory YoutubeModel.fromJson(Map<String, dynamic> json) =>
-      YoutubeModel(
+  factory YoutubeModel.fromJson(Map<String, dynamic> json) => YoutubeModel(
         kind: json["kind"],
         etag: json["etag"],
         nextPageToken: json["nextPageToken"],

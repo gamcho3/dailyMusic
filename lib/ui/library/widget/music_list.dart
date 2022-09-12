@@ -15,7 +15,7 @@ class MusicListView extends StatelessWidget {
     var size = MediaQuery.of(context).size;
 
     return SizedBox(
-      height: size.height * 0.3,
+      height: size.height * 0.2,
       child: Builder(builder: (context) {
         if (items.isEmpty) {
           return const Center(
@@ -31,19 +31,11 @@ class MusicListView extends StatelessWidget {
                 children: [
                   Expanded(
                     child: MusicCard(
-                      sizeWidth: size.width / 2,
-                      sizeHeight: size.height * 0.3,
+                      sizeWidth: size.width - 60,
+                      sizeHeight: size.height * 0.2,
                       items: items[index],
                       index: index,
                     ),
-                  ),
-                  const SizedBox(
-                    height: 10,
-                  ),
-                  Text(
-                    items[index].title,
-                    style: const TextStyle(
-                        fontWeight: FontWeight.bold, fontSize: 20),
                   ),
                 ],
               );

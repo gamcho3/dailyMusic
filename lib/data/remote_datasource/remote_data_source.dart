@@ -78,6 +78,7 @@ class RemoteDataSource {
                 'https://www.googleapis.com/youtube/v3/search?key=AIzaSyBOABnW6QiU6KRfD3BtmnF-iSJAEyyzS0Q&part=snippet&q=$keyword&maxResults=10'),
           )
           .timeout(const Duration(seconds: 3));
+
       if (response.statusCode == 200) {
         var responseBody = utf8.decode(response.bodyBytes);
 
