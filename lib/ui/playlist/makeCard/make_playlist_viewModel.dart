@@ -47,8 +47,11 @@ class MakePlayListViewModel with ChangeNotifier {
     var video = await yt.videos.get(link);
     // Get the video manifest.
     var manifest = await yt.videos.streamsClient.getManifest(link);
-
+    final List<AudioOnlyStreamInfo> sortedStreamInfo =
+        manifest.audioOnly.sortByBitrate();
+    print(sortedStreamInfo.first);
     var audio = manifest.audio[1];
+    var audioStream = yt.videos.streamsClient.get(audio);
     // Build the directory.
     var dir = await getApplicationDocumentsDirectory();
     var filePath =
@@ -58,6 +61,22 @@ class MakePlayListViewModel with ChangeNotifier {
     var file = File(filePath);
     var fileStream = file.openWrite();
 
+    // Track the file download status.
+    var len = audio.size.totalBytes;
+    var count = 0;
+    await for (final data in audioStream) {
+      // Keep track of the current downloaded data.
+      count += data.length;
+
+      // Calculate the current progress.
+      var progress = ((count / len) * 100).ceil();
+      // print(progress);
+      // Update the progressbar.
+      // progressBar.update(progress);
+
+      // Write to file.
+      fileStream.add(data);
+    }
     await yt.videos.streamsClient.get(audio).pipe(fileStream);
     // Create the message and set the cursor position.
 
@@ -96,6 +115,7 @@ class MakePlayListViewModel with ChangeNotifier {
   Future<void> getYoutubeList(keyword) async {
     clearMusicList();
     var result = await _youtubeRepository.searchYoutube(keyword: keyword);
+    print(result);
     _musicList = result.items;
     notifyListeners();
   }

@@ -44,6 +44,7 @@ class LibraryViewModel with ChangeNotifier {
 
   Future<void> getWeather() async {
     _weatherData = await _weatherRepository.obtainWeather();
+
     notifyListeners();
   }
 }

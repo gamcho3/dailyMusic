@@ -25,7 +25,7 @@ class PlayerPage extends StatefulWidget {
 class _PlayerPageState extends State<PlayerPage> {
   //late BetterPlayerController _betterPlayerController;
   bool isPause = false;
-  double rating = 0.5;
+  double rating = 0.0;
   final GlobalKey<BetterPlayerPlaylistState> _betterPlayerPlaylistStateKey =
       GlobalKey();
   late BetterPlayerConfiguration _betterPlayerConfiguration;
@@ -86,6 +86,9 @@ class _PlayerPageState extends State<PlayerPage> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
+      bottomSheet: Container(
+        height: 40,
+      ),
       appBar: AppBar(
         title: const Text("Player"),
       ),
@@ -117,11 +120,11 @@ class _PlayerPageState extends State<PlayerPage> {
                       _betterPlayerPlaylistController?.currentDataSourceIndex ??
                           0]
                   .title,
-              style: const TextStyle(fontWeight: FontWeight.bold, fontSize: 20),
+              style: const TextStyle(fontWeight: FontWeight.bold, fontSize: 25),
               blankSpace: 20.0,
               scrollAxis: Axis.horizontal,
               crossAxisAlignment: CrossAxisAlignment.start,
-              velocity: 60.0,
+              velocity: 10.0,
               startPadding: 10.0,
             ),
           ),
@@ -194,32 +197,16 @@ class _PlayerPageState extends State<PlayerPage> {
               ],
             ),
           ),
-          Slider(
-              value: rating,
-              onChanged: (newRating) {
-                setState(() {
-                  rating = newRating;
-                  _betterPlayerPlaylistController?.betterPlayerController!
-                      .setVolume(rating);
-                });
-              }),
-          Expanded(child: AdWidget(ad: _banner))
-          // ElevatedButton(
-          //   onPressed: () {
-          //     var list = [
-          //       BetterPlayerDataSource(
-          //         BetterPlayerDataSourceType.network,
-          //         Constants.bugBuckBunnyVideoUrl,
-          //         placeholder: Image.network(
-          //           Constants.catImageUrl,
-          //           fit: BoxFit.cover,
-          //         ),
-          //       )
-          //     ];
-          //     _betterPlayerPlaylistController?.setupDataSourceList(list);
-          //   },
-          //   child: Text("Setup new data source list"),
-          // ),
+          // Slider(
+          //     value: rating,
+          //     onChanged: (newRating) {
+          //       setState(() {
+          //         rating = newRating;
+          //         _betterPlayerPlaylistController?.betterPlayerController!
+          //             .seekTo(Duration(seconds: 1));
+          //       });
+          //     }),
+          Expanded(flex: 1, child: AdWidget(ad: _banner)),
         ],
       ),
     );

@@ -65,27 +65,36 @@ class MusicCard extends StatelessWidget {
                           child: Row(
                               mainAxisAlignment: MainAxisAlignment.spaceBetween,
                               children: [
-                                Column(
-                                  crossAxisAlignment: CrossAxisAlignment.start,
-                                  children: [
-                                    Expanded(
-                                      child: Text(
-                                        items.title,
-                                        style: TextStyle(
-                                            color: Colors.white, fontSize: 15),
+                                Expanded(
+                                  child: Column(
+                                    crossAxisAlignment:
+                                        CrossAxisAlignment.start,
+                                    children: [
+                                      Expanded(
+                                        child: Text(
+                                          items.title,
+                                          maxLines: 1,
+                                          overflow: TextOverflow.ellipsis,
+                                          style: TextStyle(
+                                              color: Colors.white,
+                                              fontSize: 15),
+                                        ),
                                       ),
-                                    ),
-                                    Text(
-                                      "hellosdfsdfasdf",
-                                      style: TextStyle(
+                                      Text(
+                                        items.content,
+                                        maxLines: 1,
+                                        overflow: TextOverflow.ellipsis,
+                                        style: TextStyle(
                                           color: Colors.white.withOpacity(0.5),
-                                          fontSize: 13),
-                                    )
-                                  ],
+                                          fontSize: 13,
+                                        ),
+                                      )
+                                    ],
+                                  ),
                                 ),
                                 SvgPicture.asset(
                                   'images/play.svg',
-                                  height: constraints.maxHeight / 5,
+                                  height: constraints.maxWidth / 5,
                                 )
                               ]),
                         ),

@@ -385,7 +385,7 @@ packages:
     source: hosted
     version: "5.0.2"
   flutter_inappwebview:
-    dependency: "direct main"
+    dependency: "direct overridden"
     description:
       path: "."
       ref: master

@@ -8,10 +8,12 @@ final themeData = ThemeData(
     useMaterial3: true,
     colorScheme: lightColorScheme,
     primaryColor: const Color(0xFF695F00),
-    textTheme: GoogleFonts.notoSansNKoTextTheme());
+    textTheme: GoogleFonts.nanumGothicTextTheme()
+        .copyWith(titleLarge: TextStyle(fontSize: 20, color: Colors.black)));
 
 final darkThemeData = ThemeData(
     brightness: darkColorScheme.brightness,
     useMaterial3: true,
     colorScheme: darkColorScheme,
-    textTheme: GoogleFonts.notoSansNKoTextTheme());
+    textTheme: GoogleFonts.nanumGothicTextTheme()
+        .copyWith(titleLarge: TextStyle(fontSize: 20, color: Colors.black)));

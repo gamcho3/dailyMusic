@@ -102,7 +102,7 @@ class _MusicCardViewState extends State<MusicCardView> {
                                       buildContext
                                           .read<MusicCardViewModel>()
                                           .deleteCard(widget.item.id!, list);
-                                      GoRouter.of(context).go('/playList');
+                                      GoRouter.of(buildContext).go('/playList');
                                       Navigator.pop(context);
                                     },
                                     child: const Text('플레이리스트 삭제'),

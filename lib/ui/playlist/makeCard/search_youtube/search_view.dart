@@ -5,6 +5,7 @@ import 'package:flutter/material.dart';
 import 'package:line_awesome_flutter/line_awesome_flutter.dart';
 import 'package:provider/provider.dart';
 import 'package:path/path.dart' as path;
+import 'package:shimmer/shimmer.dart';
 
 import 'widgets/music_list.dart';
 
@@ -20,7 +21,7 @@ class _SearchViewState extends State<SearchView> {
   final _textController = TextEditingController();
   FocusNode _focus = FocusNode();
   bool isFocus = true;
-
+  bool isLoading = false;
   @override
   void initState() {
     super.initState();
@@ -68,9 +69,13 @@ class _SearchViewState extends State<SearchView> {
                           autofocus: true,
                           focusNode: _focus,
                           controller: _textController,
-                          onSubmitted: (value) {
-                            provider.getYoutubeList(value);
-                            isFocus = false;
+                          onSubmitted: (value) async {
+                            isLoading = true;
+                            provider.getYoutubeList(value).then((value) {
+                              isFocus = false;
+                              isLoading = false;
+                            });
+
                             setState(() {});
                           },
                           onChanged: (value) {
@@ -101,7 +106,20 @@ class _SearchViewState extends State<SearchView> {
                   //   Column(
                   //       crossAxisAlignment: CrossAxisAlignment.start,
                   //       children: [Text("최근 검색어")]),
-
+                  if (isLoading)
+                    Expanded(
+                      child: SingleChildScrollView(
+                        child: Column(
+                          children: List.generate(
+                              10,
+                              (index) => Padding(
+                                    padding: const EdgeInsets.symmetric(
+                                        horizontal: 20, vertical: 8),
+                                    child: shimmerBox(),
+                                  )),
+                        ),
+                      ),
+                    ),
                   if (provider.musicList.isNotEmpty)
                     Expanded(
                       child: ListView.separated(
@@ -119,6 +137,33 @@ class _SearchViewState extends State<SearchView> {
               ),
             );
           },
+        ),
+      ),
+    );
+  }
+
+  Shimmer shimmerBox() {
+    return Shimmer.fromColors(
+      baseColor: Colors.black12.withOpacity(0.1),
+      highlightColor: Colors.white,
+      loop: 3,
+      child: Center(
+        child: Padding(
+          padding: const EdgeInsets.only(bottom: 10),
+          child: Container(
+            width: 388,
+            height: 53,
+            decoration: BoxDecoration(
+                borderRadius: const BorderRadius.all(Radius.circular(8)),
+                boxShadow: [
+                  BoxShadow(
+                      color: const Color(0x29000000).withOpacity(0.1),
+                      offset: const Offset(0, 2),
+                      blurRadius: 6,
+                      spreadRadius: 0)
+                ],
+                color: Colors.white),
+          ),
         ),
       ),
     );

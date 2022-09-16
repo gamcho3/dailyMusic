@@ -42,24 +42,23 @@ class _MakePlayListViewState extends State<MakePlayListView> {
               if (image == null || title == null || content == null) {
                 //공백전달시 스낵바 출력
                 Constants.showActionSnackbar(context, "정보를 정확히 입력해주세요");
-                final androidDir = await getExternalStorageDirectory();
-                print(androidDir?.path);
               } else {
                 //로딩 함수
                 context.read<MakePlayListViewModel>().updateLoading(true);
                 List<Map> musicListPath = [];
                 //이미지 따로 저장
-                final dir = await getApplicationDocumentsDirectory();
-                final androidDir = await getExternalStorageDirectory();
+                var file = File(image!.path);
 
                 // var filePath = path.join(dir.uri.toFilePath(),
                 //     '$title.${image!.path.substring(image!.path.length - 3)}');
-                var file = File(image!.path);
+
                 if (Platform.isAndroid) {
+                  final androidDir = await getExternalStorageDirectory();
                   print('andorid');
                   file = await file.copy(
                       '${androidDir?.path}/$title.${image!.path.substring(image!.path.length - 3)}');
                 } else {
+                  final dir = await getApplicationDocumentsDirectory();
                   print('ios');
                   file = await file.copy(
                       '${dir.path}/$title.${image!.path.substring(image!.path.length - 3)}');
