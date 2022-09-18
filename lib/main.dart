@@ -1,3 +1,4 @@
+import 'package:daliy_music/config/di.dart';
 import 'package:daliy_music/data/models/temp_musicList.dart';
 import 'package:daliy_music/firebase_options.dart';
 import 'package:daliy_music/routes/routes.dart';
@@ -10,11 +11,12 @@ import 'package:hive_flutter/hive_flutter.dart';
 
 Future main() async {
   WidgetsFlutterBinding.ensureInitialized();
-
+//hive 생성
   await Hive.initFlutter();
   Hive.registerAdapter(TempMusicListAdapter());
   await Hive.openBox<TempMusicList>('tempMusicList');
   await dotenv.load();
+  setupGetIt();
   // KakaoSdk.init(nativeAppKey: Constants.kakaoAppKey);
   await Firebase.initializeApp(
     options: DefaultFirebaseOptions.currentPlatform,
