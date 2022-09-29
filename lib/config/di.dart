@@ -7,5 +7,5 @@ final GetIt getit = GetIt.instance;
 
 void setupGetIt() {
   getit.registerSingleton<RemoteDataSource>(RemoteDataSource());
-  // getit.registerSingleton<LocalDataSource>(LocalDataSource());
+  getit.registerSingleton<LocalDataSource>(LocalDataSource());
 }

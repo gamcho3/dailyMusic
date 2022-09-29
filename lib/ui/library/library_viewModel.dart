@@ -34,7 +34,7 @@ class LibraryViewModel with ChangeNotifier {
     _musicCardRepository = MusicCardRepository();
     _weatherRepository = WeatherRepository();
     getCards();
-    getWeather();
+    // getWeather();
   }
 
   Future<void> getCards() async {
@@ -42,9 +42,9 @@ class LibraryViewModel with ChangeNotifier {
     notifyListeners();
   }
 
-  Future<void> getWeather() async {
-    _weatherData = await _weatherRepository.obtainWeather();
+  // Future<void> getWeather() async {
+  //   _weatherData = await _weatherRepository.obtainWeather();
 
-    notifyListeners();
-  }
+  //   notifyListeners();
+  // }
 }

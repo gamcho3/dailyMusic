@@ -19,7 +19,7 @@ PODS:
     - ReachabilitySwift
   - Firebase/CoreOnly (9.5.0):
     - FirebaseCore (= 9.5.0)
-  - firebase_core (1.22.0):
+  - firebase_core (1.23.0):
     - Firebase/CoreOnly (= 9.5.0)
     - Flutter
   - FirebaseCore (9.5.0):
@@ -264,7 +264,7 @@ SPEC CHECKSUMS:
   Cache: 4ca7e00363fca5455f26534e5607634c820ffc2d
   connectivity_plus: 413a8857dd5d9f1c399a39130850d02fe0feaf7e
   Firebase: 800f16f07af493d98d017446a315c27af0552f41
-  firebase_core: 31872a49ffe0bf6f834e7044c7334e433536735a
+  firebase_core: c266297725f66cacd7eac30745cd1a629d3b048b
   FirebaseCore: 25c0400b670fd1e2f2104349cd3b5dcce8d9418f
   FirebaseCoreDiagnostics: 99a495094b10a57eeb3ae8efa1665700ad0bdaa6
   FirebaseCoreInternal: bca76517fe1ed381e989f5e7d8abb0da8d85bed3
@@ -305,6 +305,6 @@ SPEC CHECKSUMS:
   wakelock: d0fc7c864128eac40eba1617cb5264d9c940b46f
   webview_flutter_wkwebview: b7e70ef1ddded7e69c796c7390ee74180182971f
 
-PODFILE CHECKSUM: 4e8f8b2be68aeea4c0d5beb6ff1e79fface1d048
+PODFILE CHECKSUM: 1bf3038ea66f7aca2f9f24585f371c5c1ab23259
 
 COCOAPODS: 1.11.3

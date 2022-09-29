@@ -56,20 +56,20 @@ class RemoteDataSource {
         desiredAccuracy: LocationAccuracy.low);
   }
 
-  Future getWeather<WeatherModel>(double lat, double lon) async {
-    const appId = '8db55fc21a695d9d1bc4a050faaa8af9';
-    final response = await http
-        .get(Uri.parse(
-            'https://api.openweathermap.org/data/2.5/weather?lat=$lat&lon=$lon&appid=$appId&units=metric&lang=kr'))
-        .timeout(const Duration(seconds: 3));
+  // Future getWeather<WeatherModel>(double lat, double lon) async {
+  //   const appId = '8db55fc21a695d9d1bc4a050faaa8af9';
+  //   final response = await http
+  //       .get(Uri.parse(
+  //           'https://api.openweathermap.org/data/2.5/weather?lat=$lat&lon=$lon&appid=$appId&units=metric&lang=kr'))
+  //       .timeout(const Duration(seconds: 3));
 
-    if (response.statusCode == 200) {
-      var responseBody = utf8.decode(response.bodyBytes);
+  //   if (response.statusCode == 200) {
+  //     var responseBody = utf8.decode(response.bodyBytes);
 
-      final weatherData = weatherModelFromJson(responseBody);
-      return weatherData;
-    }
-  }
+  //     final weatherData = weatherModelFromJson(responseBody);
+  //     return weatherData;
+  //   }
+  // }
 
   Future<YoutubeModel> getYoutubeList({required String keyword}) async {
     try {

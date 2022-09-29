@@ -1,49 +1,41 @@
-import 'package:daliy_music/bottom_navigation.dart';
-import 'package:daliy_music/ui/library/youtube_player/youtube_player_page.dart';
-import 'package:daliy_music/ui/playlist/makeCard/search_youtube/search_pages.dart';
+import 'package:daliy_music/ui/home/home_view.dart';
+import 'package:daliy_music/ui/library/library_page.dart';
+
+import 'package:daliy_music/ui/playlist/makeCard/make_playlist_page.dart';
+import 'package:flutter/material.dart';
 
 import 'package:go_router/go_router.dart';
 
-import '../ui/library/search/music_search_page.dart';
+final GlobalKey<NavigatorState> _rootNavigatorKey =
+    GlobalKey<NavigatorState>(debugLabel: 'root');
+final GlobalKey<NavigatorState> _shellNavigatorKey =
+    GlobalKey<NavigatorState>(debugLabel: 'shell');
 
-final router = GoRouter(routes: <GoRoute>[
-  GoRoute(
-    path: '/',
-    builder: (context, state) {
-      // String? index = state.queryParams['index'] ?? "0";
-
-      return const BottomNavigationPage(
-        pageIndex: 0,
-      );
-    },
-    routes: [
-      GoRoute(
-          path: 'search',
-          builder: ((context, state) {
-            String keyword = state.queryParams['query'] ?? '';
-            return MusicSearchPage(keyword: keyword);
-          }),
-          routes: [
+final router = GoRouter(
+  navigatorKey: _rootNavigatorKey,
+  initialLocation: '/library',
+  routes: [
+    ShellRoute(
+      navigatorKey: _shellNavigatorKey,
+      builder: (context, state, child) {
+        return HomeView(child: child);
+      },
+      routes: <RouteBase>[
+        GoRoute(
+          path: '/library',
+          builder: (context, state) {
+            return const LibraryPage();
+          },
+          routes: <RouteBase>[
             GoRoute(
-              path: 'youtube/:pid',
-              builder: ((context, state) {
-                final String address = state.params['pid']!;
-
-                return YoutubePlayerPage(
-                  videoId: address,
-                );
-              }),
+              path: 'makeList',
+              builder: (context, state) {
+                return const MakePlayListPage();
+              },
             )
-          ])
-    ],
-  ),
-  GoRoute(
-    path: '/playList',
-    builder: (context, state) {
-      print("move page");
-      return const BottomNavigationPage(
-        pageIndex: 1,
-      );
-    },
-  ),
-], initialLocation: '/', debugLogDiagnostics: true, routerNeglect: true);
+          ],
+        )
+      ],
+    )
+  ],
+);

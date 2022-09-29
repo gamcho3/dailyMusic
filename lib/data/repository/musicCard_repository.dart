@@ -1,11 +1,19 @@
 import 'dart:io';
 import 'package:daliy_music/data/local_datasource/local_data_source.dart';
 import 'package:daliy_music/data/models/playList.dart';
+import '../../config/di.dart';
 import '../models/music_files.dart';
+import '../remote_datasource/remote_data_source.dart';
 
 class MusicCardRepository {
+  final RemoteDataSource _remoteDataSource;
+  final LocalDataSource _localDataSource;
+  MusicCardRepository(
+      {RemoteDataSource? remoteDataSource, LocalDataSource? localDataSource})
+      : _remoteDataSource = remoteDataSource ?? getit.get<RemoteDataSource>(),
+        _localDataSource = localDataSource ?? getit.get<LocalDataSource>();
   Future<List<PlayList>> getMusicCards() async {
-    return await LocalDataSource.instance.readAllLists();
+    return await _localDataSource.readAllLists();
   }
 
   Future<PlayList> createCard({
@@ -14,15 +22,15 @@ class MusicCardRepository {
     required String content,
   }) async {
     final list = PlayList(imgUrl: imgUrl, title: title, content: content);
-    return await LocalDataSource.instance.create(list);
+    return await _localDataSource.create(list);
   }
 
   void deleteCard(id, List<MusicFiles> playList) async {
-    await LocalDataSource.instance.delete(id);
-    await LocalDataSource.instance.deleteAllMusics(id);
+    await _localDataSource.delete(id);
+    await _localDataSource.deleteAllMusics(id);
   }
 
   Future<int> updateCard(PlayList list) async {
-    return await LocalDataSource.instance.updateCard(list);
+    return await _localDataSource.updateCard(list);
   }
 }

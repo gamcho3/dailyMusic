@@ -1,16 +1,19 @@
 import 'package:daliy_music/data/models/temp_musicList.dart';
 import 'package:hive/hive.dart';
 
+import '../../config/di.dart';
 import '../local_datasource/local_data_source.dart';
 import '../models/music_files.dart';
 import '../models/playList.dart';
+import '../remote_datasource/remote_data_source.dart';
 
 class PlayListRepository {
-  late HiveDataSource _hiveDataSource;
-
-  PlayListRepository() {
-    _hiveDataSource = HiveDataSource();
-  }
+  final RemoteDataSource _remoteDataSource;
+  final LocalDataSource _localDataSource;
+  PlayListRepository(
+      {RemoteDataSource? remoteDataSource, LocalDataSource? localDataSource})
+      : _remoteDataSource = remoteDataSource ?? getit.get<RemoteDataSource>(),
+        _localDataSource = localDataSource ?? getit.get<LocalDataSource>();
 
   Future addMusicFile(
       {required PlayList result, required List<Map> musicFiles}) async {
@@ -20,32 +23,32 @@ class PlayListRepository {
           musicFilePath: item['musicPath'],
           imgUrl: item['imageUrl'],
           title: item['title']);
-      await LocalDataSource.instance.insertMusicFile(music);
+      await _localDataSource.insertMusicFile(music);
     }
   }
 
   Future<List<MusicFiles>> loadPlayList(int? cardNum) async {
-    return await LocalDataSource.instance.readFiles(cardNum);
+    return await _localDataSource.readFiles(cardNum);
   }
 
   Future<dynamic> deleteMusicFile(int id) async {
-    return await LocalDataSource.instance.deleteMusic(id);
+    return await _localDataSource.deleteMusic(id);
   }
 
   Future<List<TempMusicList>> getTempList() async {
-    return await _hiveDataSource.getTempMusicList();
+    return await _localDataSource.getTempMusicList();
   }
 
   Future<void> addTempList(
       String imageUrl, String title, String videoId) async {
-    await _hiveDataSource.addTempPlayList(imageUrl, title, videoId);
+    await _localDataSource.addTempPlayList(imageUrl, title, videoId);
   }
 
   Future<void> deleteTempList(TempMusicList musicList) async {
-    await _hiveDataSource.deleteTempMusicList(musicList);
+    await _localDataSource.deleteTempMusicList(musicList);
   }
 
   Future<void> deleteTempListAll() async {
-    await _hiveDataSource.deleteTempMusicListAll();
+    await _localDataSource.deleteTempMusicListAll();
   }
 }
