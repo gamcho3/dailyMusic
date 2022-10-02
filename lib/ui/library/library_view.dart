@@ -13,14 +13,14 @@ class LibraryView extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
+      floatingActionButton: FloatingActionButton(
+        heroTag: null,
+        child: Icon(LineAwesomeIcons.plus),
+        onPressed: () {
+          context.go('/library/makeList');
+        },
+      ),
       appBar: AppBar(
-        actions: [
-          IconButton(
-              onPressed: () {
-                context.go('/library/makeList');
-              },
-              icon: Icon(LineAwesomeIcons.plus))
-        ],
         centerTitle: true,
         titleSpacing: 15,
         elevation: 0,

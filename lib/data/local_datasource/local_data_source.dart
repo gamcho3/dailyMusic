@@ -144,14 +144,9 @@ class LocalDataSource {
     return postBox.values.toList();
   }
 
-  Future<void> addTempPlayList(
-      String imageUrl, String title, String videoId) async {
-    final playList = TempMusicList()
-      ..imageurl = imageUrl
-      ..title = title
-      ..videoId = videoId;
+  Future<void> addTempPlayList(TempMusicList musicList) async {
     final box = Hive.box<TempMusicList>('tempMusicList');
-    box.add(playList);
+    box.add(musicList);
   }
 
   Future deleteTempMusicList(TempMusicList musicList) async {

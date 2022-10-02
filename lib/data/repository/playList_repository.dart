@@ -39,9 +39,8 @@ class PlayListRepository {
     return await _localDataSource.getTempMusicList();
   }
 
-  Future<void> addTempList(
-      String imageUrl, String title, String videoId) async {
-    await _localDataSource.addTempPlayList(imageUrl, title, videoId);
+  Future<void> addTempList(TempMusicList musicList) async {
+    await _localDataSource.addTempPlayList(musicList);
   }
 
   Future<void> deleteTempList(TempMusicList musicList) async {

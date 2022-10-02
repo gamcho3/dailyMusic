@@ -16,4 +16,4 @@ final darkThemeData = ThemeData(
     useMaterial3: true,
     colorScheme: darkColorScheme,
     textTheme: GoogleFonts.nanumGothicTextTheme()
-        .copyWith(titleLarge: TextStyle(fontSize: 20, color: Colors.black)));
+        .copyWith(titleLarge: TextStyle(fontSize: 20, color: Colors.white)));

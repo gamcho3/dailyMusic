@@ -18,8 +18,11 @@ class MusicListView extends StatelessWidget {
       height: size.height * 0.2,
       child: Builder(builder: (context) {
         if (items.isEmpty) {
-          return const Center(
-            child: Text("플레이리스트를 만들어주세요"),
+          return Center(
+            child: Text(
+              "플레이리스트를 만들어주세요",
+              style: Theme.of(context).textTheme.titleMedium,
+            ),
           );
         }
         return ListView.separated(
