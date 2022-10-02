@@ -1,4 +1,4 @@
-import 'package:daliy_music/ui/playlist/makeCard/make_playlist_page.dart';
+// import 'package:daliy_music/ui/playlist/makeCard/make_playlist_page.dart';
 import 'package:daliy_music/ui/playlist/playlist_viewModel.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_staggered_grid_view/flutter_staggered_grid_view.dart';
@@ -8,6 +8,7 @@ import 'package:modal_bottom_sheet/modal_bottom_sheet.dart';
 import 'package:provider/provider.dart';
 
 import '../library/widget/music_card.dart';
+import '../make_play_list/make_playlist_page.dart';
 
 class PlayListView extends StatefulWidget {
   const PlayListView({Key? key}) : super(key: key);

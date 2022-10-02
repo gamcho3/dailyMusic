@@ -7,9 +7,9 @@ import 'package:flutter/material.dart';
 import 'package:path_provider/path_provider.dart';
 import 'package:youtube_explode_dart/youtube_explode_dart.dart';
 import 'package:path/path.dart' as path;
-import '../../../data/models/playList.dart';
-import '../../../data/models/temp_musicList.dart';
-import '../../../data/models/youtube_list_models.dart';
+import '../../data/models/playList.dart';
+import '../../data/models/temp_musicList.dart';
+import '../../data/models/youtube_list_models.dart';
 
 class MakePlayListViewModel with ChangeNotifier {
   late final PlayListRepository _playListRepository;
@@ -91,9 +91,8 @@ class MakePlayListViewModel with ChangeNotifier {
     notifyListeners();
   }
 
-  Future<void> addTempPlayList(
-      String imageUrl, String title, String videoId) async {
-    await _playListRepository.addTempList(imageUrl, title, videoId);
+  Future<void> addTempPlayList(TempMusicList tempList) async {
+    await _playListRepository.addTempList(tempList);
   }
 
   Future<void> getTempList() async {

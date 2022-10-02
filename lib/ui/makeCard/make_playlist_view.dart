@@ -1,7 +1,8 @@
 import 'dart:io';
 
 import 'package:daliy_music/data/models/temp_musicList.dart';
-import 'package:daliy_music/ui/playlist/makeCard/make_playlist_viewModel.dart';
+import 'package:daliy_music/ui/makeCard/make_playlist_viewModel.dart';
+import 'package:daliy_music/ui/makeCard/search_youtube/search_pages.dart';
 import 'package:path/path.dart' as path;
 import 'package:flutter/material.dart';
 import 'package:go_router/go_router.dart';
@@ -11,8 +12,7 @@ import 'package:path_provider/path_provider.dart';
 import 'package:provider/provider.dart';
 import 'package:image_picker/image_picker.dart';
 
-import '../../../utils/constants/constants.dart';
-import 'search_youtube/search_pages.dart';
+import '../../utils/constants/constants.dart';
 
 class MakePlayListView extends StatefulWidget {
   const MakePlayListView({

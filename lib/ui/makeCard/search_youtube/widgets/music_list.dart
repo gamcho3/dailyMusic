@@ -1,13 +1,14 @@
 import 'dart:io';
 
-import 'package:daliy_music/ui/playlist/makeCard/make_playlist_viewModel.dart';
+import 'package:daliy_music/data/models/temp_musicList.dart';
+import 'package:daliy_music/ui/makeCard/make_playlist_viewModel.dart';
 import 'package:daliy_music/utils/constants/constants.dart';
 import 'package:flutter/material.dart';
 import 'package:line_awesome_flutter/line_awesome_flutter.dart';
 import 'package:provider/provider.dart';
 import 'package:shimmer/shimmer.dart';
 
-import '../../../../../data/models/youtube_list_models.dart';
+import '../../../../data/models/youtube_list_models.dart';
 
 class MusicList extends StatefulWidget {
   final Item item;
@@ -93,10 +94,13 @@ class _MusicListState extends State<MusicList> {
                   if (widget.item.id.videoId == null) {
                     Constants.showActionSnackbar(context, "id가 존재하지 않습니다.");
                   } else {
-                    context.read<MakePlayListViewModel>().addTempPlayList(
-                        widget.item.snippet.thumbnails.medium.url,
-                        widget.item.snippet.title,
-                        widget.item.id.videoId!);
+                    var tempList = TempMusicList()
+                      ..imageurl = widget.item.snippet.thumbnails.medium.url
+                      ..title = widget.item.snippet.title
+                      ..videoId = widget.item.id.videoId!;
+                    context
+                        .read<MakePlayListViewModel>()
+                        .addTempPlayList(tempList);
 
                     setState(() {
                       isCheck = true;

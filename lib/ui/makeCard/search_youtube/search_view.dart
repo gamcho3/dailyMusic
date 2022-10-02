@@ -1,13 +1,12 @@
 import 'dart:async';
 import 'dart:io';
-import 'package:daliy_music/ui/playlist/makeCard/make_playlist_viewModel.dart';
+import 'package:daliy_music/ui/makeCard/make_playlist_viewModel.dart';
+import 'package:daliy_music/ui/makeCard/search_youtube/widgets/music_list.dart';
 import 'package:flutter/material.dart';
 import 'package:line_awesome_flutter/line_awesome_flutter.dart';
 import 'package:provider/provider.dart';
 import 'package:path/path.dart' as path;
 import 'package:shimmer/shimmer.dart';
-
-import 'widgets/music_list.dart';
 
 class SearchView extends StatefulWidget {
   const SearchView({Key? key}) : super(key: key);
