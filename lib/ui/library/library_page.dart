@@ -9,6 +9,7 @@ class LibraryPage extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    print('viemodel');
     return ChangeNotifierProvider(
       create: (_) => LibraryViewModel(),
       child: const LibraryView(),

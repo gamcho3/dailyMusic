@@ -1,8 +1,8 @@
 import 'dart:async';
 import 'dart:io';
-import 'package:daliy_music/ui/makeCard/make_playlist_viewModel.dart';
-import 'package:daliy_music/ui/makeCard/search_youtube/widgets/music_list.dart';
-import 'package:daliy_music/utils/constants/constants.dart';
+import 'package:daily_music/ui/makeCard/make_playlist_viewModel.dart';
+import 'package:daily_music/ui/makeCard/search_youtube/widgets/music_list.dart';
+import 'package:daily_music/utils/constants/constants.dart';
 import 'package:flutter/material.dart';
 import 'package:go_router/go_router.dart';
 import 'package:google_mobile_ads/google_mobile_ads.dart';

@@ -1,8 +1,8 @@
 import 'dart:io';
 
-import 'package:daliy_music/data/models/music_files.dart';
-import 'package:daliy_music/data/repository/musicCard_repository.dart';
-import 'package:daliy_music/data/repository/playList_repository.dart';
+import 'package:daily_music/data/models/music_files.dart';
+import 'package:daily_music/data/repository/musicCard_repository.dart';
+import 'package:daily_music/data/repository/playList_repository.dart';
 import 'package:flutter/material.dart';
 
 import '../../data/models/playList.dart';

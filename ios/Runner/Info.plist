@@ -28,12 +28,14 @@
 	<string>ca-app-pub-1039451548608668~2052090606</string>
 	<key>LSRequiresIPhoneOS</key>
 	<true/>
+	<key>NSMicrophoneUsageDescription</key>
+	<string>비디오 재생을 위해 권한이 필요합니다.</string>
 	<key>NSCameraUsageDescription</key>
 	<string>사진을 찍기위해 권한이 필요합니다.</string>
 	<key>NSLocationAlwaysUsageDescription</key>
-	<string>This app needs access to location when in the background.</string>
+	<string>백그라운드 재생을 위해 권한이 필요합니다.</string>
 	<key>NSLocationWhenInUseUsageDescription</key>
-	<string>This app needs access to location when open.</string>
+	<string>위치정보를 위해 권한이 필요합니다.</string>
 	<key>NSPhotoLibraryUsageDescription</key>
 	<string>리스트에 이미지를 넣기위해 갤러리 권한이 필요합니다</string>
 	<key>SKAdNetworkItems</key>

@@ -1,4 +1,4 @@
-package com.park.daliy_music
+package com.park.dailyMusic
 
 import io.flutter.embedding.android.FlutterActivity
 

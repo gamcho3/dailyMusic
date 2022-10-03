@@ -1,7 +1,7 @@
 import 'dart:io';
 
-import 'package:daliy_music/ui/library/library_viewModel.dart';
-import 'package:daliy_music/ui/musicCard/musicCard_viewModel.dart';
+import 'package:daily_music/ui/library/library_viewModel.dart';
+import 'package:daily_music/ui/musicCard/musicCard_viewModel.dart';
 
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
@@ -102,11 +102,8 @@ class _MusicCardViewState extends State<MusicCardView> {
                                           .read<MusicCardViewModel>()
                                           .deleteCard(widget.item.id!, list);
                                       if (!mounted) return;
-                                      await context
-                                          .read<LibraryViewModel>()
-                                          .getCards();
-                                      if (!mounted) return;
-                                      GoRouter.of(context).pushNamed('library');
+
+                                      GoRouter.of(context).go('/library');
 
                                       Navigator.pop(buildContext);
                                     },

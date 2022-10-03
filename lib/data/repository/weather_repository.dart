@@ -1,5 +1,5 @@
-import 'package:daliy_music/config/di.dart';
-import 'package:daliy_music/data/remote_datasource/remote_data_source.dart';
+import 'package:daily_music/config/di.dart';
+import 'package:daily_music/data/remote_datasource/remote_data_source.dart';
 import 'package:get_it/get_it.dart';
 
 import '../models/weather.dart';
