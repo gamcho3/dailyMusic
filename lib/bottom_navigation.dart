@@ -1,10 +1,7 @@
-import 'package:daliy_music/ui/playlist/playlist_view.dart';
-import 'package:daliy_music/ui/setting/more_page.dart';
 import 'package:dot_navigation_bar/dot_navigation_bar.dart';
 import 'package:flutter/material.dart';
 import 'package:line_awesome_flutter/line_awesome_flutter.dart';
 import 'ui/library/library_page.dart';
-import 'ui/playlist/playlist_page.dart';
 
 class BottomNavigationPage extends StatefulWidget {
   final int pageIndex;
@@ -41,8 +38,7 @@ class _BottomNavigationPageState extends State<BottomNavigationPage> {
       // ),
       body: <Widget>[
         const LibraryPage(),
-        const PlayListPage(),
-        const MorePage()
+        // const PlayListPage(),
       ][currentPageIndex],
       bottomNavigationBar: DotNavigationBar(
         currentIndex: currentPageIndex,

@@ -1,3 +1,5 @@
+import 'package:daliy_music/data/models/playList.dart';
+import 'package:daliy_music/ui/library/widget/music_card.dart';
 import 'package:flutter/material.dart';
 import 'package:go_router/go_router.dart';
 import 'package:line_awesome_flutter/line_awesome_flutter.dart';
@@ -5,7 +7,6 @@ import 'package:lottie/lottie.dart';
 import 'package:provider/provider.dart';
 import 'library_viewModel.dart';
 import 'widget/main_title.dart';
-import 'widget/music_list.dart';
 
 class LibraryView extends StatelessWidget {
   const LibraryView({Key? key}) : super(key: key);
@@ -15,46 +16,85 @@ class LibraryView extends StatelessWidget {
     return Scaffold(
       floatingActionButton: FloatingActionButton(
         heroTag: null,
-        child: Icon(LineAwesomeIcons.plus),
+        child: const Icon(LineAwesomeIcons.plus),
         onPressed: () {
-          context.go('/library/makeList');
+          context.read<LibraryViewModel>().clearTempList();
+          context.push('/library/makeList');
         },
       ),
-      appBar: AppBar(
-        centerTitle: true,
-        titleSpacing: 15,
-        elevation: 0,
-        backgroundColor: Colors.transparent,
-        title: const Text(
-          "오늘의 음악",
-          style: TextStyle(fontWeight: FontWeight.bold, fontSize: 25),
-        ),
-      ),
       body: Consumer<LibraryViewModel>(builder: (context, provider, child) {
-        return CustomScrollView(
-          slivers: [
-            SliverList(
-              delegate: SliverChildListDelegate(
-                [],
+        var playList = provider.cards;
+        print('playlist ${playList?.length}');
+        return RefreshIndicator(
+          onRefresh: () => provider.getCards(),
+          child: CustomScrollView(
+            slivers: [
+              const SliverAppBar(
+                centerTitle: true,
+                titleSpacing: 15,
+                elevation: 0,
+                backgroundColor: Colors.transparent,
+                title: Text(
+                  "오늘의 음악",
+                  style: TextStyle(fontWeight: FontWeight.bold, fontSize: 25),
+                ),
               ),
-            ),
-            SliverToBoxAdapter(
-              child: Column(
-                crossAxisAlignment: CrossAxisAlignment.start,
-                children: [
-                  const MainTitle(
-                    title: "나의 플레이리스트",
+              if (playList != null) SliverPlayList(playList: playList),
+              if (playList != null && playList.isEmpty)
+                SliverFillRemaining(
+                  child: Column(
+                    mainAxisAlignment: MainAxisAlignment.center,
+                    children: [
+                      Image.asset(
+                        'images/music.png',
+                        width: 100,
+                      ),
+                      SizedBox(
+                        height: 10,
+                      ),
+                      Text(
+                        "플레이리스트를 만들어 주세요.",
+                        style: Theme.of(context).textTheme.titleLarge,
+                      ),
+                    ],
                   ),
-                  if (provider.cards != null)
-                    MusicListView(
-                      items: provider.cards!,
-                    )
-                ],
-              ),
-            )
-          ],
+                )
+            ],
+          ),
         );
       }),
     );
+  }
+}
+
+class SliverPlayList extends StatefulWidget {
+  const SliverPlayList({
+    Key? key,
+    required this.playList,
+  }) : super(key: key);
+
+  final List<PlayList> playList;
+
+  @override
+  State<SliverPlayList> createState() => _SliverPlayListState();
+}
+
+class _SliverPlayListState extends State<SliverPlayList> {
+  @override
+  void initState() {
+    super.initState();
+  }
+
+  @override
+  Widget build(BuildContext context) {
+    return SliverFixedExtentList(
+        delegate: SliverChildBuilderDelegate(childCount: widget.playList.length,
+            (context, index) {
+          return MusicCard(
+            items: widget.playList[index],
+            index: index,
+          );
+        }),
+        itemExtent: 280);
   }
 }

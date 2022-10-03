@@ -1,10 +1,14 @@
+import 'package:daliy_music/data/models/playList.dart';
 import 'package:daliy_music/ui/home/home_view.dart';
 import 'package:daliy_music/ui/library/library_page.dart';
-
-import 'package:daliy_music/ui/playlist/makeCard/make_playlist_page.dart';
+import 'package:daliy_music/ui/library/library_viewModel.dart';
+import 'package:daliy_music/ui/musicCard/musicCard_page.dart';
 import 'package:flutter/material.dart';
 
 import 'package:go_router/go_router.dart';
+import 'package:path_to_regexp/path_to_regexp.dart';
+
+import '../ui/makeCard/make_playlist_page.dart';
 
 final GlobalKey<NavigatorState> _rootNavigatorKey =
     GlobalKey<NavigatorState>(debugLabel: 'root');
@@ -14,6 +18,8 @@ final GlobalKey<NavigatorState> _shellNavigatorKey =
 final router = GoRouter(
   navigatorKey: _rootNavigatorKey,
   initialLocation: '/library',
+  debugLogDiagnostics: true,
+  routerNeglect: true,
   routes: [
     ShellRoute(
       navigatorKey: _shellNavigatorKey,
@@ -22,15 +28,26 @@ final router = GoRouter(
       },
       routes: <RouteBase>[
         GoRoute(
+          name: "library",
           path: '/library',
-          builder: (context, state) {
-            return const LibraryPage();
-          },
+          pageBuilder: (context, state) =>
+              const MaterialPage(child: LibraryPage()),
           routes: <RouteBase>[
             GoRoute(
+              name: 'makeList',
               path: 'makeList',
               builder: (context, state) {
                 return const MakePlayListPage();
+              },
+            ),
+            GoRoute(
+              name: 'musicCard',
+              path: 'musicCard/:index',
+              builder: (context, state) {
+                var index = int.parse(state.params['index']!);
+                var item = state.extra as PlayList;
+
+                return MusicCardPage(index: index, item: item);
               },
             )
           ],

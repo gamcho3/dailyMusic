@@ -17,6 +17,8 @@ class MakePlayListViewModel with ChangeNotifier {
   late final YoutubeRepository _youtubeRepository;
   List<TempMusicList> _tempMusicList = [];
   bool _isLoading = false;
+  int _progress = 0;
+  int get progress => _progress;
   List<Item> _musicList = [];
   List<Item> get musicList => _musicList;
   List<TempMusicList> get tempMusicList => _tempMusicList;
@@ -25,7 +27,7 @@ class MakePlayListViewModel with ChangeNotifier {
     _playListRepository = PlayListRepository();
     _musicCardRepository = MusicCardRepository();
     _youtubeRepository = YoutubeRepository();
-    deleteTempListAll();
+    // deleteTempListAll();
   }
 
   Future<PlayList> makeCard(
@@ -70,7 +72,8 @@ class MakePlayListViewModel with ChangeNotifier {
 
       // Calculate the current progress.
       var progress = ((count / len) * 100).ceil();
-      // print(progress);
+      updateProgressBar(progress);
+      print(progress);
       // Update the progressbar.
       // progressBar.update(progress);
 
@@ -86,17 +89,25 @@ class MakePlayListViewModel with ChangeNotifier {
     return file;
   }
 
+  void updateProgressBar(int progressNum) {
+    _progress = progressNum;
+    notifyListeners();
+  }
+
   void updateLoading(bool loading) {
     _isLoading = loading;
+    _musicCardRepository.getMusicCards();
     notifyListeners();
   }
 
   Future<void> addTempPlayList(TempMusicList tempList) async {
     await _playListRepository.addTempList(tempList);
+    getTempList();
   }
 
   Future<void> getTempList() async {
     _tempMusicList = await _playListRepository.getTempList();
+    print(_tempMusicList.length);
     notifyListeners();
   }
 
