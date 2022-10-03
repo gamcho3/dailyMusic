@@ -1,5 +1,6 @@
 import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
+import 'package:go_router/go_router.dart';
 
 class Constants {
   static void showActionSnackbar(BuildContext context, String text) {
@@ -27,7 +28,7 @@ class Constants {
               TextButton(onPressed: onpressed, child: const Text("확인")),
               TextButton(
                   onPressed: () {
-                    Navigator.pop(context);
+                    context.pop();
                   },
                   child: const Text("취소"))
             ],

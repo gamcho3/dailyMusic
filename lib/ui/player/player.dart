@@ -39,7 +39,7 @@ class _PlayerPageState extends State<PlayerPage> {
       },
       onAdLoaded: (_) {},
     ),
-    size: AdSize.banner,
+    size: AdSize.largeBanner,
     adUnitId: UNIT_ID[Platform.isIOS ? 'ios' : 'android']!,
     request: const AdRequest(),
   )..load();
@@ -131,69 +131,77 @@ class _PlayerPageState extends State<PlayerPage> {
           SizedBox(
             height: 100,
             child: Row(
-              mainAxisAlignment: MainAxisAlignment.center,
+              mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+              crossAxisAlignment: CrossAxisAlignment.center,
               children: [
+                const Spacer(),
                 IconButton(
-                  color:
-                      _betterPlayerPlaylistController?.currentDataSourceIndex ==
-                              0
-                          ? Colors.grey
-                          : Colors.black,
-                  iconSize: 50,
-                  onPressed: _betterPlayerPlaylistController
-                              ?.currentDataSourceIndex ==
-                          0
-                      ? null
-                      : () {
-                          _betterPlayerPlaylistController?.setupDataSource(0);
-                          setState(() {});
-                        },
-                  icon: const Icon(
-                    LineAwesomeIcons.reply,
-                  ),
-                ),
+                    color: _betterPlayerPlaylistController
+                                ?.currentDataSourceIndex ==
+                            0
+                        ? Colors.grey
+                        : Colors.black,
+                    iconSize: 50,
+                    onPressed: _betterPlayerPlaylistController
+                                ?.currentDataSourceIndex ==
+                            0
+                        ? null
+                        : () {
+                            _betterPlayerPlaylistController?.setupDataSource(0);
+                            setState(() {});
+                          },
+                    icon: Image.asset(
+                      'images/repeat.png',
+                      width: 60,
+                    )),
+                const Spacer(),
                 GestureDetector(
-                  onTap: () async {
-                    if (isPause) {
-                      _betterPlayerPlaylistController?.betterPlayerController!
-                          .play();
-                    } else {
-                      _betterPlayerPlaylistController?.betterPlayerController!
-                          .pause();
-                    }
+                    onTap: () async {
+                      if (isPause) {
+                        _betterPlayerPlaylistController?.betterPlayerController!
+                            .play();
+                      } else {
+                        _betterPlayerPlaylistController?.betterPlayerController!
+                            .pause();
+                      }
 
-                    setState(() {
-                      isPause = !isPause;
-                    });
-                  },
-                  child: Icon(
-                    isPause
-                        ? LineAwesomeIcons.play_circle
-                        : LineAwesomeIcons.pause_circle,
-                    size: 100,
-                  ),
-                ),
+                      setState(() {
+                        isPause = !isPause;
+                      });
+                    },
+                    child: isPause
+                        ? Image.asset(
+                            'images/play.png',
+                            width: 60,
+                          )
+                        : Image.asset(
+                            'images/pause.png',
+                            width: 60,
+                          )),
+                const Spacer(),
                 IconButton(
-                  color:
-                      _betterPlayerPlaylistController?.currentDataSourceIndex ==
-                              widget.items.length - 1
-                          ? Colors.grey
-                          : Colors.black,
-                  iconSize: 50,
-                  onPressed:
-                      _betterPlayerPlaylistController?.currentDataSourceIndex ==
-                              widget.items.length - 1
-                          ? null
-                          : () {
-                              _betterPlayerPlaylistController
-                                  ?.betterPlayerController
-                                  ?.playNextVideo();
-                              setState(() {});
-                            },
-                  icon: const Icon(
-                    LineAwesomeIcons.step_forward,
-                  ),
-                ),
+                    color: _betterPlayerPlaylistController
+                                ?.currentDataSourceIndex ==
+                            widget.items.length - 1
+                        ? Colors.grey
+                        : Colors.black,
+                    iconSize: 50,
+                    onPressed: _betterPlayerPlaylistController
+                                ?.currentDataSourceIndex ==
+                            widget.items.length - 1
+                        ? null
+                        : () {
+                            _betterPlayerPlaylistController
+                                ?.betterPlayerController
+                                ?.playNextVideo();
+                            setState(() {});
+                          },
+                    icon: Image.asset(
+                      'images/next.png',
+                      color: Theme.of(context).colorScheme.surface,
+                      width: 60,
+                    )),
+                const Spacer(),
               ],
             ),
           ),

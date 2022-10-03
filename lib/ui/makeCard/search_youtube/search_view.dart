@@ -1,13 +1,15 @@
 import 'dart:async';
 import 'dart:io';
-import 'package:daliy_music/ui/playlist/makeCard/make_playlist_viewModel.dart';
+import 'package:daliy_music/ui/makeCard/make_playlist_viewModel.dart';
+import 'package:daliy_music/ui/makeCard/search_youtube/widgets/music_list.dart';
+import 'package:daliy_music/utils/constants/constants.dart';
 import 'package:flutter/material.dart';
+import 'package:go_router/go_router.dart';
+import 'package:google_mobile_ads/google_mobile_ads.dart';
 import 'package:line_awesome_flutter/line_awesome_flutter.dart';
 import 'package:provider/provider.dart';
 import 'package:path/path.dart' as path;
 import 'package:shimmer/shimmer.dart';
-
-import 'widgets/music_list.dart';
 
 class SearchView extends StatefulWidget {
   const SearchView({Key? key}) : super(key: key);
@@ -22,6 +24,18 @@ class _SearchViewState extends State<SearchView> {
   FocusNode _focus = FocusNode();
   bool isFocus = true;
   bool isLoading = false;
+  final BannerAd _banner = BannerAd(
+    listener: BannerAdListener(
+      onAdFailedToLoad: (Ad ad, LoadAdError error) {
+        print(error);
+      },
+      onAdLoaded: (_) {},
+    ),
+    size: AdSize.banner,
+    adUnitId: UNIT_ID[Platform.isIOS ? 'ios' : 'android']!,
+    request: const AdRequest(),
+  )..load();
+
   @override
   void initState() {
     super.initState();
@@ -49,7 +63,7 @@ class _SearchViewState extends State<SearchView> {
         child: Consumer<MakePlayListViewModel>(
           builder: (context, provider, child) {
             return Padding(
-              padding: const EdgeInsets.all(20),
+              padding: const EdgeInsets.all(15),
               child: Column(
                 children: [
                   Row(
@@ -114,7 +128,8 @@ class _SearchViewState extends State<SearchView> {
                               10,
                               (index) => Padding(
                                     padding: const EdgeInsets.symmetric(
-                                        horizontal: 20, vertical: 8),
+                                      horizontal: 10,
+                                    ),
                                     child: shimmerBox(),
                                   )),
                         ),
@@ -130,6 +145,10 @@ class _SearchViewState extends State<SearchView> {
                           }),
                           itemCount: provider.musicList.length,
                           itemBuilder: ((context, index) {
+                            if (index == 0) {
+                              return Container(
+                                  height: 53, child: AdWidget(ad: _banner));
+                            }
                             return MusicList(item: provider.musicList[index]);
                           })),
                     )

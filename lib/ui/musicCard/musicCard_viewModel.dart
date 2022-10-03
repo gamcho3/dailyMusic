@@ -31,8 +31,10 @@ class MusicCardViewModel with ChangeNotifier {
   Future<void> deleteCard(int id, List<MusicFiles> playList) async {
     _musicCardRepository.deleteCard(id, playList);
     for (var i = 0; i < playList.length; i++) {
-      var file = File(playList[i].musicFilePath);
-      await file.delete();
+      File? file = File(playList[i].musicFilePath);
+      if (file != null) {
+        await file.delete();
+      }
     }
   }
 

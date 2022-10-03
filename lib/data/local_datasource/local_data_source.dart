@@ -5,11 +5,11 @@ import '../models/music_files.dart';
 import '../models/playList.dart';
 import '../models/temp_musicList.dart';
 
-class LocalDataSource {
-  static final LocalDataSource instance = LocalDataSource._init();
+class DatabaseHelper {
+  static final DatabaseHelper instance = DatabaseHelper._init();
   static Database? _database;
 
-  LocalDataSource._init();
+  DatabaseHelper._init();
 
   Future<Database> get database async {
     if (_database != null) return _database!;
@@ -20,9 +20,8 @@ class LocalDataSource {
 
   Future<Database> _initDB(String filePath) async {
     final dbPath = await getDatabasesPath();
-
     final path = join(dbPath, filePath);
-    print(path);
+    print('sqflite path : $path');
     return openDatabase(path, version: 1, onCreate: _createDB);
   }
 
@@ -50,17 +49,19 @@ CREATE TABLE $tableMusicFiles (
 )
 ''');
   }
+}
 
+class LocalDataSource {
   //음악 db에 넣기
   Future<MusicFiles> insertMusicFile(MusicFiles file) async {
-    final db = await instance.database;
+    final db = await DatabaseHelper.instance.database;
     final id = await db.insert(tableMusicFiles, file.toJson());
     return file.copy(id: id);
   }
 
   //음악 리스트 불러오기
   Future<List<MusicFiles>> readFiles(int? cardNum) async {
-    final db = await instance.database;
+    final db = await DatabaseHelper.instance.database;
     final maps = await db.query(tableMusicFiles,
         columns: MusicFilesFields.values,
         where: '${MusicFilesFields.cardNum} = ?',
@@ -78,14 +79,14 @@ CREATE TABLE $tableMusicFiles (
 
   //플레이 리스트 만들기
   Future<PlayList> create(PlayList list) async {
-    final db = await instance.database;
+    final db = await DatabaseHelper.instance.database;
     final id = await db.insert(tablePlayLists, list.toJson());
     return list.copy(id: id);
   }
 
   //플레이리스트 읽기
   Future<PlayList> readPlayList(int id) async {
-    final db = await instance.database;
+    final db = await DatabaseHelper.instance.database;
     final maps = await db.query(tablePlayLists,
         columns: PlayListFields.values,
         where: '${PlayListFields.id} = ?',
@@ -100,7 +101,7 @@ CREATE TABLE $tableMusicFiles (
 
   //모든 플레이리스트 불러오기
   Future<List<PlayList>> readAllLists() async {
-    final db = await instance.database;
+    final db = await DatabaseHelper.instance.database;
     const orderBy = '${PlayListFields.id} ASC';
     // final result =
     //     await db.query('SELECT * FROM $tablePlayLists ODER BY $orderBy');
@@ -110,49 +111,42 @@ CREATE TABLE $tableMusicFiles (
   }
 
   Future<int> updateCard(PlayList list) async {
-    final db = await instance.database;
+    final db = await DatabaseHelper.instance.database;
     return db.update(tablePlayLists, list.toJson(),
         where: '${PlayListFields.id} = ?', whereArgs: [list.id]);
   }
 
   Future<int> delete(int id) async {
-    final db = await instance.database;
+    final db = await DatabaseHelper.instance.database;
     return await db.delete(tablePlayLists,
         where: '${PlayListFields.id} = ?', whereArgs: [id]);
   }
 
   Future deleteAllMusics(int musicNum) async {
-    final db = await instance.database;
+    final db = await DatabaseHelper.instance.database;
     return await db.delete(tableMusicFiles,
         where: '${MusicFilesFields.cardNum} = ?', whereArgs: [musicNum]);
   }
 
   Future deleteMusic(int id) async {
-    final db = await instance.database;
+    final db = await DatabaseHelper.instance.database;
     return await db.delete(tableMusicFiles,
         where: '${MusicFilesFields.id} = ?', whereArgs: [id]);
   }
 
   Future close() async {
-    final db = await instance.database;
+    final db = await DatabaseHelper.instance.database;
     db.close();
   }
-}
 
-class HiveDataSource {
   Future<List<TempMusicList>> getTempMusicList() async {
     var postBox = Hive.box<TempMusicList>('tempMusicList');
     return postBox.values.toList();
   }
 
-  Future<void> addTempPlayList(
-      String imageUrl, String title, String videoId) async {
-    final playList = TempMusicList()
-      ..imageurl = imageUrl
-      ..title = title
-      ..videoId = videoId;
+  Future<void> addTempPlayList(TempMusicList musicList) async {
     final box = Hive.box<TempMusicList>('tempMusicList');
-    box.add(playList);
+    box.add(musicList);
   }
 
   Future deleteTempMusicList(TempMusicList musicList) async {

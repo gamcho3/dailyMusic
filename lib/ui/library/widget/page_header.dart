@@ -29,16 +29,10 @@ class NetworkingPageHeader extends SliverPersistentHeaderDelegate {
     return Stack(
       fit: StackFit.expand,
       children: [
-        if (Platform.isAndroid)
-          Image.file(
-            File(image),
-            fit: BoxFit.cover,
-          ),
-        if (Platform.isIOS)
-          Image.asset(
-            image,
-            fit: BoxFit.cover,
-          ),
+        Image.file(
+          File(image),
+          fit: BoxFit.cover,
+        ),
         Positioned(
             left: 0,
             top: 0,
@@ -58,7 +52,9 @@ class NetworkingPageHeader extends SliverPersistentHeaderDelegate {
                   style: TextStyle(
                     fontSize: 32.0,
                     fontWeight: FontWeight.bold,
-                    color: Colors.white.withOpacity(titleOpacity(shrinkOffset)),
+                    color: Theme.of(context)
+                        .primaryColor
+                        .withOpacity(titleOpacity(shrinkOffset)),
                   ),
                   onChanged: onChanged,
                 )

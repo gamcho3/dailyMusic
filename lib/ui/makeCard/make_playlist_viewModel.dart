@@ -7,9 +7,9 @@ import 'package:flutter/material.dart';
 import 'package:path_provider/path_provider.dart';
 import 'package:youtube_explode_dart/youtube_explode_dart.dart';
 import 'package:path/path.dart' as path;
-import '../../../data/models/playList.dart';
-import '../../../data/models/temp_musicList.dart';
-import '../../../data/models/youtube_list_models.dart';
+import '../../data/models/playList.dart';
+import '../../data/models/temp_musicList.dart';
+import '../../data/models/youtube_list_models.dart';
 
 class MakePlayListViewModel with ChangeNotifier {
   late final PlayListRepository _playListRepository;
@@ -17,6 +17,8 @@ class MakePlayListViewModel with ChangeNotifier {
   late final YoutubeRepository _youtubeRepository;
   List<TempMusicList> _tempMusicList = [];
   bool _isLoading = false;
+  int _progress = 0;
+  int get progress => _progress;
   List<Item> _musicList = [];
   List<Item> get musicList => _musicList;
   List<TempMusicList> get tempMusicList => _tempMusicList;
@@ -25,7 +27,7 @@ class MakePlayListViewModel with ChangeNotifier {
     _playListRepository = PlayListRepository();
     _musicCardRepository = MusicCardRepository();
     _youtubeRepository = YoutubeRepository();
-    deleteTempListAll();
+    // deleteTempListAll();
   }
 
   Future<PlayList> makeCard(
@@ -70,7 +72,8 @@ class MakePlayListViewModel with ChangeNotifier {
 
       // Calculate the current progress.
       var progress = ((count / len) * 100).ceil();
-      // print(progress);
+      updateProgressBar(progress);
+      print(progress);
       // Update the progressbar.
       // progressBar.update(progress);
 
@@ -86,18 +89,25 @@ class MakePlayListViewModel with ChangeNotifier {
     return file;
   }
 
-  void updateLoading(bool loading) {
-    _isLoading = loading;
+  void updateProgressBar(int progressNum) {
+    _progress = progressNum;
     notifyListeners();
   }
 
-  Future<void> addTempPlayList(
-      String imageUrl, String title, String videoId) async {
-    await _playListRepository.addTempList(imageUrl, title, videoId);
+  void updateLoading(bool loading) {
+    _isLoading = loading;
+    _musicCardRepository.getMusicCards();
+    notifyListeners();
+  }
+
+  Future<void> addTempPlayList(TempMusicList tempList) async {
+    await _playListRepository.addTempList(tempList);
+    getTempList();
   }
 
   Future<void> getTempList() async {
     _tempMusicList = await _playListRepository.getTempList();
+    print(_tempMusicList.length);
     notifyListeners();
   }
 

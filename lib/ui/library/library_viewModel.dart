@@ -24,7 +24,7 @@ class LibraryViewModel with ChangeNotifier {
   }
 
   late MusicCardRepository _musicCardRepository;
-  late WeatherRepository _weatherRepository;
+  late PlayListRepository _playListRepository;
   List<PlayList>? _cards;
   WeatherModel? _weatherData;
   WeatherModel? get weatherData => _weatherData;
@@ -32,19 +32,19 @@ class LibraryViewModel with ChangeNotifier {
 
   LibraryViewModel() {
     _musicCardRepository = MusicCardRepository();
-    _weatherRepository = WeatherRepository();
+    _playListRepository = PlayListRepository();
     getCards();
-    getWeather();
+    // getWeather();
   }
 
   Future<void> getCards() async {
+    print('load getcards');
     _cards = await _musicCardRepository.getMusicCards();
     notifyListeners();
   }
 
-  Future<void> getWeather() async {
-    _weatherData = await _weatherRepository.obtainWeather();
-
+  Future<void> clearTempList() async {
+    await _playListRepository.deleteTempListAll();
     notifyListeners();
   }
 }

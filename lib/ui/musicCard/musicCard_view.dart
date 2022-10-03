@@ -2,7 +2,7 @@ import 'dart:io';
 
 import 'package:daliy_music/ui/library/library_viewModel.dart';
 import 'package:daliy_music/ui/musicCard/musicCard_viewModel.dart';
-import 'package:daliy_music/ui/playlist/playlist_viewModel.dart';
+
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_slidable/flutter_slidable.dart';
@@ -40,19 +40,18 @@ class _MusicCardViewState extends State<MusicCardView> {
   }
 
   @override
-  Widget build(BuildContext buildContext) {
+  Widget build(BuildContext context) {
     var list = context.watch<MusicCardViewModel>().playList;
     // List<MusicFiles>? curFiles = list;
     return Scaffold(
       extendBodyBehindAppBar: true,
       appBar: AppBar(
           leading: IconButton(
-            icon: const Icon(
-              LineAwesomeIcons.angle_left,
-              color: Colors.white,
-            ),
-            onPressed: () => Navigator.pop(context),
-          ),
+              icon: const Icon(
+                LineAwesomeIcons.angle_left,
+                color: Colors.white,
+              ),
+              onPressed: () => context.pop()),
           backgroundColor: Colors.transparent,
           actions: [
             if (isEdit)
@@ -82,7 +81,7 @@ class _MusicCardViewState extends State<MusicCardView> {
                     if (value == 1) {
                       showCupertinoModalPopup(
                           context: context,
-                          builder: (context) => CupertinoActionSheet(
+                          builder: (buildContext) => CupertinoActionSheet(
                                 message:
                                     const Text("삭제하면 플레이리스트의 모는노래가 삭제됩니다."),
                                 cancelButton: CupertinoActionSheetAction(
@@ -91,19 +90,25 @@ class _MusicCardViewState extends State<MusicCardView> {
                                   /// the action's text color to red.
                                   isDestructiveAction: true,
                                   onPressed: () {
-                                    Navigator.pop(context);
+                                    context.pop();
                                   },
                                   child: const Text('취소'),
                                 ),
                                 actions: [
                                   CupertinoActionSheetAction(
                                     isDestructiveAction: true,
-                                    onPressed: () {
-                                      buildContext
+                                    onPressed: () async {
+                                      await context
                                           .read<MusicCardViewModel>()
                                           .deleteCard(widget.item.id!, list);
-                                      GoRouter.of(buildContext).go('/playList');
-                                      Navigator.pop(context);
+                                      if (!mounted) return;
+                                      await context
+                                          .read<LibraryViewModel>()
+                                          .getCards();
+                                      if (!mounted) return;
+                                      GoRouter.of(context).pushNamed('library');
+
+                                      Navigator.pop(buildContext);
                                     },
                                     child: const Text('플레이리스트 삭제'),
                                   )

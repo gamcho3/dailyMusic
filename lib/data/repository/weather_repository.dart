@@ -10,13 +10,13 @@ class WeatherRepository {
   WeatherRepository({RemoteDataSource? remoteDataSource})
       : _remoteDataSource = remoteDataSource ?? getit.get<RemoteDataSource>();
 
-  Future<WeatherModel?> obtainWeather() async {
-    var result = await _remoteDataSource.determinePosition();
-    if (result != null) {
-      WeatherModel data =
-          await _remoteDataSource.getWeather(result.latitude, result.longitude);
-      return data;
-    }
-    return null;
-  }
+  // Future<WeatherModel?> obtainWeather() async {
+  //   var result = await _remoteDataSource.determinePosition();
+  //   if (result != null) {
+  //     WeatherModel data =
+  //         await _remoteDataSource.getWeather(result.latitude, result.longitude);
+  //     return data;
+  //   }
+  //   return null;
+  // }
 }

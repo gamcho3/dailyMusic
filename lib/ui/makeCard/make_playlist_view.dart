@@ -1,7 +1,9 @@
 import 'dart:io';
 
 import 'package:daliy_music/data/models/temp_musicList.dart';
-import 'package:daliy_music/ui/playlist/makeCard/make_playlist_viewModel.dart';
+import 'package:daliy_music/ui/library/library_viewModel.dart';
+import 'package:daliy_music/ui/makeCard/make_playlist_viewModel.dart';
+import 'package:daliy_music/ui/makeCard/search_youtube/search_pages.dart';
 import 'package:path/path.dart' as path;
 import 'package:flutter/material.dart';
 import 'package:go_router/go_router.dart';
@@ -10,9 +12,8 @@ import 'package:modal_bottom_sheet/modal_bottom_sheet.dart';
 import 'package:path_provider/path_provider.dart';
 import 'package:provider/provider.dart';
 import 'package:image_picker/image_picker.dart';
-
-import '../../../utils/constants/constants.dart';
-import 'search_youtube/search_pages.dart';
+import 'package:percent_indicator/percent_indicator.dart';
+import '../../utils/constants/constants.dart';
 
 class MakePlayListView extends StatefulWidget {
   const MakePlayListView({
@@ -34,7 +35,7 @@ class _MakePlayListViewState extends State<MakePlayListView> {
     List<TempMusicList> playList =
         context.watch<MakePlayListViewModel>().tempMusicList;
     bool loading = context.watch<MakePlayListViewModel>().isLoading;
-
+    num progressNumber = context.watch<MakePlayListViewModel>().progress;
     return Scaffold(
       appBar: AppBar(actions: [
         TextButton(
@@ -58,7 +59,7 @@ class _MakePlayListViewState extends State<MakePlayListView> {
                   file = await file.copy(
                       '${androidDir?.path}/$title.${image!.path.substring(image!.path.length - 3)}');
                 } else {
-                  final dir = await getApplicationDocumentsDirectory();
+                  final dir = await getLibraryDirectory();
                   print('ios');
                   file = await file.copy(
                       '${dir.path}/$title.${image!.path.substring(image!.path.length - 3)}');
@@ -90,8 +91,8 @@ class _MakePlayListViewState extends State<MakePlayListView> {
                 //로딩 멈춤
                 if (!mounted) return;
                 context.read<MakePlayListViewModel>().updateLoading(false);
-                GoRouter.of(context).go('/playList');
-                Navigator.pop(context);
+
+                context.goNamed('library');
               }
             },
             child: Text('완료'))
@@ -209,34 +210,46 @@ class _MakePlayListViewState extends State<MakePlayListView> {
                             ))),
                     if (playList.isNotEmpty)
                       for (var i = 0; i < playList.length; i++)
-                        ListTile(
-                          dense: true,
-                          leading: Row(
-                            mainAxisSize: MainAxisSize.min,
-                            children: [
-                              GestureDetector(
-                                onTap: () {
-                                  context
-                                      .read<MakePlayListViewModel>()
-                                      .deleteTempList(playList[i]);
-                                },
-                                child: const Icon(
-                                  LineAwesomeIcons.minus,
-                                  color: Colors.red,
+                        Padding(
+                          padding: const EdgeInsets.symmetric(vertical: 10),
+                          child: ListTile(
+                            dense: true,
+                            leading: Row(
+                              mainAxisSize: MainAxisSize.min,
+                              children: [
+                                GestureDetector(
+                                  onTap: () {
+                                    context
+                                        .read<MakePlayListViewModel>()
+                                        .deleteTempList(playList[i]);
+                                  },
+                                  child: const Icon(
+                                    LineAwesomeIcons.minus,
+                                    color: Colors.red,
+                                  ),
                                 ),
-                              ),
-                              const SizedBox(
-                                width: 10,
-                              ),
-                              Image.network(
-                                playList[i].imageurl,
-                                width: 50,
-                                height: 50,
-                                fit: BoxFit.fill,
-                              )
-                            ],
+                                const SizedBox(
+                                  width: 10,
+                                ),
+                                Container(
+                                  decoration: BoxDecoration(
+                                      borderRadius: BorderRadius.circular(10)),
+                                  clipBehavior: Clip.antiAlias,
+                                  child: Image.network(
+                                    playList[i].imageurl,
+                                    width: 50,
+                                    height: 50,
+                                    fit: BoxFit.fill,
+                                  ),
+                                )
+                              ],
+                            ),
+                            title: Text(
+                              playList[i].title,
+                              maxLines: 2,
+                              overflow: TextOverflow.ellipsis,
+                            ),
                           ),
-                          title: Text(playList[i].title),
                         )
                   ],
                 ),
@@ -251,15 +264,22 @@ class _MakePlayListViewState extends State<MakePlayListView> {
                   child: Column(
                     mainAxisAlignment: MainAxisAlignment.center,
                     crossAxisAlignment: CrossAxisAlignment.center,
-                    children: const [
-                      Padding(
+                    children: [
+                      const Padding(
                         padding: EdgeInsets.all(8.0),
                         child: Text(
                           "노래 준비중...",
                           style: TextStyle(color: Colors.white, fontSize: 15),
                         ),
                       ),
-                      CircularProgressIndicator(),
+                      LinearPercentIndicator(
+                        animation: false,
+                        lineHeight: 20.0,
+                        percent: progressNumber / 100,
+                        center: Text("$progressNumber%"),
+                        barRadius: Radius.circular(20),
+                        progressColor: Colors.green,
+                      ),
                     ],
                   ),
                 ),

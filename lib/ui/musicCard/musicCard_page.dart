@@ -14,8 +14,11 @@ class MusicCardPage extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return ChangeNotifierProvider(
-      create: (_) => MusicCardViewModel(item.id!),
+    return MultiProvider(
+      providers: [
+        ChangeNotifierProvider(create: (_) => MusicCardViewModel(item.id!)),
+        ChangeNotifierProvider(create: (_) => LibraryViewModel()),
+      ],
       child: MusicCardView(
         item: item,
       ),
