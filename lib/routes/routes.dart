@@ -2,6 +2,7 @@ import 'package:daily_music/data/models/playList.dart';
 import 'package:daily_music/ui/home/home_view.dart';
 import 'package:daily_music/ui/library/library_page.dart';
 import 'package:daily_music/ui/library/library_viewModel.dart';
+import 'package:daily_music/ui/login/login_page.dart';
 import 'package:daily_music/ui/musicCard/musicCard_page.dart';
 import 'package:flutter/material.dart';
 
@@ -34,6 +35,13 @@ final router = GoRouter(
                 maintainState: false, child: LibraryPage());
           },
           routes: <RouteBase>[
+            GoRoute(
+              name: 'login',
+              path: 'login',
+              builder: (context, state) {
+                return const LoginPage();
+              },
+            ),
             GoRoute(
               name: 'makeList',
               path: 'makeList',

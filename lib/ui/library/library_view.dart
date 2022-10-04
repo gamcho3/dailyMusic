@@ -29,12 +29,19 @@ class LibraryView extends StatelessWidget {
           onRefresh: () => provider.getCards(),
           child: CustomScrollView(
             slivers: [
-              const SliverAppBar(
+              SliverAppBar(
                 centerTitle: true,
                 titleSpacing: 15,
                 elevation: 0,
                 backgroundColor: Colors.transparent,
-                title: Text(
+                actions: [
+                  IconButton(
+                      onPressed: () {
+                        context.pushNamed('login');
+                      },
+                      icon: const Icon(LineAwesomeIcons.user_circle))
+                ],
+                title: const Text(
                   "오늘의 음악",
                   style: TextStyle(fontWeight: FontWeight.bold, fontSize: 25),
                 ),

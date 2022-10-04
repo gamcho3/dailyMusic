@@ -8,6 +8,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_dotenv/flutter_dotenv.dart';
 import 'package:google_mobile_ads/google_mobile_ads.dart';
 import 'package:hive_flutter/hive_flutter.dart';
+import 'package:kakao_flutter_sdk/kakao_flutter_sdk_common.dart';
 
 Future main() async {
   WidgetsFlutterBinding.ensureInitialized();
@@ -17,7 +18,7 @@ Future main() async {
   await Hive.openBox<TempMusicList>('tempMusicList');
   await dotenv.load();
   setupGetIt();
-  // KakaoSdk.init(nativeAppKey: Constants.kakaoAppKey);
+  KakaoSdk.init(nativeAppKey: 'bf0892b557f7ab104a34756adc2e04ea');
   await Firebase.initializeApp(
     options: DefaultFirebaseOptions.currentPlatform,
   );
