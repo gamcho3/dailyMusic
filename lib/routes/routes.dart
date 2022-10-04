@@ -1,8 +1,8 @@
-import 'package:daliy_music/data/models/playList.dart';
-import 'package:daliy_music/ui/home/home_view.dart';
-import 'package:daliy_music/ui/library/library_page.dart';
-import 'package:daliy_music/ui/library/library_viewModel.dart';
-import 'package:daliy_music/ui/musicCard/musicCard_page.dart';
+import 'package:daily_music/data/models/playList.dart';
+import 'package:daily_music/ui/home/home_view.dart';
+import 'package:daily_music/ui/library/library_page.dart';
+import 'package:daily_music/ui/library/library_viewModel.dart';
+import 'package:daily_music/ui/musicCard/musicCard_page.dart';
 import 'package:flutter/material.dart';
 
 import 'package:go_router/go_router.dart';
@@ -19,7 +19,6 @@ final router = GoRouter(
   navigatorKey: _rootNavigatorKey,
   initialLocation: '/library',
   debugLogDiagnostics: true,
-  routerNeglect: true,
   routes: [
     ShellRoute(
       navigatorKey: _shellNavigatorKey,
@@ -30,8 +29,10 @@ final router = GoRouter(
         GoRoute(
           name: "library",
           path: '/library',
-          pageBuilder: (context, state) =>
-              const MaterialPage(child: LibraryPage()),
+          pageBuilder: (context, state) {
+            return const MaterialPage(
+                maintainState: false, child: LibraryPage());
+          },
           routes: <RouteBase>[
             GoRoute(
               name: 'makeList',

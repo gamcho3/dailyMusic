@@ -1,8 +1,8 @@
 import 'dart:io';
 
-import 'package:daliy_music/data/repository/musicCard_repository.dart';
-import 'package:daliy_music/data/repository/playList_repository.dart';
-import 'package:daliy_music/data/repository/youtube_repository.dart';
+import 'package:daily_music/data/repository/musicCard_repository.dart';
+import 'package:daily_music/data/repository/playList_repository.dart';
+import 'package:daily_music/data/repository/youtube_repository.dart';
 import 'package:flutter/material.dart';
 import 'package:path_provider/path_provider.dart';
 import 'package:youtube_explode_dart/youtube_explode_dart.dart';

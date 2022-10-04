@@ -1,7 +1,7 @@
 import 'dart:io' show Platform;
 
 import 'package:better_player/better_player.dart';
-import 'package:daliy_music/utils/constants/constants.dart';
+import 'package:daily_music/utils/constants/constants.dart';
 
 import 'package:flutter/material.dart';
 import 'package:google_mobile_ads/google_mobile_ads.dart';

@@ -1,4 +1,4 @@
-import 'package:daliy_music/data/remote_datasource/remote_data_source.dart';
+import 'package:daily_music/data/remote_datasource/remote_data_source.dart';
 
 import '../models/youtube_list_models.dart';
 

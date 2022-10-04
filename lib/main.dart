@@ -1,8 +1,8 @@
-import 'package:daliy_music/config/di.dart';
-import 'package:daliy_music/data/models/temp_musicList.dart';
-import 'package:daliy_music/firebase_options.dart';
-import 'package:daliy_music/routes/routes.dart';
-import 'package:daliy_music/utils/theme/constants.dart';
+import 'package:daily_music/config/di.dart';
+import 'package:daily_music/data/models/temp_musicList.dart';
+import 'package:daily_music/firebase_options.dart';
+import 'package:daily_music/routes/routes.dart';
+import 'package:daily_music/utils/theme/constants.dart';
 import 'package:firebase_core/firebase_core.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_dotenv/flutter_dotenv.dart';

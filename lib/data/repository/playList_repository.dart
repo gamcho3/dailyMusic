@@ -1,4 +1,4 @@
-import 'package:daliy_music/data/models/temp_musicList.dart';
+import 'package:daily_music/data/models/temp_musicList.dart';
 import 'package:hive/hive.dart';
 
 import '../../config/di.dart';

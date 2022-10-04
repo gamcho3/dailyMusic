@@ -1,6 +1,6 @@
 import 'dart:io';
-import 'package:daliy_music/data/local_datasource/local_data_source.dart';
-import 'package:daliy_music/data/models/playList.dart';
+import 'package:daily_music/data/local_datasource/local_data_source.dart';
+import 'package:daily_music/data/models/playList.dart';
 import '../../config/di.dart';
 import '../models/music_files.dart';
 import '../remote_datasource/remote_data_source.dart';

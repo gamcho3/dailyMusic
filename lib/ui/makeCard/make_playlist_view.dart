@@ -1,9 +1,9 @@
 import 'dart:io';
 
-import 'package:daliy_music/data/models/temp_musicList.dart';
-import 'package:daliy_music/ui/library/library_viewModel.dart';
-import 'package:daliy_music/ui/makeCard/make_playlist_viewModel.dart';
-import 'package:daliy_music/ui/makeCard/search_youtube/search_pages.dart';
+import 'package:daily_music/data/models/temp_musicList.dart';
+import 'package:daily_music/ui/library/library_viewModel.dart';
+import 'package:daily_music/ui/makeCard/make_playlist_viewModel.dart';
+import 'package:daily_music/ui/makeCard/search_youtube/search_pages.dart';
 import 'package:path/path.dart' as path;
 import 'package:flutter/material.dart';
 import 'package:go_router/go_router.dart';
@@ -92,7 +92,7 @@ class _MakePlayListViewState extends State<MakePlayListView> {
                 if (!mounted) return;
                 context.read<MakePlayListViewModel>().updateLoading(false);
 
-                context.goNamed('library');
+                context.go('/library');
               }
             },
             child: Text('완료'))
