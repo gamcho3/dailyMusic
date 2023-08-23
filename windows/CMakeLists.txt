@@ -1,7 +1,7 @@
 cmake_minimum_required(VERSION 3.14)
-project(daliy_music LANGUAGES CXX)
+project(daily_music LANGUAGES CXX)
 
-set(BINARY_NAME "daliy_music")
+set(BINARY_NAME "daily_music")
 
 cmake_policy(SET CMP0063 NEW)
 

@@ -1,4 +1,4 @@
-package com.park.daliy_music
+package com.park.daily_music
 
 import android.app.NotificationManager
 import android.app.Service

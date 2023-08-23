@@ -70,7 +70,8 @@ class DefaultFirebaseOptions {
     messagingSenderId: '162625826936',
     projectId: 'daily-music-a3d6e',
     storageBucket: 'daily-music-a3d6e.appspot.com',
-    iosClientId: '162625826936-3k4mf967u42r6jpvm0e91km9qk83qf13.apps.googleusercontent.com',
-    iosBundleId: 'com.park.daliyMusic',
+    iosClientId:
+        '162625826936-3k4mf967u42r6jpvm0e91km9qk83qf13.apps.googleusercontent.com',
+    iosBundleId: 'com.park.dailyMusic',
   );
 }

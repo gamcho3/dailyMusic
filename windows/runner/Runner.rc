@@ -90,12 +90,12 @@ BEGIN
         BLOCK "040904e4"
         BEGIN
             VALUE "CompanyName", "com.park" "\0"
-            VALUE "FileDescription", "daliy_music" "\0"
+            VALUE "FileDescription", "daily_music" "\0"
             VALUE "FileVersion", VERSION_AS_STRING "\0"
-            VALUE "InternalName", "daliy_music" "\0"
+            VALUE "InternalName", "daily_music" "\0"
             VALUE "LegalCopyright", "Copyright (C) 2022 com.park. All rights reserved." "\0"
-            VALUE "OriginalFilename", "daliy_music.exe" "\0"
-            VALUE "ProductName", "daliy_music" "\0"
+            VALUE "OriginalFilename", "daily_music.exe" "\0"
+            VALUE "ProductName", "daily_music" "\0"
             VALUE "ProductVersion", VERSION_AS_STRING "\0"
         END
     END

@@ -23,7 +23,7 @@ class MusicCard extends StatelessWidget {
     return GestureDetector(
       onTap: () {
         context.goNamed('musicCard',
-            params: {'index': index.toString()}, extra: items);
+            pathParameters: {'index': index.toString()}, extra: items);
       },
       child: Padding(
         padding: const EdgeInsets.symmetric(vertical: 10, horizontal: 10),
