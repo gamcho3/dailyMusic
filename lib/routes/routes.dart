@@ -35,13 +35,7 @@ final router = GoRouter(
                 maintainState: false, child: LibraryPage());
           },
           routes: <RouteBase>[
-            // GoRoute(
-            //   name: 'login',
-            //   path: 'login',
-            //   builder: (context, state) {
-            //     return const LoginPage();
-            //   },
-            // ),
+
             GoRoute(
               name: 'makeList',
               path: 'makeList',

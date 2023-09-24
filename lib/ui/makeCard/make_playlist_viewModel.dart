@@ -3,6 +3,8 @@ import 'dart:io';
 import 'package:daily_music/data/repository/musicCard_repository.dart';
 import 'package:daily_music/data/repository/playList_repository.dart';
 import 'package:daily_music/data/repository/youtube_repository.dart';
+import 'package:ffmpeg_kit_flutter/ffmpeg_kit.dart';
+import 'package:ffmpeg_kit_flutter/return_code.dart';
 import 'package:flutter/material.dart';
 import 'package:path_provider/path_provider.dart';
 import 'package:youtube_explode_dart/youtube_explode_dart.dart';
@@ -85,6 +87,23 @@ class MakePlayListViewModel with ChangeNotifier {
 
     await fileStream.flush();
     await fileStream.close();
+
+    FFmpegKit.execute("-i $file -vn -ab 128k -ar 44100 -y ${file.path}.mp3").then((session) async{
+      final returnCode = await session.getReturnCode();
+      if (ReturnCode.isSuccess(returnCode)) {
+        print("success");
+        // SUCCESS
+
+      } else if (ReturnCode.isCancel(returnCode)) {
+
+        // CANCEL
+
+      } else {
+
+        // ERROR
+
+      }
+    });
 
     return file;
   }
