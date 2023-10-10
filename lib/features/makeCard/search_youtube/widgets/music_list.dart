@@ -1,7 +1,7 @@
 import 'dart:io';
 
 import 'package:daily_music/data/models/temp_musicList.dart';
-import 'package:daily_music/ui/makeCard/make_playlist_viewModel.dart';
+import 'package:daily_music/features/makeCard/make_playlist_viewModel.dart';
 import 'package:daily_music/utils/constants/constants.dart';
 import 'package:flutter/material.dart';
 import 'package:line_awesome_flutter/line_awesome_flutter.dart';

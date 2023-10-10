@@ -1,15 +1,15 @@
 import 'package:daily_music/data/models/playList.dart';
-import 'package:daily_music/ui/home/home_view.dart';
-import 'package:daily_music/ui/library/library_page.dart';
-import 'package:daily_music/ui/library/library_viewModel.dart';
+import 'package:daily_music/features/home/home_view.dart';
+import 'package:daily_music/features/library/library_page.dart';
+import 'package:daily_music/features/library/library_viewModel.dart';
 
-import 'package:daily_music/ui/musicCard/musicCard_page.dart';
+import 'package:daily_music/features/musicCard/musicCard_page.dart';
 import 'package:flutter/material.dart';
 
 import 'package:go_router/go_router.dart';
 import 'package:path_to_regexp/path_to_regexp.dart';
 
-import '../ui/makeCard/make_playlist_page.dart';
+import '../features/makeCard/make_playlist_page.dart';
 
 final GlobalKey<NavigatorState> _rootNavigatorKey =
     GlobalKey<NavigatorState>(debugLabel: 'root');
@@ -35,7 +35,6 @@ final router = GoRouter(
                 maintainState: false, child: LibraryPage());
           },
           routes: <RouteBase>[
-
             GoRoute(
               name: 'makeList',
               path: 'makeList',

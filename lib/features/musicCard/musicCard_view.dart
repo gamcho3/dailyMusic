@@ -1,7 +1,7 @@
 import 'dart:io';
 
-import 'package:daily_music/ui/library/library_viewModel.dart';
-import 'package:daily_music/ui/musicCard/musicCard_viewModel.dart';
+import 'package:daily_music/features/library/library_viewModel.dart';
+import 'package:daily_music/features/musicCard/musicCard_viewModel.dart';
 
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';

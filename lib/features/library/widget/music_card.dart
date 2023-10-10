@@ -1,7 +1,7 @@
 import 'dart:io';
 
 import 'package:animations/animations.dart';
-import 'package:daily_music/ui/musicCard/musicCard_page.dart';
+import 'package:daily_music/features/musicCard/musicCard_page.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_svg/svg.dart';
 import 'package:go_router/go_router.dart';

@@ -1,3 +1,4 @@
+import 'package:daily_music/app.dart';
 import 'package:daily_music/config/di.dart';
 import 'package:daily_music/data/models/temp_musicList.dart';
 import 'package:daily_music/firebase_options.dart';
@@ -26,51 +27,4 @@ Future main() async {
   );
   MobileAds.instance.initialize();
   runApp(const ProviderScope(child: MyApp()));
-}
-
-class MyApp extends StatefulWidget {
-  const MyApp({Key? key}) : super(key: key);
-
-  @override
-  State<MyApp> createState() => _MyAppState();
-}
-
-class _MyAppState extends State<MyApp> {
-  static const platform = MethodChannel('SHARE_URL');
-
-  @override
-  void initState() {
-    getUrl();
-    super.initState();
-  }
-
-  Future<void> getUrl() async {
-    String url;
-    try {
-      url = await platform.invokeMethod("getYoutubeUrl");
-    } on PlatformException catch (e) {
-      url = e.toString();
-    }
-    print(":::::::::: url $url");
-  }
-
-  @override
-  Widget build(BuildContext context) {
-    return MaterialApp.router(
-      routeInformationParser: router.routeInformationParser,
-      routerDelegate: router.routerDelegate,
-      routeInformationProvider: router.routeInformationProvider,
-      debugShowCheckedModeBanner: false,
-      builder: (context, child) => MediaQuery(
-        data: MediaQuery.of(context).copyWith(
-          textScaleFactor: 1.0,
-        ),
-        child: child!,
-      ),
-      title: 'daily_music',
-      theme: customThemeData,
-      darkTheme: darkThemeData,
-      themeMode: ThemeMode.system,
-    );
-  }
 }

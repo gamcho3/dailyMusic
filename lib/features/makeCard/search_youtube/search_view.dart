@@ -1,7 +1,7 @@
 import 'dart:async';
 import 'dart:io';
-import 'package:daily_music/ui/makeCard/make_playlist_viewModel.dart';
-import 'package:daily_music/ui/makeCard/search_youtube/widgets/music_list.dart';
+import 'package:daily_music/features/makeCard/make_playlist_viewModel.dart';
+import 'package:daily_music/features/makeCard/search_youtube/widgets/music_list.dart';
 import 'package:daily_music/utils/constants/constants.dart';
 import 'package:flutter/material.dart';
 import 'package:go_router/go_router.dart';

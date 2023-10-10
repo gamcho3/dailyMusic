@@ -1,9 +1,9 @@
 import 'dart:io';
 
 import 'package:daily_music/data/models/temp_musicList.dart';
-import 'package:daily_music/ui/library/library_viewModel.dart';
-import 'package:daily_music/ui/makeCard/make_playlist_viewModel.dart';
-import 'package:daily_music/ui/makeCard/search_youtube/search_pages.dart';
+import 'package:daily_music/features/library/library_viewModel.dart';
+import 'package:daily_music/features/makeCard/make_playlist_viewModel.dart';
+import 'package:daily_music/features/makeCard/search_youtube/search_pages.dart';
 import 'package:path/path.dart' as path;
 import 'package:flutter/material.dart';
 import 'package:go_router/go_router.dart';

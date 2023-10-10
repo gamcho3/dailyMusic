@@ -1,9 +1,8 @@
 import 'dart:io';
 
 import 'package:daily_music/data/models/playList.dart';
-import 'package:daily_music/ui/library/widget/music_card.dart';
-import 'package:ffmpeg_kit_flutter/ffmpeg_kit.dart';
-import 'package:ffmpeg_kit_flutter/return_code.dart';
+import 'package:daily_music/features/library/widget/music_card.dart';
+import 'package:ffmpeg_kit_flutter_audio/return_code.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:go_router/go_router.dart';
@@ -15,7 +14,10 @@ import 'package:youtube_explode_dart/youtube_explode_dart.dart';
 import '../makeCard/make_playlist_viewModel.dart';
 import 'library_viewModel.dart';
 import 'widget/main_title.dart';
+import 'package:ffmpeg_kit_flutter_audio/ffmpeg_kit.dart';
+import 'package:ffmpeg_kit_flutter_audio/ffmpeg_kit_config.dart';
 import 'package:path/path.dart' as path;
+
 class LibraryView extends StatelessWidget {
   const LibraryView({Key? key}) : super(key: key);
 
@@ -71,42 +73,54 @@ class LibraryView extends StatelessWidget {
                         "플레이리스트를 만들어 주세요.",
                         style: Theme.of(context).textTheme.titleLarge,
                       ),
-                      ElevatedButton(onPressed: ()async {
-                        var yt = YoutubeExplode();
-                        //Directory('downloads').createSync();
-                        // Get video metadata.
-                        var video = await yt.videos.get('Dpp1sIL1m5Q');
-                        // Get the video manifest.
-                        var manifest = await yt.videos.streamsClient.getManifest('Dpp1sIL1m5Q');
-                        final streamInfo =
-                        manifest.audioOnly.withHighestBitrate();
+                      ElevatedButton(
+                          onPressed: () async {
+                            var yt = YoutubeExplode();
+                            //Directory('downloads').createSync();
+                            // Get video metadata.
+                            var video = await yt.videos.get('H5v3kku4y6Q');
+                            // Get the video manifest.
+                            var manifest = await yt.videos.streamsClient
+                                .getManifest('H5v3kku4y6Q');
+                            final streamInfo =
+                                manifest.audioOnly.withHighestBitrate();
 
-                        var audioStream = yt.videos.streamsClient.get(streamInfo);
-                        // Build the directory.
-                        var dir = await getApplicationDocumentsDirectory();
-                        var filePath =
-                        path.join(dir.uri.toFilePath(), '${video.id}.${streamInfo.container.name}');
+                            var audioStream =
+                                yt.videos.streamsClient.get(streamInfo);
+                            // Build the directory.
+                            var dir = await getApplicationDocumentsDirectory();
+                            var filePath = path.join(dir.uri.toFilePath(),
+                                '${video.id}.${streamInfo.container.name}');
 
-                        //Open the file to write.
-                        var file = File(filePath);
-                        var fileStream = file.openWrite();
+                            //Open the file to write.
+                            var file = File(filePath);
+                            var fileStream = file.openWrite();
 
+                            await for (final data in audioStream) {
+                              fileStream.add(data);
+                            }
+                            await yt.videos.streamsClient
+                                .get(streamInfo)
+                                .pipe(fileStream);
+                            // Create the message and set the cursor position.
 
-                        await for (final data in audioStream) {
+                            await fileStream.flush();
+                            await fileStream.close();
 
-                          fileStream.add(data);
-                        }
-                        await yt.videos.streamsClient.get(streamInfo).pipe(fileStream);
-                        // Create the message and set the cursor position.
-
-                        await fileStream.flush();
-                        await fileStream.close();
-
-                       final conversion = await FFmpegKit.execute("-i ${file.path} -vn -ab 128k -ar 44100 -y ${file.path}.mp3");
-                       final output = conversion.getArguments();
-                        print(output);
-
-                      }, child: Text("test"))
+                            FFmpegKit.executeAsync(
+                                "-i ${file.path} -vn -ab 192k -y ${file.path.split('.')[0]}.mp3",
+                                (session) async {
+                              FFmpegKitConfig.sessionStateToString(
+                                  await session.getState());
+                              final returnCode = await session.getReturnCode();
+                              if (ReturnCode.isSuccess(returnCode)) {
+                                print("Encode completed successfully");
+                              } else {
+                                print("fail");
+                              }
+                            }, (log) => print(log.getMessage()));
+                          },
+                          child: Text("test"))
                     ],
                   ),
                 )
