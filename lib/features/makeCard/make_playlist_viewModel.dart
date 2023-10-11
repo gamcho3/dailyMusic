@@ -123,7 +123,7 @@ class MakePlayListViewModel with ChangeNotifier {
     notifyListeners();
   }
 
-  Future<void> getYoutubeList(keyword) async {
+  Future<void> getYoutubeList(String keyword) async {
     clearMusicList();
     var result = await _youtubeRepository.searchYoutube(keyword: keyword);
     print(result);

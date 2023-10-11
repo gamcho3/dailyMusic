@@ -1,4 +1,3 @@
-
 import 'dart:convert';
 import 'dart:io';
 
@@ -7,7 +6,6 @@ import 'package:daily_music/key/constants_key.dart';
 import 'package:flutter/material.dart';
 import 'package:http/http.dart' as http;
 
-import '../models/weather.dart';
 import '../models/youtube_list_models.dart';
 import '../models/youtube_popular_model.dart';
 
@@ -17,8 +15,6 @@ import '../models/youtube_popular_model.dart';
 /// are denied the `Future` will return an error.
 
 class RemoteDataSource {
-
-
   Future<YoutubeModel> getYoutubeList({required String keyword}) async {
     try {
       var response = await http

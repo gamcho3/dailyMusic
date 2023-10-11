@@ -1,5 +1,5 @@
 import 'package:daily_music/data/models/playList.dart';
-import 'package:daily_music/data/models/weather.dart';
+
 import 'package:daily_music/data/repository/musicCard_repository.dart';
 import 'package:daily_music/data/repository/playList_repository.dart';
 import 'package:daily_music/data/repository/weather_repository.dart';
@@ -26,8 +26,7 @@ class LibraryViewModel with ChangeNotifier {
   late MusicCardRepository _musicCardRepository;
   late PlayListRepository _playListRepository;
   List<PlayList>? _cards;
-  WeatherModel? _weatherData;
-  WeatherModel? get weatherData => _weatherData;
+
   List<PlayList>? get cards => _cards;
 
   LibraryViewModel() {

@@ -2,15 +2,17 @@ import 'package:daily_music/routes/routes.dart';
 import 'package:daily_music/utils/theme/constants.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
+import 'package:flutter_riverpod/flutter_riverpod.dart';
+import 'package:provider/provider.dart';
 
-class MyApp extends StatefulWidget {
+class MyApp extends ConsumerStatefulWidget {
   const MyApp({Key? key}) : super(key: key);
 
   @override
-  State<MyApp> createState() => _MyAppState();
+  ConsumerState<MyApp> createState() => _MyAppState();
 }
 
-class _MyAppState extends State<MyApp> {
+class _MyAppState extends ConsumerState<MyApp> {
   static const platform = MethodChannel('SHARE_URL');
 
   @override
@@ -31,21 +33,19 @@ class _MyAppState extends State<MyApp> {
 
   @override
   Widget build(BuildContext context) {
+    final router = ref.watch(goRouterProvider);
     return MaterialApp.router(
-      routeInformationParser: router.routeInformationParser,
-      routerDelegate: router.routerDelegate,
-      routeInformationProvider: router.routeInformationProvider,
+      routerConfig: router,
       debugShowCheckedModeBanner: false,
       builder: (context, child) => MediaQuery(
         data: MediaQuery.of(context).copyWith(
-          textScaleFactor: 1.0,
+          textScaleFactor: 1,
         ),
         child: child!,
       ),
       title: 'daily_music',
       theme: customThemeData,
       darkTheme: darkThemeData,
-      themeMode: ThemeMode.system,
     );
   }
 }

@@ -13,18 +13,18 @@ import 'package:google_mobile_ads/google_mobile_ads.dart';
 import 'package:hive_flutter/hive_flutter.dart';
 import 'package:http/http.dart';
 
-Future main() async {
+Future<void> main() async {
   WidgetsFlutterBinding.ensureInitialized();
   //hive 생성
   await Hive.initFlutter();
   Hive.registerAdapter(TempMusicListAdapter());
   await Hive.openBox<TempMusicList>('tempMusicList');
+  //환경변수 활성화
   await dotenv.load();
   setupGetIt();
-  // KakaoSdk.init(nativeAppKey: 'bf0892b557f7ab104a34756adc2e04ea');
   await Firebase.initializeApp(
     options: DefaultFirebaseOptions.currentPlatform,
   );
-  MobileAds.instance.initialize();
+  await MobileAds.instance.initialize();
   runApp(const ProviderScope(child: MyApp()));
 }
