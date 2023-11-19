@@ -1,8 +1,6 @@
-import 'package:daily_music/data/models/playList.dart';
-import 'package:daily_music/features/home/home_view.dart';
-import 'package:daily_music/features/library/library_page.dart';
-import 'package:daily_music/features/makeCard/make_playlist_page.dart';
-import 'package:daily_music/features/musicCard/musicCard_page.dart';
+import 'package:daily_music/features/library/view/library_screen.dart';
+import 'package:daily_music/features/navigation/navigation_view.dart';
+import 'package:daily_music/features/player/music_play_screen.dart';
 import 'package:flutter/material.dart';
 import 'package:go_router/go_router.dart';
 import 'package:riverpod_annotation/riverpod_annotation.dart';
@@ -18,43 +16,15 @@ final GlobalKey<NavigatorState> _shellNavigatorKey =
 GoRouter goRouter(GoRouterRef ref) {
   return GoRouter(
     navigatorKey: _rootNavigatorKey,
-    initialLocation: '/library',
+    initialLocation: '/',
     debugLogDiagnostics: true,
     routes: [
-      ShellRoute(
-        navigatorKey: _shellNavigatorKey,
-        builder: (context, state, child) {
-          return HomeView(child: child);
+      GoRoute(
+        path: '/',
+        name: 'home',
+        builder: (context, state) {
+          return LibraryScreen();
         },
-        routes: <RouteBase>[
-          GoRoute(
-            name: "library",
-            path: '/library',
-            pageBuilder: (context, state) {
-              return const MaterialPage(
-                  maintainState: false, child: LibraryPage());
-            },
-            routes: <RouteBase>[
-              GoRoute(
-                name: 'makeList',
-                path: 'makeList',
-                builder: (context, state) {
-                  return const MakePlayListPage();
-                },
-              ),
-              GoRoute(
-                name: 'musicCard',
-                path: 'musicCard/:index',
-                builder: (context, state) {
-                  var index = int.parse(state.pathParameters['index']!);
-                  var item = state.extra as PlayList;
-
-                  return MusicCardPage(index: index, item: item);
-                },
-              )
-            ],
-          )
-        ],
       )
     ],
   );

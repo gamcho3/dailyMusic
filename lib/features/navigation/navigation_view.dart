@@ -1,18 +1,18 @@
 // ignore_for_file: public_member_api_docs, sort_constructors_first
 import 'package:flutter/material.dart';
 
-class HomeView extends StatefulWidget {
-  const HomeView({
+class NavigationView extends StatefulWidget {
+  const NavigationView({
     required this.child,
     super.key,
   });
   final Widget child;
 
   @override
-  State<HomeView> createState() => _HomeViewState();
+  State<NavigationView> createState() => _NavigationViewState();
 }
 
-class _HomeViewState extends State<HomeView> {
+class _NavigationViewState extends State<NavigationView> {
   int currentIndex = 0;
   @override
   Widget build(BuildContext context) {
@@ -20,12 +20,12 @@ class _HomeViewState extends State<HomeView> {
       body: widget.child,
       bottomNavigationBar: NavigationBar(
           onDestinationSelected: (value) {
-            currentIndex = value;
-
-            setState(() {});
+            setState(() {
+              currentIndex = value;
+            });
           },
           selectedIndex: currentIndex,
-          destinations: [
+          destinations: const [
             NavigationDestination(
               selectedIcon: Icon(Icons.home),
               icon: Icon(Icons.home_outlined),

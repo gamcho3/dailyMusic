@@ -6,6 +6,8 @@ xmlns:tools="http://schemas.android.com/tools"
    <meta-data android:name="com.google.android.gms.version"
       android:value="@integer/google_play_services_version" />
    <uses-permission android:name="android.permission.INTERNET" />
+   <uses-permission android:name="android.permission.WAKE_LOCK"/>
+    <uses-permission android:name="android.permission.FOREGROUND_SERVICE"/>
    <application
     tools:replace="android:label" 
         android:requestLegacyExternalStorage="true"
@@ -16,7 +18,7 @@ xmlns:tools="http://schemas.android.com/tools"
               android:name="com.google.android.gms.ads.APPLICATION_ID"
               android:value="ca-app-pub-1039451548608668~3239843910"/>
         <activity
-            android:name=".MainActivity"
+            android:name="com.ryanheise.audioservice.AudioServiceActivity"
             android:exported="true"
             android:launchMode="singleTop"
             android:theme="@style/LaunchTheme"
@@ -42,9 +44,34 @@ xmlns:tools="http://schemas.android.com/tools"
         <data android:mimeType="text/plain" />
     </intent-filter>
         </activity>
+        <!--audio setting-->
+        <service 
+    android:name="com.ryanheise.audioservice.AudioService"
+    android:foregroundServiceType="mediaPlayback"
+    android:exported="true" 
+    tools:ignore="Instantiatable">
+  <intent-filter>
+    <action android:name="android.media.browse.MediaBrowserService" />
+  </intent-filter>
+</service>
+
+<receiver 
+    android:name="com.ryanheise.audioservice.MediaButtonReceiver"
+    android:exported="true" 
+    tools:ignore="Instantiatable">
+  <intent-filter>
+    <action android:name="android.intent.action.MEDIA_BUTTON" />
+  </intent-filter>
+</receiver> 
+
+
+    <!--kakao 설정-->
         <activity 
     android:name="com.kakao.sdk.flutter.AuthCodeCustomTabsActivity"
     android:exported="true">
+
+
+
     <intent-filter android:label="flutter_web_auth">
         <action android:name="android.intent.action.VIEW" />
         <category android:name="android.intent.category.DEFAULT" />
@@ -53,7 +80,9 @@ xmlns:tools="http://schemas.android.com/tools"
         <!-- Redirect URI, "kakao${YOUR_NATIVE_APP_KEY}://oauth" 형식 -->
         <data android:scheme="kakaobf0892b557f7ab104a34756adc2e04ea" android:host="oauth"/>
     </intent-filter>
-</activity>
+    </activity>
+
+
         <!-- Don't delete the meta-data below.
              This is used by the Flutter tool to generate GeneratedPluginRegistrant.java -->
         <meta-data

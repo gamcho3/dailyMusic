@@ -1,12 +1,12 @@
 import 'package:daily_music/routes/routes.dart';
-import 'package:daily_music/utils/theme/constants.dart';
+import 'package:daily_music/utils/theme/app_theme.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
-import 'package:provider/provider.dart';
+import 'package:flutter_screenutil/flutter_screenutil.dart';
 
 class MyApp extends ConsumerStatefulWidget {
-  const MyApp({Key? key}) : super(key: key);
+  const MyApp({super.key});
 
   @override
   ConsumerState<MyApp> createState() => _MyAppState();
@@ -17,7 +17,7 @@ class _MyAppState extends ConsumerState<MyApp> {
 
   @override
   void initState() {
-    getUrl();
+    // getUrl();
     super.initState();
   }
 
@@ -34,18 +34,16 @@ class _MyAppState extends ConsumerState<MyApp> {
   @override
   Widget build(BuildContext context) {
     final router = ref.watch(goRouterProvider);
-    return MaterialApp.router(
-      routerConfig: router,
-      debugShowCheckedModeBanner: false,
-      builder: (context, child) => MediaQuery(
-        data: MediaQuery.of(context).copyWith(
-          textScaleFactor: 1,
-        ),
-        child: child!,
-      ),
-      title: 'daily_music',
-      theme: customThemeData,
-      darkTheme: darkThemeData,
+    return ScreenUtilInit(
+      builder: (_, child) {
+        return MaterialApp.router(
+          routerConfig: router,
+          debugShowCheckedModeBanner: false,
+          title: 'daily_music',
+          theme: customThemeData,
+          darkTheme: darkThemeData,
+        );
+      },
     );
   }
 }
