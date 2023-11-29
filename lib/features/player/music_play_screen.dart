@@ -5,6 +5,8 @@ import 'package:go_router/go_router.dart';
 class MusicPlayScreen extends StatelessWidget {
   const MusicPlayScreen({super.key});
 
+  static String get name => 'player';
+
   @override
   Widget build(BuildContext context) {
     return Dismissible(

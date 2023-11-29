@@ -652,12 +652,46 @@ PODS:
   - connectivity_plus (0.0.1):
     - Flutter
     - ReachabilitySwift
+  - DKImagePickerController/Core (4.3.4):
+    - DKImagePickerController/ImageDataManager
+    - DKImagePickerController/Resource
+  - DKImagePickerController/ImageDataManager (4.3.4)
+  - DKImagePickerController/PhotoGallery (4.3.4):
+    - DKImagePickerController/Core
+    - DKPhotoGallery
+  - DKImagePickerController/Resource (4.3.4)
+  - DKPhotoGallery (0.0.17):
+    - DKPhotoGallery/Core (= 0.0.17)
+    - DKPhotoGallery/Model (= 0.0.17)
+    - DKPhotoGallery/Preview (= 0.0.17)
+    - DKPhotoGallery/Resource (= 0.0.17)
+    - SDWebImage
+    - SwiftyGif
+  - DKPhotoGallery/Core (0.0.17):
+    - DKPhotoGallery/Model
+    - DKPhotoGallery/Preview
+    - SDWebImage
+    - SwiftyGif
+  - DKPhotoGallery/Model (0.0.17):
+    - SDWebImage
+    - SwiftyGif
+  - DKPhotoGallery/Preview (0.0.17):
+    - DKPhotoGallery/Model
+    - DKPhotoGallery/Resource
+    - SDWebImage
+    - SwiftyGif
+  - DKPhotoGallery/Resource (0.0.17):
+    - SDWebImage
+    - SwiftyGif
   - ffmpeg-kit-ios-audio (5.1.LTS)
   - ffmpeg_kit_flutter_audio (5.1.0.LTS):
     - ffmpeg_kit_flutter_audio/audio-lts (= 5.1.0.LTS)
     - Flutter
   - ffmpeg_kit_flutter_audio/audio-lts (5.1.0.LTS):
     - ffmpeg-kit-ios-audio (= 5.1.LTS)
+    - Flutter
+  - file_picker (0.0.1):
+    - DKImagePickerController/PhotoGallery
     - Flutter
   - Firebase/Analytics (10.17.0):
     - Firebase/Core
@@ -890,6 +924,9 @@ PODS:
     - Flutter
   - PromisesObjC (2.3.1)
   - ReachabilitySwift (5.0.0)
+  - SDWebImage (5.18.5):
+    - SDWebImage/Core (= 5.18.5)
+  - SDWebImage/Core (5.18.5)
   - share_plus (0.0.1):
     - Flutter
   - shared_preferences_foundation (0.0.1):
@@ -898,6 +935,7 @@ PODS:
   - sqflite (0.0.3):
     - Flutter
     - FMDB (>= 2.7.5)
+  - SwiftyGif (5.4.4)
   - url_launcher_ios (0.0.1):
     - Flutter
   - webview_flutter_wkwebview (0.0.1):
@@ -909,6 +947,7 @@ DEPENDENCIES:
   - cloud_firestore (from `.symlinks/plugins/cloud_firestore/ios`)
   - connectivity_plus (from `.symlinks/plugins/connectivity_plus/ios`)
   - ffmpeg_kit_flutter_audio (from `.symlinks/plugins/ffmpeg_kit_flutter_audio/ios`)
+  - file_picker (from `.symlinks/plugins/file_picker/ios`)
   - firebase_analytics (from `.symlinks/plugins/firebase_analytics/ios`)
   - firebase_core (from `.symlinks/plugins/firebase_core/ios`)
   - firebase_messaging (from `.symlinks/plugins/firebase_messaging/ios`)
@@ -931,6 +970,8 @@ SPEC REPOS:
     - abseil
     - AppAuth
     - BoringSSL-GRPC
+    - DKImagePickerController
+    - DKPhotoGallery
     - ffmpeg-kit-ios-audio
     - Firebase
     - FirebaseAnalytics
@@ -958,6 +999,8 @@ SPEC REPOS:
     - nanopb
     - PromisesObjC
     - ReachabilitySwift
+    - SDWebImage
+    - SwiftyGif
 
 EXTERNAL SOURCES:
   audio_service:
@@ -970,6 +1013,8 @@ EXTERNAL SOURCES:
     :path: ".symlinks/plugins/connectivity_plus/ios"
   ffmpeg_kit_flutter_audio:
     :path: ".symlinks/plugins/ffmpeg_kit_flutter_audio/ios"
+  file_picker:
+    :path: ".symlinks/plugins/file_picker/ios"
   firebase_analytics:
     :path: ".symlinks/plugins/firebase_analytics/ios"
   firebase_core:
@@ -1011,8 +1056,11 @@ SPEC CHECKSUMS:
   BoringSSL-GRPC: 3175b25143e648463a56daeaaa499c6cb86dad33
   cloud_firestore: d76c02bf5967dc9131ab42fcc1088d0873581e28
   connectivity_plus: 07c49e96d7fc92bc9920617b83238c4d178b446a
+  DKImagePickerController: b512c28220a2b8ac7419f21c491fc8534b7601ac
+  DKPhotoGallery: fdfad5125a9fdda9cc57df834d49df790dbb4179
   ffmpeg-kit-ios-audio: 3432ce2e3e4d7d1032403358ae90c921fb2125ab
   ffmpeg_kit_flutter_audio: 729b7af46d53f0f5f0c8a2daaa87747b4aa24241
+  file_picker: 15fd9539e4eb735dc54bae8c0534a7a9511a03de
   Firebase: f4ac0b02927af9253ae094d23deecf0890da7374
   firebase_analytics: 9d609f3c43a71319c9112bb01044729305192417
   firebase_core: efc9455611b8769fa90fbdae5da182600bd6901c
@@ -1050,9 +1098,11 @@ SPEC CHECKSUMS:
   permission_handler_apple: e76247795d700c14ea09e3a2d8855d41ee80a2e6
   PromisesObjC: c50d2056b5253dadbd6c2bea79b0674bd5a52fa4
   ReachabilitySwift: 985039c6f7b23a1da463388634119492ff86c825
+  SDWebImage: 7ac2b7ddc5e8484c79aa90fc4e30b149d6a2c88f
   share_plus: 056a1e8ac890df3e33cb503afffaf1e9b4fbae68
   shared_preferences_foundation: 5b919d13b803cadd15ed2dc053125c68730e5126
   sqflite: 31f7eba61e3074736dff8807a9b41581e4f7f15a
+  SwiftyGif: 93a1cc87bf3a51916001cf8f3d63835fb64c819f
   url_launcher_ios: 08a3dfac5fb39e8759aeb0abbd5d9480f30fc8b4
   webview_flutter_wkwebview: 2e2d318f21a5e036e2c3f26171342e95908bd60a
 

@@ -1,4 +1,5 @@
-import 'package:daily_music/features/library/view/library_screen.dart';
+import 'package:daily_music/features/home/views/home_screen.dart';
+
 import 'package:daily_music/features/navigation/navigation_view.dart';
 import 'package:daily_music/features/player/music_play_screen.dart';
 import 'package:flutter/material.dart';
@@ -21,10 +22,16 @@ GoRouter goRouter(GoRouterRef ref) {
     routes: [
       GoRoute(
         path: '/',
-        name: 'home',
+        name: HomeScreen.name,
         builder: (context, state) {
-          return LibraryScreen();
+          return const HomeScreen();
         },
+        routes: [
+          GoRoute(
+              path: 'player',
+              name: MusicPlayScreen.name,
+              builder: (context, state) => MusicPlayScreen())
+        ],
       )
     ],
   );
