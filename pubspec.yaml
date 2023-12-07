@@ -43,8 +43,6 @@ dependencies:
   just_audio: ^0.9.24
   audio_service: ^0.18.12
   ffmpeg_kit_flutter_audio: 5.1.0-LTS
-  audio_handler:
-    path: packages/audio_handler
 
   # Apis
   dio: ^5.3.2
@@ -68,6 +66,7 @@ dependencies:
   google_mobile_ads: ^3.0.0
   permission_handler: ^10.0.0
   file_picker: ^6.1.1
+  audio_video_progress_bar: ^2.0.1
 
   # Widgets
 

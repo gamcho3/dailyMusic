@@ -1,7 +1,7 @@
 import 'package:daily_music/features/home/views/home_screen.dart';
 
 import 'package:daily_music/features/navigation/navigation_view.dart';
-import 'package:daily_music/features/player/music_play_screen.dart';
+import 'package:daily_music/features/player/presentation/view/music_play_screen.dart';
 import 'package:flutter/material.dart';
 import 'package:go_router/go_router.dart';
 import 'package:riverpod_annotation/riverpod_annotation.dart';

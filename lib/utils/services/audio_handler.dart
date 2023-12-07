@@ -8,7 +8,6 @@ Future<AudioHandler> initAudioService() async {
       androidNotificationChannelName: 'Audio Service Demo',
       androidNotificationOngoing: true,
       androidStopForegroundOnPause: true,
-      // androidNotificationIcon:
     ),
   );
 }

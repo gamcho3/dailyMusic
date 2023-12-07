@@ -14,8 +14,6 @@ import 'package:google_mobile_ads/google_mobile_ads.dart';
 
 Future<void> main() async {
   WidgetsFlutterBinding.ensureInitialized();
-  AudioHandler handler = await AudioService.init(
-      builder: () => MyAudioHandler(), config: AudioServiceConfig());
 
   //환경변수 활성화
   await dotenv.load();

@@ -1,6 +1,6 @@
 import 'dart:io';
 
-import 'package:daily_music/features/player/music_play_screen.dart';
+import 'package:daily_music/features/player/presentation/view/music_play_screen.dart';
 import 'package:file_picker/file_picker.dart';
 import 'package:flutter/material.dart';
 import 'package:go_router/go_router.dart';
@@ -20,17 +20,14 @@ class HomeScreen extends StatelessWidget {
       length: 2,
       child: Scaffold(
         key: drawerKey,
-
         drawer: Drawer(
           child: ListView(
-            children: [DrawerHeader(child: Text("Drawer Header")), ListTile(
-
-            )],
+            children: [DrawerHeader(child: Text("Drawer Header")), ListTile()],
           ),
         ),
         appBar: AppBar(
           elevation: 0,
-centerTitle: true,
+          centerTitle: true,
           title: const Text(
             '오늘의 음악',
             style: TextStyle(fontWeight: FontWeight.bold),
@@ -44,7 +41,6 @@ centerTitle: true,
           bottom: const TabBar(
               isScrollable: true,
               dividerColor: Colors.transparent,
-
               labelStyle: TextStyle(fontWeight: FontWeight.bold),
               unselectedLabelStyle: TextStyle(fontWeight: FontWeight.normal),
               tabs: [
@@ -71,10 +67,13 @@ centerTitle: true,
             ListView.builder(
                 itemCount: 10,
                 itemBuilder: (context, index) {
-                  return ListTile(leading: ClipRRect(
-                     borderRadius: BorderRadius.circular(14),
-                      child: Assets.images.unnamed.image()),title: Text("can't smile without you"),subtitle: Text("배리 매닐로우"),);
-
+                  return ListTile(
+                    leading: ClipRRect(
+                        borderRadius: BorderRadius.circular(14),
+                        child: Assets.images.unnamed.image()),
+                    title: Text("can't smile without you"),
+                    subtitle: Text("배리 매닐로우"),
+                  );
                 })
           ],
         ),
