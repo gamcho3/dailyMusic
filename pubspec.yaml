@@ -16,28 +16,28 @@ dependencies:
 
   # Icon
   line_awesome_flutter: ^2.0.0
-  cupertino_icons: ^1.0.2
+  cupertino_icons: ^1.0.6
 
   # StateManagement & DI
   flutter_riverpod: ^2.3.7
   equatable: ^2.0.3
-  get_it: ^7.2.0
+  get_it: ^7.6.4
 
   # Local Storage
   sqflite: ^2.0.2+1
-
   isar: ^3.1.0+1
-  shared_preferences: ^2.0.15
+  isar_flutter_libs: ^3.1.0+1
+  shared_preferences: ^2.2.2
 
   # FireBase
   google_sign_in: ^5.3.1
-  firebase_core: ^2.17.0
-  firebase_messaging: ^14.7.4
-  firebase_analytics: ^10.6.4
-  cloud_firestore: ^4.13.0
+  firebase_core: ^2.24.2
+  firebase_messaging: ^14.7.9
+  firebase_analytics: ^10.7.4
+  cloud_firestore: ^4.13.6
 
   # Youtube Download
-  youtube_explode_dart: ^2.0.2
+  youtube_explode_dart: ^2.0.3
 
   # Audio
   just_audio: ^0.9.24
@@ -63,10 +63,12 @@ dependencies:
   connectivity_plus: ^4.0.2
   lottie: ^1.4.1
   flutter_dotenv: ^5.0.2
-  google_mobile_ads: ^3.0.0
+  google_mobile_ads: ^4.0.0
   permission_handler: ^10.0.0
   file_picker: ^6.1.1
   audio_video_progress_bar: ^2.0.1
+  json_annotation: ^4.8.1
+  go_router_builder: ^2.4.0
 
   # Widgets
 
@@ -81,6 +83,7 @@ dev_dependencies:
 
   # Code gen
   build_runner: ^2.2.0
+  isar_generator: ^3.1.0+1
   riverpod_generator: ^2.2.6
   very_good_analysis: ^5.1.0
   json_serializable: ^6.7.1

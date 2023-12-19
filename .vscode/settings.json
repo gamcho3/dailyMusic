@@ -1,7 +1,7 @@
 {
-    "java.configuration.updateBuildConfiguration": "interactive",
-    "java.jdt.ls.vmargs": "-XX:+UseParallelGC -XX:GCTimeRatio=4 -XX:AdaptiveSizePolicyWeight=90 -Dsun.zip.disableMemoryMapping=true -Xmx2G -Xms100m",
-    "dart.flutterSdkPath": ".fvm/flutter_sdk",
+  "java.configuration.updateBuildConfiguration": "interactive",
+  "java.jdt.ls.vmargs": "-XX:+UseParallelGC -XX:GCTimeRatio=4 -XX:AdaptiveSizePolicyWeight=90 -Dsun.zip.disableMemoryMapping=true -Xmx2G -Xms100m",
+  "dart.flutterSdkPath": "/Users/bag-yongjin/Documents/flutter",
   // Remove .fvm files from search
   "search.exclude": {
     "**/.fvm": true

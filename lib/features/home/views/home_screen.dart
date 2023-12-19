@@ -1,6 +1,7 @@
 import 'dart:io';
 
 import 'package:daily_music/features/player/presentation/view/music_play_screen.dart';
+import 'package:daily_music/routes/routes.dart';
 import 'package:file_picker/file_picker.dart';
 import 'package:flutter/material.dart';
 import 'package:go_router/go_router.dart';
@@ -77,6 +78,13 @@ class HomeScreen extends StatelessWidget {
                 })
           ],
         ),
+        floatingActionButton: FloatingActionButton.extended(
+            onPressed: () {
+              CreateMusicRoute().go(context);
+            },
+            label: Row(
+              children: [Icon(Icons.music_note), Text("추가하기")],
+            )),
         bottomNavigationBar: BottomAppBar(
           child: Row(
             children: [
