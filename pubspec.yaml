@@ -24,20 +24,18 @@ dependencies:
   get_it: ^7.6.4
 
   # Local Storage
-  sqflite: ^2.0.2+1
   isar: ^3.1.0+1
   isar_flutter_libs: ^3.1.0+1
   shared_preferences: ^2.2.2
 
   # FireBase
-  google_sign_in: ^5.3.1
   firebase_core: ^2.24.2
   firebase_messaging: ^14.7.9
   firebase_analytics: ^10.7.4
   cloud_firestore: ^4.13.6
 
   # Youtube Download
-  youtube_explode_dart: ^2.0.3
+  youtube_explode_dart: ^2.1.0
 
   # Audio
   just_audio: ^0.9.24
@@ -59,7 +57,6 @@ dependencies:
   path_provider: ^2.0.11
   share_plus: ^4.0.7
   path_to_regexp: ^0.4.0
-  flutter_screenutil: ^5.9.0
   connectivity_plus: ^4.0.2
   lottie: ^1.4.1
   flutter_dotenv: ^5.0.2
@@ -69,6 +66,8 @@ dependencies:
   audio_video_progress_bar: ^2.0.1
   json_annotation: ^4.8.1
   go_router_builder: ^2.4.0
+  logger: ^2.0.2+1
+  modal_bottom_sheet: ^3.0.0-pre
 
   # Widgets
 
@@ -87,7 +86,7 @@ dev_dependencies:
   riverpod_generator: ^2.2.6
   very_good_analysis: ^5.1.0
   json_serializable: ^6.7.1
-  riverpod_annotation: ^2.2.0
+  riverpod_annotation: ^2.3.3
 
 flutter_native_splash:
   color: "#ffffff"

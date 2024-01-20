@@ -3,7 +3,7 @@ import 'package:daily_music/utils/theme/app_theme.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
-import 'package:flutter_screenutil/flutter_screenutil.dart';
+
 
 class MyApp extends ConsumerStatefulWidget {
   const MyApp({super.key});
@@ -34,16 +34,12 @@ class _MyAppState extends ConsumerState<MyApp> {
   @override
   Widget build(BuildContext context) {
     final router = ref.watch(goRouterProvider);
-    return ScreenUtilInit(
-      builder: (_, child) {
-        return MaterialApp.router(
-          routerConfig: router,
-          debugShowCheckedModeBanner: false,
-          title: 'daily_music',
-          theme: customThemeData,
-          darkTheme: darkThemeData,
-        );
-      },
+    return MaterialApp.router(
+      routerConfig: router,
+      debugShowCheckedModeBanner: false,
+      title: 'daily_music',
+      theme: customThemeData,
+      darkTheme: darkThemeData,
     );
   }
 }

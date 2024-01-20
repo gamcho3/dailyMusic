@@ -1,9 +1,12 @@
 import 'dart:io';
 
-import 'package:daily_music/features/player/presentation/view/music_play_screen.dart';
+import 'package:daily_music/features/common/domains/music_model.dart';
+import 'package:daily_music/features/home/provider/music_list_provider.dart';
+import 'package:daily_music/features/player/presentation/views/music_play_screen.dart';
 import 'package:daily_music/routes/routes.dart';
 import 'package:file_picker/file_picker.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:go_router/go_router.dart';
 
 import '../../../gen/assets.gen.dart';
@@ -19,6 +22,7 @@ class HomeScreen extends StatelessWidget {
 
     return DefaultTabController(
       length: 2,
+      initialIndex: 1,
       child: Scaffold(
         key: drawerKey,
         drawer: Drawer(
@@ -59,23 +63,51 @@ class HomeScreen extends StatelessWidget {
               children: [
                 ElevatedButton(
                     onPressed: () {
-                      context.goNamed(MusicPlayScreen.name);
+                      // context.goNamed(MusicPlayScreen.name);
                     },
                     child: Text("플레이어 버튼")),
                 Center(child: Text("최근")),
               ],
             ),
-            ListView.builder(
-                itemCount: 10,
-                itemBuilder: (context, index) {
-                  return ListTile(
-                    leading: ClipRRect(
-                        borderRadius: BorderRadius.circular(14),
-                        child: Assets.images.unnamed.image()),
-                    title: Text("can't smile without you"),
-                    subtitle: Text("배리 매닐로우"),
+            Consumer(
+              builder: (context, ref, _) {
+                final state = ref.watch(musicsProvider);
+                if (state is MusicsLoading) {
+                  return const Center(
+                    child: CircularProgressIndicator(),
                   );
-                })
+                }
+
+                if (state is MusicsSuccess) {
+                  if (state.list.isEmpty) {
+                    return Center(
+                      child: Text('저장된 노래가 없습니다.'),
+                    );
+                  } else {
+                    return ListView.builder(
+                        itemCount: state.list.length,
+                        itemBuilder: (context, index) {
+                          final music = state.list[index];
+
+                          return ListTile(
+                            onTap: () {
+                              MusicPlayerRoute().go(context);
+                            },
+                            leading: ClipRRect(
+                                borderRadius: BorderRadius.circular(14),
+                                child: Image.network(
+                                  music.albumArt,
+                                  fit: BoxFit.cover,
+                                )),
+                            title: Text(music.title),
+                            subtitle: Text(music.subtitle),
+                          );
+                        });
+                  }
+                }
+                return Container();
+              },
+            )
           ],
         ),
         floatingActionButton: FloatingActionButton.extended(

@@ -18,6 +18,10 @@ RouteBase get $homeRoute => GoRouteData.$route(
           path: 'create_music',
           factory: $CreateMusicRouteExtension._fromState,
         ),
+        GoRouteData.$route(
+          path: 'player',
+          factory: $MusicPlayerRouteExtension._fromState,
+        ),
       ],
     );
 
@@ -43,6 +47,23 @@ extension $CreateMusicRouteExtension on CreateMusicRoute {
 
   String get location => GoRouteData.$location(
         '/create_music',
+      );
+
+  void go(BuildContext context) => context.go(location);
+
+  Future<T?> push<T>(BuildContext context) => context.push<T>(location);
+
+  void pushReplacement(BuildContext context) =>
+      context.pushReplacement(location);
+
+  void replace(BuildContext context) => context.replace(location);
+}
+
+extension $MusicPlayerRouteExtension on MusicPlayerRoute {
+  static MusicPlayerRoute _fromState(GoRouterState state) => MusicPlayerRoute();
+
+  String get location => GoRouteData.$location(
+        '/player',
       );
 
   void go(BuildContext context) => context.go(location);

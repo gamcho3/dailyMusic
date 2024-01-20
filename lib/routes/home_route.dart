@@ -1,7 +1,12 @@
 part of './routes.dart';
 
 @TypedGoRoute<HomeRoute>(
-    path: '/', routes: [TypedGoRoute<CreateMusicRoute>(path: 'create_music')])
+  path: '/',
+  routes: [
+    TypedGoRoute<CreateMusicRoute>(path: 'create_music'),
+    TypedGoRoute<MusicPlayerRoute>(path: 'player')
+  ],
+)
 class HomeRoute extends GoRouteData {
   const HomeRoute();
 
