@@ -1,15 +1,25 @@
 import 'package:audio_service/audio_service.dart';
+import 'package:daily_music/features/common/domains/music_model.dart';
 import 'package:daily_music/notifiers/play_button_notifier.dart';
 import 'package:daily_music/notifiers/progress_notifier.dart';
 import 'package:daily_music/notifiers/repeat_button_notifier.dart';
+import 'package:daily_music/utils/services/isar_helper.dart';
 import 'package:daily_music/utils/services/playlist_repository.dart';
 import 'package:daily_music/utils/services/service_locator.dart';
 import 'package:flutter/foundation.dart';
+import 'package:flutter_riverpod/flutter_riverpod.dart';
+import 'package:isar/isar.dart';
+
+final pageManagerProvider = Provider((ref) {
+  final instance = PageManager();
+  instance.init();
+  return instance;
+});
 
 class PageManager {
   // Listeners: Updates going to the UI
   final currentSongTitleNotifier = ValueNotifier<String>('');
-  final playlistNotifier = ValueNotifier<List<String>>([]);
+  final playlistNotifier = ValueNotifier<List<MediaItem>>([]);
   final progressNotifier = ProgressNotifier();
   final repeatButtonNotifier = RepeatButtonNotifier();
   final isFirstSongNotifier = ValueNotifier<bool>(true);
@@ -22,7 +32,7 @@ class PageManager {
   // Events: Calls coming from the UI
   void init() async {
     await _loadPlaylist();
-    _listenToChangesInPlaylist();
+    // _listenToChangesInPlaylist();
     _listenToPlaybackState();
     _listenToCurrentPosition();
     _listenToBufferedPosition();
@@ -31,27 +41,33 @@ class PageManager {
   }
 
   Future<void> _loadPlaylist() async {
-    final songRepository = getIt<PlaylistRepository>();
-    final playlist = await songRepository.fetchInitialPlaylist();
-    final mediaItems = playlist
-        .map((song) => MediaItem(
-              id: song['id'] ?? '',
-              album: song['album'] ?? '',
-              title: song['title'] ?? '',
-              extras: {'url': song['url']},
-            ))
+    // final songRepository = getIt<PlaylistRepository>();
+    // final playlist = await songRepository.fetchInitialPlaylist();
+    final isarInstance = await IsarSingleton.instance.isar;
+    final musics = await isarInstance.musicModels.where().findAll();
+
+    final mediaItems = musics
+        .map(
+          (song) => MediaItem(
+            id: song.subtitle,
+            album: song.albumArt,
+            title: song.title,
+            extras: {'url': song.route},
+          ),
+        )
         .toList();
-    _audioHandler.addQueueItems(mediaItems);
+
+    await _audioHandler.addQueueItems(mediaItems);
   }
 
   void _listenToChangesInPlaylist() {
     _audioHandler.queue.listen((playlist) {
+      print(playlist);
       if (playlist.isEmpty) {
         playlistNotifier.value = [];
         currentSongTitleNotifier.value = '';
       } else {
-        final newList = playlist.map((item) => item.title).toList();
-        playlistNotifier.value = newList;
+        playlistNotifier.value = playlist;
       }
       _updateSkipButtons();
     });

@@ -1,9 +1,15 @@
 import 'dart:io';
 
 import 'package:daily_music/features/common/domains/music_model.dart';
+import 'package:daily_music/features/create_music/presentation/view/create_music_screen.dart';
+import 'package:daily_music/features/home/views/home_screen.dart';
+import 'package:daily_music/routes/routes.dart';
 import 'package:ffmpeg_kit_flutter_audio/ffmpeg_kit.dart';
 import 'package:ffmpeg_kit_flutter_audio/ffmpeg_kit_config.dart';
+import 'package:ffmpeg_kit_flutter_audio/ffprobe_kit.dart';
 import 'package:ffmpeg_kit_flutter_audio/return_code.dart';
+import 'package:flutter/material.dart';
+import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:logger/logger.dart';
 import 'package:path_provider/path_provider.dart';
 import 'package:permission_handler/permission_handler.dart';
@@ -14,7 +20,8 @@ import '../services/isar_helper.dart';
 /// 공통 메서드 관리
 class CustomMethod {
   /// 음악 다운로드후 Mp3 변환
-  static Future<void> downloadMusic(String code) async {
+  static Future<void> downloadMusic(
+      String code, WidgetRef ref, BuildContext context) async {
     var logger = Logger();
 
     final yt = YoutubeExplode();
@@ -48,43 +55,63 @@ class CustomMethod {
     final file = File(filePath);
     final fileStream = file.openWrite();
 
+    //count progress
+    final audio = manifest.audio[1];
+    final len = audio.size.totalBytes;
+    int count = 0;
     await for (final data in audioStream) {
+      count += data.length;
+
+      // Calculate the current progress.
+      var progress = ((count / len) * 100).ceil();
+      ref.read(countProvider.notifier).update((state) => progress);
       fileStream.add(data);
     }
     await yt.videos.streamsClient.get(streamInfo).pipe(fileStream);
 
-    // Create the message and set the cursor position.
+    // webm downlaod 완료
     await fileStream.flush();
     await fileStream.close();
+    // count 초기화
+    ref.read(countProvider.notifier).state = 0;
 
+    //mp3 변환 시작
+    final info = await FFprobeKit.getMediaInformation(file.path);
+    final durationString = info.getMediaInformation()?.getDuration();
+    final duration = double.tryParse(durationString!) ?? 0.0;
     //변환 -> webm to mp3
     await FFmpegKit.executeAsync(
-      '-i ${file.path} -vn -ab 192k -y ${path.withoutExtension(file.path)}.mp3',
-      (session) async {
-        FFmpegKitConfig.sessionStateToString(await session.getState());
-        final returnCode = await session.getReturnCode();
-        // print(session.getFailStackTrace());
-        if (ReturnCode.isSuccess(returnCode)) {
-          print("Encode completed successfully");
+        '-i ${file.path} -vn -ab 192k -y ${path.withoutExtension(file.path)}.mp3',
+        (session) async {
+          FFmpegKitConfig.sessionStateToString(await session.getState());
+          final returnCode = await session.getReturnCode();
+          // print(session.getFailStackTrace());
+          if (ReturnCode.isSuccess(returnCode)) {
+            print("Encode completed successfully");
 
-          //DB 저장
-          final newMusic = MusicModel()
-            ..title = title
-            ..subtitle = author
-            ..albumArt = image
-            ..route = '${path.withoutExtension(file.path)}.mp3';
-          final isarInstance = await IsarSingleton.instance.isar;
+            //DB 저장
+            final newMusic = MusicModel()
+              ..title = title
+              ..subtitle = author
+              ..albumArt = image
+              ..route = '${path.withoutExtension(file.path)}.mp3';
+            final isarInstance = await IsarSingleton.instance.isar;
 
-          await isarInstance.writeTxn(() async {
-            await isarInstance.musicModels.put(newMusic);
-          });
-        } else if (ReturnCode.isCancel(returnCode)) {
-          print("cancel");
-        } else {
-          print("error and fail");
-        }
-      },
-      (log) => print(log.getMessage()),
-    );
+            await isarInstance.writeTxn(() async {
+              await isarInstance.musicModels.put(newMusic);
+            });
+
+            HomeRoute().go(context);
+          } else if (ReturnCode.isCancel(returnCode)) {
+            print("cancel");
+          } else {
+            print("error and fail");
+          }
+        },
+        (log) => print(log.getMessage()),
+        (statistics) {
+          int progress = ((statistics.getTime() / duration) * 100).ceil();
+          ref.read(countProvider.notifier).update((state) => progress);
+        });
   }
 }

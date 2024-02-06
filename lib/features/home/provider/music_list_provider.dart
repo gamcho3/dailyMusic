@@ -9,13 +9,23 @@ part 'music_list_provider.g.dart';
 class Musics extends _$Musics {
   @override
   MusicsInitial build() {
-    loadMusic();
+    loadMusicList();
     return MusicsLoading();
   }
 
-  Future<void> loadMusic() async {
+  Future<void> loadMusicList() async {
     final isarInstance = await IsarSingleton.instance.isar;
     final musics = await isarInstance.musicModels.where().findAll();
     state = MusicsSuccess(list: musics);
+  }
+
+  Future<void> loadMusic(int id) async {
+    final isarInstance = await IsarSingleton.instance.isar;
+    final musics = await isarInstance.musicModels.get(id);
+    if (musics == null) {
+      state = MusicsError();
+    } else {
+      state = MusicsSuccess(list: [musics]);
+    }
   }
 }

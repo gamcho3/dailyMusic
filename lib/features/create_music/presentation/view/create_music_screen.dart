@@ -1,19 +1,24 @@
 import 'package:daily_music/utils/functions/custom_method.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_riverpod/flutter_riverpod.dart';
 
-class CreateMusicScreen extends StatefulWidget {
+final countProvider = StateProvider.autoDispose<int>((ref) => 0);
+
+class CreateMusicScreen extends ConsumerStatefulWidget {
   const CreateMusicScreen({super.key});
 
   @override
-  State<CreateMusicScreen> createState() => _CreateMusicScreenState();
+  ConsumerState<CreateMusicScreen> createState() => _CreateMusicScreenState();
 }
 
-class _CreateMusicScreenState extends State<CreateMusicScreen> {
+class _CreateMusicScreenState extends ConsumerState<CreateMusicScreen> {
   final _formKey = GlobalKey<FormState>();
   final _textController = TextEditingController();
 
   @override
   Widget build(BuildContext context) {
+    var count = ref.watch(countProvider);
+    print(count);
     return Scaffold(
       appBar: AppBar(
         actions: [
@@ -25,7 +30,7 @@ class _CreateMusicScreenState extends State<CreateMusicScreen> {
                       .split('be/')[1]
                       .replaceAll(' ', '');
 
-                  CustomMethod.downloadMusic(code);
+                  CustomMethod.downloadMusic(code, ref, context);
                 }
               },
               child: const Text(

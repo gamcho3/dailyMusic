@@ -1,9 +1,10 @@
 import 'package:audio_service/audio_service.dart';
 import 'package:daily_music/app.dart';
-import 'package:daily_music/config/di.dart';
+
 import 'package:daily_music/firebase_options.dart';
 import 'package:daily_music/routes/routes.dart';
 import 'package:daily_music/utils/services/audio_handler.dart';
+import 'package:daily_music/utils/services/service_locator.dart';
 import 'package:daily_music/utils/theme/app_theme.dart';
 import 'package:firebase_core/firebase_core.dart';
 import 'package:flutter/material.dart';
@@ -22,14 +23,11 @@ Future<void> main() async {
   //환경변수 활성화
   await dotenv.load();
 
-  setupGetIt();
+  await setupServiceLocator();
 
   await Firebase.initializeApp(
     options: DefaultFirebaseOptions.currentPlatform,
   );
-
-
-
 
   await MobileAds.instance.initialize();
   runApp(const ProviderScope(child: MyApp()));

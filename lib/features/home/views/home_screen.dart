@@ -1,9 +1,11 @@
 import 'dart:io';
 
+import 'package:audio_service/audio_service.dart';
 import 'package:daily_music/features/common/domains/music_model.dart';
 import 'package:daily_music/features/home/provider/music_list_provider.dart';
 import 'package:daily_music/features/player/presentation/views/music_play_screen.dart';
 import 'package:daily_music/routes/routes.dart';
+import 'package:daily_music/utils/services/page_manager.dart';
 import 'package:file_picker/file_picker.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
@@ -71,23 +73,14 @@ class HomeScreen extends StatelessWidget {
             ),
             Consumer(
               builder: (context, ref, _) {
-                final state = ref.watch(musicsProvider);
-                if (state is MusicsLoading) {
-                  return const Center(
-                    child: CircularProgressIndicator(),
-                  );
-                }
-
-                if (state is MusicsSuccess) {
-                  if (state.list.isEmpty) {
-                    return Center(
-                      child: Text('저장된 노래가 없습니다.'),
-                    );
-                  } else {
+                final pageManager = ref.watch(pageManagerProvider);
+                return ValueListenableBuilder<List<MediaItem>>(
+                  valueListenable: pageManager.playlistNotifier,
+                  builder: (context, playlist, _) {
                     return ListView.builder(
-                        itemCount: state.list.length,
+                        itemCount: playlist.length,
                         itemBuilder: (context, index) {
-                          final music = state.list[index];
+                          final music = playlist[index];
 
                           return ListTile(
                             onTap: () {
@@ -96,16 +89,15 @@ class HomeScreen extends StatelessWidget {
                             leading: ClipRRect(
                                 borderRadius: BorderRadius.circular(14),
                                 child: Image.network(
-                                  music.albumArt,
+                                  music.album ?? '',
                                   fit: BoxFit.cover,
                                 )),
                             title: Text(music.title),
-                            subtitle: Text(music.subtitle),
+                            subtitle: Text(music.id),
                           );
                         });
-                  }
-                }
-                return Container();
+                  },
+                );
               },
             )
           ],

@@ -10,8 +10,14 @@ part of './routes.dart';
 class HomeRoute extends GoRouteData {
   const HomeRoute();
 
+  // @override
+  // Widget build(BuildContext context, GoRouterState state) {
+  //   return const HomeScreen();
+  // }
+
   @override
-  Widget build(BuildContext context, GoRouterState state) {
-    return const HomeScreen();
+  Page<void> buildPage(BuildContext context, GoRouterState state) {
+    // TODO: implement buildPage
+    return MaterialPage(maintainState: false, child: HomeScreen());
   }
 }

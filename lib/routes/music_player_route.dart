@@ -1,8 +1,6 @@
 part of './routes.dart';
 
 class MusicPlayerRoute extends GoRouteData {
-  MusicPlayerRoute();
-
   @override
   Page<void> buildPage(BuildContext context, GoRouterState state) {
     // TODO: implement buildPage
