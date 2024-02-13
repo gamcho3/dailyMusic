@@ -9,6 +9,7 @@ import 'package:daily_music/utils/services/service_locator.dart';
 import 'package:flutter/foundation.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:isar/isar.dart';
+import 'package:logger/logger.dart';
 
 final pageManagerProvider = Provider((ref) {
   final instance = PageManager();
@@ -32,7 +33,7 @@ class PageManager {
   // Events: Calls coming from the UI
   void init() async {
     await _loadPlaylist();
-    // _listenToChangesInPlaylist();
+    _listenToChangesInPlaylist();
     _listenToPlaybackState();
     _listenToCurrentPosition();
     _listenToBufferedPosition();
@@ -51,6 +52,7 @@ class PageManager {
           (song) => MediaItem(
             id: song.subtitle,
             album: song.albumArt,
+            artUri: Uri.parse(song.albumArt),
             title: song.title,
             extras: {'url': song.route},
           ),
@@ -62,7 +64,6 @@ class PageManager {
 
   void _listenToChangesInPlaylist() {
     _audioHandler.queue.listen((playlist) {
-      print(playlist);
       if (playlist.isEmpty) {
         playlistNotifier.value = [];
         currentSongTitleNotifier.value = '';

@@ -90,7 +90,6 @@ class MusicPlayScreen extends StatelessWidget {
                           return ValueListenableBuilder(
                             valueListenable: pageManager.playButtonNotifier,
                             builder: (_, value, __) {
-                              print(value);
                               switch (value) {
                                 case ButtonState.loading:
                                   return Container(

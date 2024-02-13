@@ -1,5 +1,6 @@
 import 'package:audio_service/audio_service.dart';
 import 'package:just_audio/just_audio.dart';
+import 'package:logger/logger.dart';
 
 Future<AudioHandler> initAudioService() async {
   return await AudioService.init(
@@ -110,12 +111,14 @@ class MyAudioHandler extends BaseAudioHandler {
   @override
   Future<void> addQueueItems(List<MediaItem> mediaItems) async {
     // manage Just Audio
+    final logger = Logger();
+    final audioSource = mediaItems.map(_createAudioSource).toList();
 
-    final audioSource = mediaItems.map(_createAudioSource);
-    _playlist.addAll(audioSource.toList());
+    await _playlist.addAll(audioSource);
 
     // notify system
     final newQueue = queue.value..addAll(mediaItems);
+
     queue.add(newQueue);
   }
 
@@ -131,8 +134,8 @@ class MyAudioHandler extends BaseAudioHandler {
   }
 
   UriAudioSource _createAudioSource(MediaItem mediaItem) {
-    return AudioSource.uri(
-      Uri.parse(mediaItem.extras!['url'] as String),
+    return AudioSource.file(
+      mediaItem.extras!['url'] as String,
       tag: mediaItem,
     );
   }

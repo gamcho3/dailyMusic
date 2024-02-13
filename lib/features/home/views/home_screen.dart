@@ -10,6 +10,7 @@ import 'package:file_picker/file_picker.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:go_router/go_router.dart';
+import 'package:logger/logger.dart';
 
 import '../../../gen/assets.gen.dart';
 
@@ -77,6 +78,8 @@ class HomeScreen extends StatelessWidget {
                 return ValueListenableBuilder<List<MediaItem>>(
                   valueListenable: pageManager.playlistNotifier,
                   builder: (context, playlist, _) {
+                    final logger = Logger();
+                    logger.w(playlist);
                     return ListView.builder(
                         itemCount: playlist.length,
                         itemBuilder: (context, index) {
