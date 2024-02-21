@@ -20,6 +20,8 @@ final pageManagerProvider = Provider((ref) {
 class PageManager {
   // Listeners: Updates going to the UI
   final currentSongTitleNotifier = ValueNotifier<String>('');
+  final currentSongArtistNotifier = ValueNotifier<String>('');
+  final currentSongAlbumNotifier = ValueNotifier<String>('');
   final playlistNotifier = ValueNotifier<List<MediaItem>>([]);
   final progressNotifier = ProgressNotifier();
   final repeatButtonNotifier = RepeatButtonNotifier();
@@ -32,7 +34,7 @@ class PageManager {
 
   // Events: Calls coming from the UI
   void init() async {
-    await _loadPlaylist();
+    // await _loadPlaylist();
     _listenToChangesInPlaylist();
     _listenToPlaybackState();
     _listenToCurrentPosition();
@@ -42,8 +44,6 @@ class PageManager {
   }
 
   Future<void> _loadPlaylist() async {
-    // final songRepository = getIt<PlaylistRepository>();
-    // final playlist = await songRepository.fetchInitialPlaylist();
     final isarInstance = await IsarSingleton.instance.isar;
     final musics = await isarInstance.musicModels.where().findAll();
 
@@ -60,6 +60,22 @@ class PageManager {
         .toList();
 
     await _audioHandler.addQueueItems(mediaItems);
+  }
+
+  Future<void> playMusic(int id) async {
+    final isarInstance = await IsarSingleton.instance.isar;
+    final music = await isarInstance.musicModels.get(id);
+
+    final mediaItem = MediaItem(
+      id: music!.id.toString(),
+      album: music.albumArt,
+      artist: music.subtitle,
+      artUri: Uri.parse(music.albumArt),
+      title: music.title,
+      extras: {'url': music.route},
+    );
+
+    await _audioHandler.addQueueItem(mediaItem);
   }
 
   void _listenToChangesInPlaylist() {
@@ -128,6 +144,8 @@ class PageManager {
   void _listenToChangesInSong() {
     _audioHandler.mediaItem.listen((mediaItem) {
       currentSongTitleNotifier.value = mediaItem?.title ?? '';
+      currentSongAlbumNotifier.value = mediaItem?.album ?? '';
+      currentSongArtistNotifier.value = mediaItem?.artist ?? '';
       _updateSkipButtons();
     });
   }
@@ -178,17 +196,17 @@ class PageManager {
     }
   }
 
-  Future<void> add() async {
-    final songRepository = getIt<PlaylistRepository>();
-    final song = await songRepository.fetchAnotherSong();
-    final mediaItem = MediaItem(
-      id: song['id'] ?? '',
-      album: song['album'] ?? '',
-      title: song['title'] ?? '',
-      extras: {'url': song['url']},
-    );
-    _audioHandler.addQueueItem(mediaItem);
-  }
+  // Future<void> add() async {
+  //   final songRepository = getIt<PlaylistRepository>();
+  //   final song = await songRepository.fetchAnotherSong();
+  //   final mediaItem = MediaItem(
+  //     id: song['id'] ?? '',
+  //     album: song['album'] ?? '',
+  //     title: song['title'] ?? '',
+  //     extras: {'url': song['url']},
+  //   );
+  //   _audioHandler.addQueueItem(mediaItem);
+  // }
 
   void remove() {
     final lastIndex = _audioHandler.queue.value.length - 1;

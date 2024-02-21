@@ -2,7 +2,8 @@ import 'dart:io';
 
 import 'package:audio_service/audio_service.dart';
 import 'package:daily_music/features/common/domains/music_model.dart';
-import 'package:daily_music/features/home/provider/music_list_provider.dart';
+import 'package:daily_music/features/home/providers/music_list_provider.dart';
+
 import 'package:daily_music/features/player/presentation/views/music_play_screen.dart';
 import 'package:daily_music/routes/routes.dart';
 import 'package:daily_music/utils/services/page_manager.dart';
@@ -10,8 +11,6 @@ import 'package:file_picker/file_picker.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:go_router/go_router.dart';
-import 'package:logger/logger.dart';
-
 import '../../../gen/assets.gen.dart';
 
 class HomeScreen extends StatelessWidget {
@@ -21,7 +20,7 @@ class HomeScreen extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    final GlobalKey<ScaffoldState> drawerKey = new GlobalKey<ScaffoldState>();
+    final drawerKey = GlobalKey<ScaffoldState>();
 
     return DefaultTabController(
       length: 2,
@@ -64,43 +63,43 @@ class HomeScreen extends StatelessWidget {
           children: [
             Column(
               children: [
-                ElevatedButton(
-                    onPressed: () {
-                      // context.goNamed(MusicPlayScreen.name);
-                    },
-                    child: Text("플레이어 버튼")),
-                Center(child: Text("최근")),
+                // ElevatedButton(
+                //     onPressed: () {
+                //       // context.goNamed(MusicPlayScreen.name);
+                //     },
+                //     child: Text("플레이어 버튼")),
+                Center(child: Text("준비중입니다.")),
               ],
             ),
             Consumer(
               builder: (context, ref, _) {
-                final pageManager = ref.watch(pageManagerProvider);
-                return ValueListenableBuilder<List<MediaItem>>(
-                  valueListenable: pageManager.playlistNotifier,
-                  builder: (context, playlist, _) {
-                    final logger = Logger();
-                    logger.w(playlist);
-                    return ListView.builder(
-                        itemCount: playlist.length,
-                        itemBuilder: (context, index) {
-                          final music = playlist[index];
+                final state = ref.watch(musicsProvider);
+                final audioManager = ref.watch(pageManagerProvider);
 
-                          return ListTile(
-                            onTap: () {
-                              MusicPlayerRoute().go(context);
-                            },
-                            leading: ClipRRect(
-                                borderRadius: BorderRadius.circular(14),
-                                child: Image.network(
-                                  music.album ?? '',
-                                  fit: BoxFit.cover,
-                                )),
-                            title: Text(music.title),
-                            subtitle: Text(music.id),
-                          );
-                        });
-                  },
-                );
+                return switch (state) {
+                  MusicsLoading() =>
+                    const Center(child: CircularProgressIndicator()),
+                  MusicsSuccess() => ListView.builder(
+                      itemCount: state.list!.length,
+                      itemBuilder: (context, index) {
+                        final music = state.list![index];
+                        return ListTile(
+                          onTap: () {
+                            MusicPlayerRoute().go(context);
+                            audioManager.playMusic(music.id);
+                          },
+                          leading: ClipRRect(
+                              borderRadius: BorderRadius.circular(14),
+                              child: Image.network(
+                                music.albumArt,
+                                fit: BoxFit.cover,
+                              )),
+                          title: Text(music.title),
+                          subtitle: Text(music.subtitle),
+                        );
+                      }),
+                  _ => Container()
+                };
               },
             )
           ],
@@ -109,27 +108,27 @@ class HomeScreen extends StatelessWidget {
             onPressed: () {
               CreateMusicRoute().go(context);
             },
-            label: Row(
+            label: const Row(
               children: [Icon(Icons.music_note), Text("추가하기")],
             )),
-        bottomNavigationBar: BottomAppBar(
-          child: Row(
-            children: [
-              IconButton(
-                  onPressed: () async {
-                    FilePickerResult? result =
-                        await FilePicker.platform.pickFiles();
+        // bottomNavigationBar: BottomAppBar(
+        //   child: Row(
+        //     children: [
+        //       IconButton(
+        //           onPressed: () async {
+        //             FilePickerResult? result =
+        //                 await FilePicker.platform.pickFiles();
 
-                    if (result != null) {
-                      File file = File(result.files.single.path!);
-                    } else {
-                      // User canceled the picker
-                    }
-                  },
-                  icon: Icon(Icons.file_copy))
-            ],
-          ),
-        ),
+        //             if (result != null) {
+        //               File file = File(result.files.single.path!);
+        //             } else {
+        //               // User canceled the picker
+        //             }
+        //           },
+        //           icon: Icon(Icons.file_copy))
+        //     ],
+        //   ),
+        // ),
       ),
     );
   }

@@ -19,13 +19,13 @@ class Musics extends _$Musics {
     state = MusicsSuccess(list: musics);
   }
 
-  Future<void> loadMusic(int id) async {
-    final isarInstance = await IsarSingleton.instance.isar;
-    final musics = await isarInstance.musicModels.get(id);
-    if (musics == null) {
-      state = MusicsError();
-    } else {
-      state = MusicsSuccess(list: [musics]);
-    }
-  }
+  // Future<void> loadMusic(int id) async {
+  //   final isarInstance = await IsarSingleton.instance.isar;
+  //   final musics = await isarInstance.musicModels.get(id);
+  //   if (musics == null) {
+  //     state = MusicsError();
+  //   } else {
+  //     state = MusicsSuccess(list: [musics]);
+  //   }
+  // }
 }

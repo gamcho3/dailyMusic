@@ -1,6 +1,7 @@
 import 'dart:io';
 
 import 'package:daily_music/features/common/domains/music_model.dart';
+import 'package:daily_music/features/common/providers/loading_progress_provider.dart';
 import 'package:daily_music/features/create_music/presentation/view/create_music_screen.dart';
 import 'package:daily_music/features/home/views/home_screen.dart';
 import 'package:daily_music/routes/routes.dart';
@@ -55,16 +56,16 @@ class CustomMethod {
     final file = File(filePath);
     final fileStream = file.openWrite();
 
-    //count progress
+    //로딩 count 숫자 세기
     final audio = manifest.audio[1];
     final len = audio.size.totalBytes;
-    int count = 0;
+    var count = 0;
     await for (final data in audioStream) {
       count += data.length;
 
       // Calculate the current progress.
       var progress = ((count / len) * 100).ceil();
-      ref.read(countProvider.notifier).update((state) => progress);
+      ref.read(loadingProgressProvider.notifier).update((state) => progress);
       fileStream.add(data);
     }
     await yt.videos.streamsClient.get(streamInfo).pipe(fileStream);
@@ -72,8 +73,9 @@ class CustomMethod {
     // webm downlaod 완료
     await fileStream.flush();
     await fileStream.close();
+
     // count 초기화
-    ref.read(countProvider.notifier).state = 0;
+    ref.read(loadingProgressProvider.notifier).state = 0;
 
     //mp3 변환 시작
     final info = await FFprobeKit.getMediaInformation(file.path);
@@ -111,7 +113,9 @@ class CustomMethod {
         (log) => print(log.getMessage()),
         (statistics) {
           int progress = ((statistics.getTime() / duration) * 100).ceil();
-          ref.read(countProvider.notifier).update((state) => progress);
+          ref
+              .read(loadingProgressProvider.notifier)
+              .update((state) => progress);
         });
   }
 }

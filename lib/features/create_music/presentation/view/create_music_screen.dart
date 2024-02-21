@@ -1,8 +1,7 @@
+import 'package:daily_music/features/common/providers/loading_progress_provider.dart';
 import 'package:daily_music/utils/functions/custom_method.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
-
-final countProvider = StateProvider.autoDispose<int>((ref) => 0);
 
 class CreateMusicScreen extends ConsumerStatefulWidget {
   const CreateMusicScreen({super.key});
@@ -17,7 +16,7 @@ class _CreateMusicScreenState extends ConsumerState<CreateMusicScreen> {
 
   @override
   Widget build(BuildContext context) {
-    var count = ref.watch(countProvider);
+    var count = ref.watch(loadingProgressProvider);
     print(count);
     return Scaffold(
       appBar: AppBar(
@@ -25,6 +24,7 @@ class _CreateMusicScreenState extends ConsumerState<CreateMusicScreen> {
           TextButton(
               onPressed: () {
                 if (_formKey.currentState!.validate()) {
+                  //유튜브 공유Url 문자열을 잘라서 코드만 추출하기
                   final code = _textController.text
                       .split('?')[0]
                       .split('be/')[1]
