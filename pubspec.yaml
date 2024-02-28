@@ -15,7 +15,6 @@ dependencies:
     sdk: flutter
 
   # Icon
-  line_awesome_flutter: ^2.0.0
   cupertino_icons: ^1.0.6
 
   # StateManagement & DI
@@ -38,36 +37,36 @@ dependencies:
   youtube_explode_dart: ^2.1.0
 
   # Audio
-  just_audio: ^0.9.24
+  just_audio: ^0.9.36
   audio_service: ^0.18.12
   ffmpeg_kit_flutter_audio: 5.1.0-LTS
 
   # Apis
-  dio: ^5.3.2
+  dio: ^5.4.1
 
   # Routing
-  go_router: ^11.1.3
+  go_router: ^13.2.0
 
   # Utils
-  flutter_local_notifications: ^11.0.0
-  flutter_svg: ^1.1.5
-  image_picker: ^0.8.5+3
-  google_fonts: ^5.1.0
+  flutter_local_notifications: ^16.3.2
+  flutter_svg: ^2.0.10+1
+  google_fonts: ^6.1.0
   fpdart: ^1.1.0
   path_provider: ^2.0.11
-  share_plus: ^4.0.7
+  share_plus: ^7.2.2
   path_to_regexp: ^0.4.0
-  connectivity_plus: ^4.0.2
-  lottie: ^1.4.1
+  connectivity_plus: ^5.0.2
+  lottie: ^3.0.0
   flutter_dotenv: ^5.0.2
   google_mobile_ads: ^4.0.0
-  permission_handler: ^10.0.0
+  permission_handler: ^11.3.0
   file_picker: ^6.1.1
   audio_video_progress_bar: ^2.0.1
   json_annotation: ^4.8.1
-  go_router_builder: ^2.4.0
+  go_router_builder: ^2.4.1
   logger: ^2.0.2+1
   modal_bottom_sheet: ^3.0.0-pre
+  animations: ^2.0.11
 
   # Widgets
 
@@ -76,17 +75,17 @@ dev_dependencies:
     sdk: flutter
 
   # Lints
-  flutter_lints: ^2.0.1
-  riverpod_lint: ^2.0.1
+  flutter_lints: ^3.0.1
+  riverpod_lint: ^2.1.0
   custom_lint:
 
   # Code gen
-  build_runner: ^2.2.0
+  build_runner: ^2.4.8
   isar_generator: ^3.1.0+1
-  riverpod_generator: ^2.2.6
+  riverpod_generator: ^2.3.0
   very_good_analysis: ^5.1.0
   json_serializable: ^6.7.1
-  riverpod_annotation: ^2.3.3
+  riverpod_annotation: ^2.3.4
 
 flutter_native_splash:
   color: "#ffffff"
